@@ -1,0 +1,371 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>红河州公安局实验室管理系统</title>
+<link rel="stylesheet" href="css/style.default.css" type="text/css" />
+<script type="text/javascript" src="js/plugins/jquery-1.7.min.js"></script>
+<script type="text/javascript" src="js/plugins/jquery-ui-1.8.16.custom.min.js"></script>
+<script type="text/javascript" src="js/plugins/colorpicker.js"></script>
+<script type="text/javascript" src="js/plugins/jquery.dataTables.min.js"></script>
+<script type="text/javascript" src="js/custom/general.js"></script>
+<script src="js/WdatePicker.js"></script>
+<script type="text/javascript" src="js/custom/elements.js"></script>
+</head>
+<body class="withvernav">
+<div class="bodywrapper">
+    <div class="topheader">
+        <div class="left">
+            <h1 class="logo">红河州<span>公安局</span></h1>
+            <span class="slogan">实验室管理系统</span>
+            <br clear="all" />
+            
+        </div><!--left-->
+        
+        <div class="right">
+        	<!----><div class="notification">
+                <a class="count" href="javascript:;"><span>9</span></a>
+        	</div>
+            <div class="userinfo">
+            	<img src="images/thumbs/avatar.png" alt="" />
+                <span>管理员</span>
+            </div><!--userinfo-->
+            
+            <div class="userinfodrop">
+            	<div class="avatar">
+                	<a href=""><img src="images/thumbs/avatarbig.png" alt="" /></a>
+                </div><!--avatar-->
+                <div class="userdata">
+                	<h4>Juan</h4>
+                    <span class="email">youremail@yourdomain.com</span>
+                    <ul>
+                    	<li><a href="editprofile.html">编辑资料</a></li>
+                        <li><a href="accountsettings.html">账号设置</a></li>
+                        <li><a href="index.html">退出</a></li>
+                    </ul>
+                </div><!--userdata-->
+            </div><!--userinfodrop-->
+        </div><!--right-->
+    </div><!--topheader-->
+    <div class="header">
+    	<ul class="headermenu">
+        	<li><a href="dashboard.html"><span class="icon icon-flatscreen"></span>首页</a></li>
+            <li class="current"><a href="manageblog.html"><span class="icon icon-box"></span>物证鉴定工作子系统</a></li>
+            <li><a href="messages.html"><span class="icon icon-view"></span>物证保全与流转子系统</a></li>
+            <li><a href="reports.html"><span class="icon icon-lab"></span>检验鉴定质量控制子系统</a></li>
+            <li><a href="javascript:;"><span class="icon icon-clock"></span>刑事技术日常工作管理子系统</a></li>
+            <li><a href="javascript:;"><span class="icon icon-bc"></span>现场勘验原始资料存储管理系统</a></li>
+            <li><a href="javascript:;"><span class="icon icon-info"></span>信息资源交流平台</a></li>
+        </ul>
+    </div><!--header-->
+    <div class="vernav">
+    	<ul>
+        	<li class="current"><a href="javascript:;">鉴定项目委托</a>
+				<dl>
+					<dd><a href="manageblog.html">现场委托</a></dd>
+					<dd><a href="managewswt.html">网上委托</a></dd>
+					<dd><a href="managelstdwt.html">绿色通道委托</a></dd>
+					<dd><a href="managewtztcx.html">委托状态查询</a></dd>
+					<dd><a href="manageSearch.html">委托登记查询</a></dd>
+				</dl>
+			</li>
+            <li><a href="javascript:;">鉴定项目受理</a>
+				<dl>
+					<dd><a href="agree.html">预受理</a></dd>
+					<dd><a href="jdagree.html">鉴定受理</a></dd>
+				</dl>
+			</li>
+            <li><a href="javascript:;">检验鉴定过程管理</a>
+				<dl>
+					<dd><a href="javascript:;">收检和任务分配</a></dd>
+					<dd><a href="javascript:;">检验过程管理</a></dd>
+					<dd><a href="javascript:;">检验过程中各种记录文档管理</a></dd>
+				</dl>
+			</li>
+            <li><a href="javascript:;">鉴定文书管理</a>
+				<dl>
+					<dd><a href="javascript:;">第一鉴定人制作鉴定文书</a></dd>
+					<dd><a href="javascript:;">第二鉴定人签字</a></dd>
+					<dd><a href="javascript:;">授权签字人审批</a></dd>
+					<dd><a href="javascript:;">鉴定机构负责人签名</a></dd>
+					<dd><a href="javascript:;">报告打印</a></dd>
+					<dd><a href="javascript:;">提交归档</a></dd>
+					<dd><a href="javascript:;">鉴定文书程序管理</a></dd>
+					<dd><a href="javascript:;">鉴定文书发放</a></dd>
+					<dd><a href="javascript:;">鉴定文书的预通知</a></dd>
+					<dd><a href="javascript:;">文书台账</a></dd>
+					<dd><a href="javascript:;">文书修改申请与审批</a></dd>
+				</dl>
+			</li>
+            <li><a href="javascript:;">查询统计</a>
+				<dl>
+					<dd><a href="javascript:;">个人工作量统计</a></dd>
+					<dd><a href="javascript:;">专业工作量统计和超期统计查询</a></dd>
+					<dd><a href="javascript:;">鉴定结论查询与统计</a></dd>
+					<dd><a href="javascript:;">报告及时率查询统计</a></dd>
+					<dd><a href="javascript:;">物证状态查询</a></dd>
+					<dd><a href="javascript:;">报告差错率统计</a></dd>
+					<dd><a href="javascript:;">待办事项查询</a></dd>
+					<dd><a href="javascript:;">已办事项查询</a></dd>
+					<dd><a href="javascript:;">物证鉴定进度查询</a></dd>
+					<dd><a href="javascript:;">报告修改查询</a></dd>
+					<dd><a href="javascript:;">提醒统计</a></dd>
+					<dd><a href="javascript:;">自定义统计报表</a></dd>
+				</dl>
+			</li>
+        </ul>
+        <a class="togglemenu"></a>
+    </div><!--leftmenu-->
+    <div class="centercontent">
+        <div class="pageheader">
+            <h1 class="pagetitle">预览详情页</h1>
+        </div><!--pageheader-->
+        <div id="contentwrapper" class="contentwrapper">
+			<div id="basicform" class="subcontent">
+				<form class="stdform" method="post" action="">
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin" style="width:100%;">
+							<label>鉴定情况</label>
+							<span class="field"><input type="radio" name="radiofield" checked="checked" /> 初次鉴定 &nbsp; &nbsp;<input type="radio" name="radiofield" class="bcjd" /> 补充鉴定 &nbsp; &nbsp;<input type="radio" name="radiofield" class="cxjd" /> 重新鉴定</span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin">
+							<label>委托鉴定单位</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+						<p class="right_margin">
+							<label>委托时间</label>
+							<span class="field"><input id="datepicker" type="text" class="hasDatepicker" readonly="readonly" onclick="WdatePicker({skin:'ext',dateFmt:'yyyy-MM-dd HH:mm:ss'})" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%;margin-top:0px;">
+						<span class="contenttitle2">
+							<h3>送检人</h3>
+						</span>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin">
+							<label>姓名</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+						<p class="right_margin">
+							<label>职务</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin">
+							<label>证件名称及号码</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+						
+						<p class="right_margin">
+							<label>警察证</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin">
+							<label>姓名</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+						<p class="right_margin">
+							<label>职务</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin">
+							<label>证件名称及号码</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+						
+						<p class="right_margin">
+							<label>警察证</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin">
+							<label>通讯地址</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+						
+						<p class="right_margin">
+							<label>邮政编码</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin">
+							<label>联系电话</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+						<p class="right_margin">
+							<label>传真号码</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin" style="width:100%">
+							<label>鉴定机构名称</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" value="红河哈尼族彝族自治州公安司法鉴定中心" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin">
+							<label>案（事）件名称</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+						<p class="right_margin">
+							<label>案件编号</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%;margin-top:0px;">
+						<span class="contenttitle2">
+							<h3>被鉴定人的情况</h3>
+						</span>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin">
+							<label>姓名</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+						<p class="right_margin">
+							<label>性别</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin">
+							<label>年龄</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+						
+						<p class="right_margin">
+							<label>电话</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin">
+							<label>单位</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+						
+						<p class="right_margin">
+							<label>现住址</label>
+							<span class="field"><input type="text" name="firstname" class="longinput" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin" style="width:100%">
+							<label>案（事）件简要情况</label>
+							<span class="field"><textarea cols="80" rows="5" class="longinput"></textarea></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin" style="width:100%">
+							<label>原鉴定情况</label>
+							<span class="field"><textarea cols="80" rows="5" class="longinput"></textarea></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%;margin-top:0px;">
+						<span class="contenttitle2">
+							<h3>送检的检材和样本等情况</h3>
+						</span>
+					</div>
+					<div class="stdform_tables">	
+						<table cellpadding="0" cellspacing="0" border="0" class="stdtable" id="dyntable">
+							<colgroup>
+								<col class="con0" />
+								<col class="con1" />
+								<col class="con0" />
+								<col class="con1" />
+								<col class="con0" />
+								<col class="con1" />
+								<col class="con0" />
+								<col class="con1" />
+							</colgroup>
+							<thead>
+								<tr>
+									<th class="head0">序号</th>
+									<th class="head1">物证编号</th>
+									<th class="head0">名称</th>
+									<th class="head1">数量</th>
+									<th class="head0">性状</th>
+									<th class="head1">提取部位</th>
+									<th class="head0">提取方式</th>
+									<th class="head1">包装情况</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="gradeA">
+									<td class="td_shu">1</td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="20170703001" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="衣服" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="12" /></td>
+									<td class="center"><input type="text" name="firstname" class="longinput" placeholder="物证鉴定" /></td>
+									<td class="center"><input type="text" name="firstname" class="longinput" placeholder="袖口" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="物证鉴定" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="完好" /></td>
+								</tr>
+								<tr class="gradeA">
+									<td class="td_shu">2</td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="20170703001" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="衣服" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="12" /></td>
+									<td class="center"><input type="text" name="firstname" class="longinput" placeholder="物证鉴定" /></td>
+									<td class="center"><input type="text" name="firstname" class="longinput" placeholder="袖口" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="物证鉴定" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="完好" /></td>
+								</tr>
+								<tr class="gradeA">
+									<td class="td_shu">3</td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="20170703001" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="衣服" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="12" /></td>
+									<td class="center"><input type="text" name="firstname" class="longinput" placeholder="物证鉴定" /></td>
+									<td class="center"><input type="text" name="firstname" class="longinput" placeholder="袖口" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="物证鉴定" /></td>
+									<td><input type="text" name="firstname" class="longinput" placeholder="完好" /></td>
+								</tr>
+							</tbody>
+						</table>
+						<a href="javascript:;" class="button">添加</a>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin" style="width:100%">
+							<label>添加附件</label>
+							<span class="field"><input type="file" name="filename" /></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="left_margin" style="width:100%">
+							<label>委托鉴定单位的鉴定要求和诚信声明</label>
+							<span class="field">鉴定要求：<br /><textarea cols="80" rows="5" class="longinput"></textarea><br />我单位向你鉴定机构介绍的情况客观真实，提交的检材和样本等来源清楚可靠。
+							<br />负责人签字：                     <span style="float:right;">（单位印章）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日</span></span>
+						</p>
+					</div>
+					<div class="stdformDiv" style="width:100%">
+						<p class="stdformbutton">
+							<button class="submit radius2">提交</button>
+							<input type="reset" class="reset radius2" value="重置" />
+						</p>
+					</div>	
+				</form>
+			</div><!--subcontent-->
+				
+			
+        </div><!--contentwrapper-->
+    
+    </div><!--centercontent-->
+    
+    
+</div><!--bodywrapper-->
+
+</body>
+</html>

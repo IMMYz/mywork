@@ -1,0 +1,40 @@
+<!doctype html>
+<html dir="ltr" lang="zh-CN">
+<head>
+    <meta charset="utf-8"/>
+    <title>类似excel的滚动机制，当移动滚动条时固定table的第一行和第一列</title>
+    <script type="text/javascript" src="js/tablelock.js"></script>
+</head>
+<body>
+
+<div id="table-container">
+    <div style="width:500px;height:500px">
+        <table id='table_class_name'>
+            <tr>
+                <td class='locked_class_name'>Upper left is moving both wayslocked</td>
+                <td class='column_class_name'>column 1</td>
+                <td class='column_class_name'>column 2</td>
+                <td class='column_class_name'>column 3</td>
+            </tr>
+            <tr>
+                <td class='row_class_name'>row 1</td>
+                <td>data 1</td>
+                <td>data 2</td>
+                <td>data 3</td>
+                <td>data 1</td>
+            </tr>
+            <tr>
+                <td class='row_class_name'>row 2</td>
+                <td>data 1</td>
+                <td>data 2</td>
+                <td>data 3</td>
+            </tr>
+        </table>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript" >
+        TableLock("table_class_name", "row_class_name", "column_class_name", "locked_class_name");
+
+</script>

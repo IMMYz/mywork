@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="UTF-8">
+<head>
+    <meta charset="UTF-8">
+    <title>旅发委数据展示</title>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css"/>
+    <link rel="stylesheet" href="../bootstrap/css/font-awesome.css"/>
+    <script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/echarts.js"></script>
+</head>
+<style>
+    .i-warp{
+        display:inline-block;
+        width:130px;
+        padding:25px;
+    }
+    .i-warp i{
+        font-size:78px;
+        color:#fff
+    }
+    .sub-text{
+        text-align:center;
+        display:inline-block;
+        vertical-align:top;
+        width: 40%;
+    }
+    .count-number{
+        font-weight:bold;
+        font-size:31px
+    }
+    p{
+        margin:0
+    }
+    .white{
+        background-color:#fff;
+        padding:0;
+        border-radius:3px;
+        margin-top:10px;
+    }
+</style>
+<body>
+<div class="container-fluid">
+    <div class="row" style="background-color:#0d1a44">
+        <div style="text-align:center;color:#fff">
+            <h2>红河旅游发展大数据</h2>
+        </div>
+        <div class="col-md-3 col-lg-3 col-md-offset-1 col-lg-offset-1 white">
+            <div class="i-warp" style="background-color:#6ccac9;">
+                <i class="fa fa-road"></i>
+            </div>
+            <div class="sub-text">
+                <p>铁路客流量（进）</p>
+                <p class="count-number">1288</p>
+                <p>铁路客流量（出）</p>
+                <p class="count-number">1188</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-3 white" style="margin:10px 4%">
+            <div class="i-warp" style="background-color:#ff6c60;">
+                <i class="fa fa-car"></i>
+            </div>
+            <div class="sub-text">
+                <p>铁路客流量（进）</p>
+                <p class="count-number">1288</p>
+                <p>铁路客流量（出）</p>
+                <p class="count-number">1188</p>
+            </div>
+        </div>
+        <div class="col-md-3 col-lg-3 white">
+            <div class="i-warp" style="background-color:#57c8f2;">
+                <i class="fa fa-university"></i>
+            </div>
+            <div class="sub-text">
+                <p>铁路客流量（进）</p>
+                <p class="count-number">1288</p>
+                <p>铁路客流量（出）</p>
+                <p class="count-number">1188</p>
+            </div>
+        </div>
+        <div class="col-md-12 col-lg-12" style="background-color:#fff">
+            <div id="charts" style="width:50%;height:600px;float:left"></div>
+            <div id="charts2" style="width:50%;height:600px;float:left;"></div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    var dataMap = {};
+    function dataFormatter(obj) {
+        var pList = ['1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'];
+        var temp;
+        for (var year = 2015; year <= 2017; year++) {
+            var max = 0;
+            var sum = 0;
+            temp = obj[year];
+            for (var i = 0, l = temp.length; i < l; i++) {
+                max = Math.max(max, temp[i]);
+                sum += temp[i];
+                obj[year][i] = {
+                    name : pList[i],
+                    value : temp[i]
+                }
+            }
+            obj[year + 'max'] = Math.floor(max / 100) * 100;
+            obj[year + 'sum'] = sum;
+        }
+        return obj;
+    }
+    dataMap.dataPeople = dataFormatter({
+        2015:[10,20,30,40,50,60,70,80,90,100,110,120],
+        2016:[120,110,100,90,80,70,60,50,40,30,20,10],
+        2017:[110,120,130,140,150,160,170,180,190,200,200,300],
+    })
+    dataMap.dataPeople2 = dataFormatter({
+        2015:[533600,815413,308200,605730,449580,339000,120200],
+        2016:[583600,805413,338200,615730,459580,349000,130200],
+        2017:[603600,821500,368200,625730,489580,369000,150000],
+    })
+    var charts = echarts.init(document.getElementById('charts'));
+    var charts2 = echarts.init(document.getElementById('charts2'))
+    option = {
+        baseOption:{
+            timeline:{
+                axisType:'category',
+                autoPlay:true,
+                playInterval:3000,
+                data:['2015','2016','2017'],
+                top:'0'
+            },
+            grid:[
+                {width:'60%',height:'80%'}
+            ],
+            tooltip:{},
+            xAxis:[
+                {
+                    'type':'category',
+                    'axisLabel':{'interval':0},
+                    'data':[
+                        '1月','2月','3月','4月','5月','6月','7月','8月','9月','10月','11月','12月'
+                    ],
+                    splitLine:{show:false}
+                }
+            ],
+            yAxis:[
+                {
+                    type:'value',
+                    name:'人数'
+                }
+            ],
+            series:[
+                {name:'人数',type:'bar'},
+                {
+                    name:'旅游人数来源',
+                    type:'pie',
+                    center:['85%','35%'],
+                    radius:'28%',
+                    z:100
+                }
+            ]
+        },
+        options:[
+            {
+                title:{text:'旅游人数'},
+                series:[
+                    {data:dataMap.dataPeople['2015']},
+                    {
+                        data:[
+                        {name:'昆明',value:300},
+                        {name:'北京',value:200},
+                        {name:'上海',value:150},
+                    ]}
+                ]
+            },
+            {
+                title:{text:'景点游客人数'},
+                series:[
+                    {data:dataMap.dataPeople['2016']},
+                    {data:[
+                        {name:'昆明',value:100},
+                        {name:'北京',value:200},
+                        {name:'上海',value:150},
+                    ]}
+                ]
+            },
+            {
+                title:{text:'旅游人数'},
+                series:[
+                    {data:dataMap.dataPeople['2017']},
+                    {data:[
+                        {name:'昆明',value:400},
+                        {name:'北京',value:200},
+                        {name:'上海',value:150},
+                    ]}
+                ]
+            },
+        ]
+    }
+    option2 = {
+        baseOption:{
+            timeline:{
+                axisType:'category',
+                autoPlay:true,
+                playInterval:3000,
+                data:['2015','2016','2017'],
+                top:0
+            },
+            tooltip:{},
+            xAxis:[
+                {
+                    'type':'category',
+                    'axisLabel':{'interval':0},
+                    'data':[
+                        '湖泉生态园区','江河水乡','撒玛坝梯田','边境一日游','泸江公园','马帮城楼景区','通灵村'
+                    ],
+                    splitLine:{show:false}
+                }
+            ],
+            yAxis:[
+                {
+                    type:'value',
+                    name:'人数',
+                }
+            ],
+            series:[
+                {name:'人数',type:'bar'},
+            ]
+        },
+        options:[
+            {
+                title:{text:'旅游人数'},
+                series:[
+                    {data:dataMap.dataPeople2['2015']}
+                ],
+                itemStyle:{
+                    normal:{
+                        color:'#5137ff'
+                    }
+                }
+            },
+            {
+                title:{text:'旅游人数'},
+                series:[
+                    {data:dataMap.dataPeople2['2016']}
+                ]
+            },
+            {
+                title:{text:'旅游人数'},
+                series:[
+                    {data:dataMap.dataPeople2['2017']}
+                ]
+            },
+        ]
+    }
+    charts.setOption(option);
+    charts2.setOption(option2)
+</script>

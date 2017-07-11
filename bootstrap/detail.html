@@ -1,0 +1,366 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+<link type="text/css" rel="stylesheet" href="css/select2.css">
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<style>
+    .page_left{
+        background-color:#000;
+        display:table-cell;
+        width:216px;
+        position:relative;
+    }
+    .content{
+        display:table-cell;
+        width:100%
+    }
+    .person-photo{
+        width:100px;
+        height:120px;
+        border:2px solid #dadfd9;
+        padding-top:8px
+    }
+    .person-photo:nth-child(2){
+        margin: 0 50px;
+    }
+    .person-photo img{
+        width:72px;
+        height:100px
+    }
+    .left{
+        float:left
+    }
+    .center{
+        width:auto;
+        display:table;
+        margin-left:auto;
+        margin-right:auto
+    }
+    .form-inline .form-group{
+        margin-bottom:15px
+    }
+</style>
+<body>
+<div style="display:table;width:100%">
+    <div class="page_left"></div>
+    <div class="container-fluid">
+        <form class="form-horizontal" role="form" id="pageForm">
+            <div class="row">
+                <div class="col-md-4">
+                    <fieldset>
+                        <legend>姓名称谓</legend>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">姓名：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="col-sm-4 control-label">绰号：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">曾用名：</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-7">
+                    <fieldset>
+                        <legend>身份信息</legend>
+                        <div class="form-inline clearfix">
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">身份证号：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">性别：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">出生日期：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">年龄：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">是否本人持有：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">民族：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">其他证件：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">籍贯地：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">户籍地：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">详址：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">现住地：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-6">
+                                <label class="col-sm-5 control-label">详址：</label>
+                                <div class="col-sm-5">
+                                    <input type="text" class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <fieldset>
+                        <legend>生物特征</legend>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">指纹编号：</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">指纹附件：</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">DNA编号：</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-4 control-label">DNA附件：</label>
+                            <div class="col-sm-5">
+                                <input type="text" class="form-control"/>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+                <div class="col-md-7">
+                    <fieldset>
+                        <legend>人员照片</legend>
+                        <div class="center clearfix">
+                            <div class="person-photo left">
+                                <img class="center-block" src="image/123.jpg"/>
+                                <span>正面照</span>
+                            </div>
+                            <div class="person-photo left">
+                                <img class="center-block" src="image/123.jpg"/>
+                                <span>左侧面照</span>
+                            </div>
+                            <div class="person-photo left">
+                                <img class="center-block" src="image/123.jpg"/>
+                                <span>右侧面照</span>
+                            </div>
+                        </div>
+                    </fieldset>
+                </div>
+            </div>
+            <div class="row">
+                <fieldset>
+                    <legend>抓获情况</legend>
+                    <div class="form-inline clearfix">
+                        <div class="row">
+                            <div class="col-md-6 form-group">
+                                <label class="col-sm-4 control-label">抓获时间：</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="col-sm-4 control-label">是否上级指令：</label>
+                                <div class="col-sm-5" style="line-height:2.5">
+                                    <label><input type="radio" name="isLeader"/>是</label>
+                                    <label><input type="radio" name="isLeader"/>否</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label class="col-sm-2 control-label">是否上级指令：</label>
+                            <div class="col-sm-5" style="line-height:2.5">
+                                <label><input type="radio" name="howCatch"/>秘密抓捕</label>
+                                <label><input type="radio" name="howCatch"/>公开查缉</label>
+                                <label><input type="radio" name="howCatch"/>投案自首</label>
+                                <label><input type="radio" name="howCatch"/>群众扭送</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 form-group">
+                            <label class="col-sm-2 control-label">配侦手段：</label>
+                            <div class="col-sm-5" style="line-height:2.5">
+                                <label><input type="radio" name="howCatch"/>群众举报</label>
+                                <label><input type="radio" name="howCatch"/>技侦线索</label>
+                                <label><input type="radio" name="howCatch"/>网安线索</label>
+                                <label><input type="radio" name="howCatch"/>人力情报</label>
+                                <label><input type="radio" name="howCatch"/>他案扩线</label>
+                                <label><input type="radio" name="howCatch"/>境外移交</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-inline">
+                            <div class="col-md-6 form-group">
+                                <label class="col-sm-4 control-label">抓获单位：</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control"/>
+                                </div>
+                            </div>
+                                <div class="col-md-6 form-group">
+                                    <label class="col-sm-4 control-label">抓获部门：</label>
+                                    <div class="col-sm-5">
+                                        <input class="form-control"/>
+                                    </div>
+                                </div>
+                            <div class="col-md-6 form-group">
+                                <label class="col-sm-4 control-label">抓获地址：</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control"/>
+                                </div>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <label class="col-sm-4 control-label">详址：</label>
+                                <div class="col-sm-5">
+                                    <input class="form-control"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="row">
+                <fieldset>
+                    <legend>抓获情况</legend>
+                    <div class="col-md-12">
+                            <label class="col-sm-2 control-label">角色分工：</label>
+                            <div style="line-height:2.5">
+                                <label><input type="radio" name="howCatch"/>领导</label>
+                                <label><input type="radio" name="howCatch"/>策划</label>
+                                <label><input type="radio" name="howCatch"/>组织人员</label>
+                                <label><input type="radio" name="howCatch"/>蛇头</label>
+                                <label><input type="radio" name="howCatch"/>黑车司机</label>
+                                <label><input type="radio" name="howCatch"/>偷渡人员</label>
+                            </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="row">
+                            <label class="col-sm-2 control-label">特殊群体：</label>
+                            <div style="line-height:2.5">
+                                <label><input type="radio" name="howCatch"/>孕妇</label>
+                                <label><input type="radio" name="howCatch"/>儿童</label>
+                                <label><input type="radio" name="howCatch"/>未成年人</label>
+                                <label><input type="radio" name="howCatch"/>危重病人</label>
+                            </div>
+                        </div>
+                      <div class="row">
+                          <label class="col-sm-2 control-label">备注：</label>
+                          <div>
+                              <input class="" type="text">
+                          </div>
+                      </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">前科劣迹：</label>
+                            <div style="line-height:2.5">
+                                <label><input type="radio" name="howCatch"/>在逃人员</label>
+                                <label><input type="radio" name="howCatch"/>危安重点</label>
+                                <label><input type="radio" name="howCatch"/>前科人员</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">备注：</label>
+                            <div>
+                                <input class="" type="text">
+                            </div>
+                        </div>
+                        <div class="row">
+                            <label class="col-sm-2 control-label">伤亡情况：</label>
+                            <div style="line-height:2.5">
+                                <label><input type="radio" name="howCatch"/>受伤</label>
+                                <label><input type="radio" name="howCatch"/>现场击毙</label>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label">备注：</label>
+                                <div>
+                                    <input class="" type="text">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+            </div>
+            <div class="form-group">
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-primary" onclick="saveClue()">保存</button>
+                    <button type="button" id="btn-reset" class="btn btn-default" onclick="btnReset('#pageForm')">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    //图片替换
+    function swaping(){
+        var img = $(".person-photo img");
+        for(var i = 0;i<img.length;i++){
+            if(img[i].readyState="uninitialized"){
+                img[i].src="image/no-img.png"
+            }
+        }
+    }
+
+    $(function(){
+        swaping();
+    })
+</script>

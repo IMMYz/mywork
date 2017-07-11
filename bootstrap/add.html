@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+<link type="text/css" rel="stylesheet" href="css/select2.css">
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<style>
+    .page_left{
+        background-color:#000;
+        display:table-cell;
+        width:216px;
+        position:relative;
+    }
+    .content{
+        display:table-cell;
+        width:100%
+    }
+    .person-photo{
+        width:100px;
+        height:120px;
+        border:2px solid #dadfd9;
+        padding-top:8px
+    }
+    .person-photo:nth-child(2){
+        margin: 0 50px;
+    }
+    .person-photo img{
+        width:72px;
+        height:100px
+    }
+    .left{
+        float:left
+    }
+    .center{
+        width:auto;
+        display:table;
+        margin-left:auto;
+        margin-right:auto
+    }
+</style>
+<body>
+<div style="display:table;width:100%">
+    <div class="page_left"></div>
+    <div class="container-fluid">
+        <form class="form-horizontal" role="form" id="pageForm">
+            <input type="hidden" id="clueId" th:value="${form.id}" name="id"/>
+            <input type="hidden" name="userId" th:value="${session.currentUser.id}"/>
+            <input type="hidden" name="version" th:value="${form.version}"/>
+            <fieldset>
+                <legend>人员基本信息</legend>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">姓名：</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">曾用名：</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">绰号：</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">民族：</label>
+                        <div class="col-sm-5">
+                            <select class="form-control">
+                                <option>汉</option>
+                                <option>回</option>
+                                <option>白</option>
+                                <option>彝</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">身份证号：</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">出生日期：</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">性别：</label>
+                        <div class="col-sm-5">
+                            <select class="form-control">
+                                <option>男</option>
+                                <option>女</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom:20px">
+                    <div class="center clearfix">
+                        <div class="person-photo left">
+                            <img class="center-block" src="image/123.jpg"/>
+                        </div>
+                        <div class="person-photo left">
+                            <img class="center-block" src="image/123.jpg"/>
+                        </div>
+                        <div class="person-photo left">
+                            <img class="center-block" src="image/123.jpg"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">户籍地区规划：</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">户籍详细地址：</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">现居住地划：</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">现住地详址：</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">前科信息编号：</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">指纹信息编号：</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">DNA信息编号：</label>
+                        <div class="col-md-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset>
+                <legend>携带物品(手机、电脑、等可提取相关信息的)</legend>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">使用时间：</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">品牌：</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">号码：</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="col-sm-4 control-label">MAC地址/IMEI号：</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control"/>
+                        </div>
+                    </div>
+                </div>
+            </fieldset>
+            <div class="form-group">
+                <div class="col-sm-12 text-center">
+                    <button type="button" class="btn btn-primary" onclick="saveClue()">保存</button>
+                    <button type="button" id="btn-reset" class="btn btn-default" onclick="btnReset('#pageForm')">重置</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    //图片替换
+    function swaping(){
+        var img = $(".person-photo img");
+        for(var i = 0;i<img.length;i++){
+            if(img[i].readyState="uninitialized"){
+                img[i].src="image/no-img.png"
+            }
+        }
+    }
+
+    $(function(){
+        swaping();
+    })
+</script>

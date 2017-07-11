@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+<link type="text/css" rel="stylesheet" href="css/select2.css">
+<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<body>
+<div class="container">
+    <div class="col-md-12">
+        <button id="getAjax" type="button" class="btn btn-primary">
+            获取
+        </button>
+        <div id="test" class="col-md-12">
+
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+function myAjax(url){
+    var apiUrl = "https://pokeapi.co/api/v2/";
+    var reData;
+    $.ajax({
+        url:apiUrl+url,
+        async:false,
+        success:function(data){
+            reData = data;
+            console.log("Success");
+        },
+        error:function(){
+            console.log("Error");
+        }
+    })
+    return reData;
+}
+$("#getAjax").click(function(){
+    var result = myAjax("pokemon/1");
+    $("#id").text(result);
+})
+</script>

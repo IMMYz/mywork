@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    body,html{
+        width:100%;
+        height:100%
+    }
+    #allmap{
+        width:50%;
+        height:100%;
+        margin:0 auto;
+    }
+    #control{
+        position:absolute;
+        top:0;
+        left:0
+    }
+</style>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DE0abf6cf5580f24857faef21a4b3870"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<body>
+<div id="allmap"></div>
+<div id="control">
+    <input id="time" type="text" />
+    <button type="button" onclick="start()">开始</button>
+    <button type="button" onclick="pause()">暂停</button>
+    <button type="button" onclick="reset()">重置</button>
+    <button type="button" onclick="plus()">+1</button>
+    <button type="button" onclick="addMarker()">计算距离</button>
+    <button type="button" onclick="getPointDate()">获取日期</button>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    //贵阳经纬度
+    //106.63 26.65
+    //昆明经纬度
+    //102.73 25.04
+    //GPS坐标转换
+    var pointA = {
+        "line1":[{
+            "x":102.73,
+            "y":25.04,
+            "date":1
+        },
+            {
+                "x":106.63,
+                "y":26.65,
+                "date":11
+            },
+            {
+                "x":116.46,
+                "y":39.92,
+                "date":14
+            }],
+        "line2":[
+            {
+                "x":103.73,
+                "y":36.03,
+                "date":14
+            },
+            {
+                "x":118.78,
+                "y":32.04,
+                "date":15
+            },
+            {
+                "x":108.35,
+                "y":30.83,
+                "date":16
+            }
+        ],
+        "line3":[
+            { "x":102.73,
+                "y":25.04,
+                "date":1
+            },
+            {
+                "x":104.06,
+                "y":30.57,
+                "date":3
+            },
+            {
+                "x":106.23,
+                "y":38.48,
+                "date":5
+            },
+            {
+                "x":91.17 ,
+                "y":29.65,
+                "date":8
+            }
+        ]
+    }
+    var myPoint = [];
+    var dTime=[];
+    var line =[];
+    var cNum = 0;//颜色部分
+    var dValue =1;
+    var timeNum =0;
+    var currentNum = 0;
+    var nowTime;
+    var num = 1;
+    var item = "line"+num;
+    var map = new BMap.Map("allmap",{minZoom:5,maxZoom:11});
+    map.centerAndZoom("昆明",5);
+    map.addControl(new BMap.MapTypeControl());
+    map.enableScrollWheelZoom(true);
+
+    var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/Mario.png", new BMap.Size(32, 70), {//小车图片
+        //offset: new BMap.Size(0, -5),    //相当于CSS精灵
+        imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+    });
+    //    绘制路线
+    //    var driving2 = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: false}});
+    //    driving2.search(myP1,myP2);
+    window.run = function(){
+        var driving = new BMap.DrivingRoute(map);
+        driving.search(myP1,myP2);
+        driving.setSearchCompleteCallback(function(){
+            var pts = driving.getResults().getPlan(0).getRoute(0).getPath();
+            var paths = myPoint.length;
+            var carMk = new BMap.Marker(myPoint[0],{icon:myIcon});
+            map.addOverlay(carMk);
+            i = 0;
+            function resetMkPoint(i){
+                carMk.setPosition(myPoint[i]);
+                if(i < paths){
+                    setTimeout(function(){
+                        i++;
+                        resetMkPoint(i);
+                    },3000);
+                }
+            }
+            setTimeout(function(){
+                resetMkPoint(1);
+            },3000)
+        })
+    }
+
+    //页面按钮
+    $(function(){
+        $("#dValue").change(function(){
+            dValue = $("#dValue").val();
+        })
+    })
+    function pause(){
+        clearInterval(t);
+    }
+    function start(){
+        for(var i=0;i<myPoint.length;i++){
+            line.push(addRun(myPoint[i]));
+        }
+    }
+    function plus(){
+//        debugger;
+        console.log(line);
+        for(var i=0;i<line.length;i++){
+            for(var j = 0;j<line[i].length;j++){
+                map.addOverlay(line[i][j]);
+            }
+            currentNum = timeNum;
+            timeNum++;
+        }
+    }
+    function reset(){
+        timeNum = 0;
+        map.removeOverlay(line[currentNum]);
+    }
+
+
+    function getPointDate(){
+        var maxDate,minDate;
+        maxDate = pointA.line1[0].date;
+        minDate = pointA.line1[pointA.line1.length-1].date;
+        console.log(maxDate+" "+minDate);
+    }
+
+    function addMarker(){
+        nowTime = $("#time").val();
+        console.log(nowTime);
+        var xn,yn;
+        var index = 0;
+        var distance = [];
+        debugger;
+        if(nowTime>pointA.line1[index].date){
+            while(nowTime>pointA.line1[index].date&&nowTime<pointA.line1[index+1]){
+                index++;
+            }
+        }
+        var points = [];
+        var xs = pointA.line1[index].x;
+        var ys = pointA.line1[index].y;
+        var xe = pointA.line1[index+1].x;
+        var ye = pointA.line1[index+1].y;
+        points.push(new BMap.Point(xs,ys));
+        points.push(new BMap.Point(xe,ye));
+        var polyline = new BMap.Polyline(points,{strokeColor:"blue",strokeWeight:2,strokeOpacity:0.5});//添加折线
+        map.addOverlay(polyline);
+        linePoint = polyline.getPath();
+        pixelStart=map.pointToPixel(points[0]);
+        pixelEnd=map.pointToPixel(points[1]);
+        xn=pixelEnd.x-pixelStart.x;
+        yn=pixelEnd.y-pixelStart.y;
+        zn=Math.sqrt(xn*xn+yn*yn);
+        v=zn/(nowTime-pointA.line1[index-1].date);//全长/
+//            alert("I:"+i+"--xn:"+xn+"--yn:"+yn+"--zn:"+zn+"--nn:"+nn);
+        var x1=0;
+        var y1=0;
+        var point;
+        for(var i=1;i<=index;i++){
+            x1=pixelStart.x+xn/zn*v*i;
+            y1=pixelStart.y+yn/zn*v*i;
+        }
+        point=map.pixelToPoint(new BMap.Pixel(x1,y1));
+        var markers = [];
+        markers.push(new BMap.Marker(point));
+        map.addOverlay(markers);
+    }
+
+    color= ["#008B45","#FF0000","#8A2BE2","#9370DB"];
+    function addPoint(min,max,dTime,points){
+        var start,end,minTime,maxTime;
+        var time = dTime;
+        date = [];
+        minTime = min;
+        maxTime = max;
+//        console.log("minTime:"+minTime+" maxTime:"+maxTime+" time:"+time);
+        for(var i = 0;i < points.length;i++){
+            start = new BMap.Label("起点"+i,{offset:new BMap.Size(20,-10)});//为地图上的点添加起点终点
+            end = new BMap.Label("终点"+i,{offset:new BMap.Size(20,-10)});
+            var marker = new BMap.Marker(points[i]);
+            if(i == 0){
+                marker.setLabel(start);
+            }else if(i == points.length - 1){
+                marker.setLabel(end);
+            }
+            map.addOverlay(marker);
+//            var polyline = new BMap.Polyline(points,{strokeColor:color[cNum],strokeWeight:2,strokeOpacity:0.5});//添加折线
+            date.push(points[i].date);
+//            map.addOverlay(polyline);
+            map.setCenter(points[i]);
+        }
+//        polyline.date = date;
+        cNum++;
+//        polyline.time = time;
+//        myPoint.push(polyline);
+    }
+
+    //运动
+    function addRun(myPoint){
+//        var minDate,maxDate;
+        var time = myPoint.time;
+        var linePoint=myPoint.getPath();//线的坐标串 (点)
+        var markers = [];
+        var pixelStart;
+        var pixelEnd;
+        var xn;
+        var yn;
+        var zn;
+        var v;
+//        minDate = myPoint.date[0];
+//        maxDate = myPoint.date[myPoint.date.length-1];
+        debugger;
+        for(var i=0;i<linePoint.length-1;i++){//n个点,n-1条直线
+            pixelStart=map.pointToPixel(linePoint[i]);
+            pixelEnd=map.pointToPixel(linePoint[i+1]);
+            xn=pixelEnd.x-pixelStart.x;
+            yn=pixelEnd.y-pixelStart.y;
+            zn=Math.sqrt(xn*xn+yn*yn);//直线长度所花费时间
+            v=zn/time[i];//全长/
+//            alert("I:"+i+"--xn:"+xn+"--yn:"+yn+"--zn:"+zn+"--nn:"+nn);
+            var x1=0;
+            var y1=0;
+            var point;
+            for(var a=1;a<=time[i];a++){
+//                console.log("第2次："+v);
+                x1=pixelStart.x+xn/zn*v*a;
+                y1=pixelStart.y+yn/zn*v*a;
+                xr = x1-pixelStart.x;
+                yr = y1-pixelStart.y;
+//                var r = Math.sqrt(xr*xr+yr*yr);
+//                console.log(r);
+//像素坐标转换为经纬度坐标。
+                point=map.pixelToPoint(new BMap.Pixel(x1,y1));
+                markers.push(new BMap.Marker(point));
+                markers[i].time = time[i];
+                markers[i].date = myPoint.date[i];
+            }
+
+            console.log(markers);
+        }
+        return markers;
+    }
+    //日期排序
+    function upDate(x,y){
+        return(x.date>y.date)?1:-1;
+    }
+
+    window.onload = function(){
+        //经纬度坐标批量转换
+        var convertor = new BMap.Convertor();
+        var points = [];
+        while(pointA[item]!=undefined){
+            pointA[item].sort(upDate);//按照日期时间排序
+            var date = pointA[item][0].date;
+            var min = pointA[item][0].date;
+            var max = pointA[item][pointA[item].length-1].date;
+            for(i in pointA[item]){
+                var x = pointA[item][i].x;
+                var y = pointA[item][i].y;
+                points.push(new BMap.Point(x,y));
+                points[i].date = pointA[item][i].date;
+            }
+            for(var i = 0;i<pointA[item].length-1;i++){
+                dTime.push(pointA[item][i+1].date-pointA[item][i].date);
+            }
+            addPoint(min,max,dTime,points);
+//            convertor.translate(points,1,5,translateCallback);
+            num++;
+            item = "line"+num;
+            points = [];
+            dTime =[];
+        }
+    }
+</script>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/echarts.js"></script>
+</head>
+<body>
+<div id="charts" style="width:100%;height:800px">
+
+</div>
+</body>
+</html>
+<script type="text/javascript" th:inline=>
+    var myChart = echarts.init(document.getElementById('charts'));
+    var categories = [];
+    for (var i = 0; i < 9; i++) {
+        categories[i] = {
+            name: '类目' + i
+        };
+    }
+    option = {
+        title: {
+            text: ''
+        },
+        tooltip: {},
+        animationDurationUpdate: 1500,
+        animationEasingUpdate: 'quinticInOut',
+        label: {
+            normal: {
+                show: true,
+                textStyle: {
+                    fontSize: 12
+                },
+            }
+        },
+        legend: {
+            x: "center",
+            show: false,
+            data: ["朋友", "战友", '亲戚']
+        },
+        series: [
+
+            {
+                type: 'graph',
+                layout: 'circular',
+                symbolSize: 45,
+                roam: true,
+                categories: categories,
+                legend: [{
+                    // selectedMode: 'single',
+                    data: categories.map(function (a) {
+                        return a.name;
+                    })
+                }],
+                label: {
+                    normal: {
+                        position: 'right',
+                        formatter: '{b}'
+                    }
+                },
+                force: {
+                    repulsion: 1000,
+                    edgeLength:300
+                },
+                edgeSymbolSize: [4, 50],
+                edgeLabel: {
+                    normal: {
+                        show: true,
+                        textStyle: {
+                            fontSize: 10
+                        },
+                        formatter: "{c}"
+                    }
+                },
+                data: [{
+                    name: '当前人物',
+                    draggable: false,
+                    symbolSize:200
+                }, {
+                    name: '关系人资产',
+                    category: 1,
+                    draggable: true,
+                    symbolSize:100
+                },{
+                    name:'汽车 云A0001',
+                    category:2,
+                    draggable:true,
+                    symbolSize:100
+                },{
+                    name:'关系人A',
+                    category:3,
+                    draggable:true,
+                    symbolSize:100
+                },{
+                    name:'关系人A资产',
+                    category:1,
+                    draggable:true,
+                    symbolSize:100
+                },{
+                    name:'XX小区房产',
+                    category:2,
+                    draggable:true,
+                    symbolSize:100
+                },{
+                    name:'汽车 云A1111',
+                    category:2,
+                    draggable:true,
+                    symbolSize:100
+                },{
+                    name:'XX商铺',
+                    category:2,
+                    draggable:true,
+                    symbolSize:100
+                },{
+                    name:'XX股票',
+                    category:2,
+                    draggable:true,
+                    symbolSize:100
+                }
+                ],
+                links: [{
+                    source: '关系人资产',
+                    target: '当前人物',
+                    category: 1,
+                    value:'123123'
+                },{
+                    source:'汽车 云AXXXX',
+                    target:'关系人资产',
+                    category:1,
+                    value:'123123'
+                },{
+                    source:'关系人A资产',
+                    target:'当前人物',
+                    category:1,
+                    value:'123123'
+                },{
+                    source:'关系人A',
+                    target:'当前人物',
+                    category:3,
+                    value:'123123'
+                },
+                    {
+                        source:'当前人物',
+                        target:'关系人A',
+                        category:3,
+                        value:'123123'
+                    },{
+                    source:'XX小区房产',
+                    target:'关系人A资产',
+                    category:3,
+                    value:""
+                },{
+                    source:'关系人A资产',
+                    target:'关系人A',
+                    category:3,
+                    value:""
+                },{
+                        source:'XX股票',
+                        target:'关系人A资产',
+                        category:3,
+                        value:""
+                },{
+                    source:'汽车 云A0001',
+                    target:'关系人资产',
+                    category:3,
+                    value:""
+                },{
+                    source:'XX商铺',
+                    target:'关系人A资产',
+                    category:3,
+                    value:""
+                },{
+                    source:'汽车 云A1111',
+                    target:'关系人A资产',
+                    category:3,
+                    value:""
+                },{
+                    source:'XX小区房产',
+                    target:'关系人A资产',
+                    category:3,
+                    value:""
+                }
+
+                ],
+                lineStyle: {
+                    normal: {
+                        opacity: 0.9,
+                        width: 1,
+                        curveness: 0
+                    }
+                }
+            }
+        ]
+    };
+    myChart.setOption(option);
+</script>

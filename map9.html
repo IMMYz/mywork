@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DE0abf6cf5580f24857faef21a4b3870"></script>
+<script type="text/javascript" src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+<link type="text/css" rel="stylesheet" href="bootstrap/css/bootstrap.css">
+<link type="text/css" rel="stylesheet" href="bootstrap/js/bootstrap-silder/bootstrap-slider.css"></link>
+<script type="text/javascript" src="bootstrap/js/bootstrap-silder/bootstrap-slider.js"></script>
+<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+<style>
+    body,html{
+        width:100%;
+        height:100%
+    }
+    #allmap{
+        width:50%;
+        height:100%;
+        margin:0 auto;
+        top:240px;
+    }
+    #control{
+        position:absolute;
+        left:0
+    }
+    .slider.slider-horizontal{
+        width:1200px;
+    }
+    .slider-tick-label-container{
+        display:none;
+    }
+</style>
+<body>
+<div id="control" class="container-fluid">
+    <input id="time" type="text" />
+    <button type="button" onclick="start()">开始</button>
+    <button type="button" onclick="plus()">+1时间</button>
+
+    <div class="row">
+        <div>
+            分割份数：
+        </div>
+        <input type="text" class="form-control" id="share">
+        <div id="nowTime">
+
+        </div>
+        <div class="col-md-12">
+            <input id="ex8" type="text"/>
+        </div>
+        <button type="button" onclick="sliderClick()">生成进度条</button>
+    </div>
+</div>
+<div id="allmap"></div>
+<script type="text/javascript">
+    //进度条控件部分
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "H+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    var dateLabel = [];
+    var labelTest = ['a','b','c'];
+    function sliderClick(minTime,maxTime){
+        //销毁久的进度条
+        $("#ex8").slider('destroy');
+        //获取时间倍率
+        var share = parseInt($("#share").val());
+//        var multipleTime = 10;
+        var ticks = new Array(share);
+        for (var i = 0; i < share; i++){
+            ticks[i] = i+1;
+        }
+        dateLabel = [];
+        nowTime = new Date($($(".slider-tick-label")[0]).text());
+        start();
+        $("#ex8").slider({
+            scale: 'linear',
+            step: 1,
+            min:1,
+            max:ticks.length,
+            value:1
+        });
+        $("#ex8").change(function(){
+            timeCount = $("#ex8").val();
+            console.log($("#ex8").val());
+//            nowTime = new Date($($(".slider-tick-label")[timeCount-1]).text());
+//            nowTime = new Date(dateLabel[1]);
+            $("#nowTime").text(nowTime);
+            console.log(nowTime);
+            start();
+        });
+    }
+
+    function sliderLabel(allMin,allMax){
+        //根据时间倍率计算
+        var labelDate;
+        var share = parseInt($("#share").val());
+        var gapTime = Math.round((allMax.getTime() - allMin.getTime())/share);
+        if(dateLabel.length==0){
+            for(var i =1;i<=share;i++){
+                labelDate = allMin.getTime() + (gapTime*i);
+                labelDate = new Date(labelDate).Format("yyyy-MM-dd HH:mm:ss");
+                dateLabel.push(labelDate);
+            }
+        }
+    }
+
+    function setSlider(minTime,maxTime){
+        var singleTime = (maxTime - minTime)/30;
+        var sliderTime = [];
+        for(var i = 1;i<=30;i++){
+            sliderTime.push((singleTime*i))
+        }
+
+//        $("#ex8").attr['data-slider-ticks-labels',"[2017/01/01 00:00:00]"]
+    }
+</script>
+</body>
+</html>
+<script type="text/javascript">
+    var allMin = 0;
+    var allMax = 0;//所有路线的最大时间和最小时间
+    var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/Mario.png", new BMap.Size(32, 70), {    //小车图片
+        //offset: new BMap.Size(0, -5),    //相当于CSS精灵
+        imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+    });
+    function start(){
+        points = [];
+        map.clearOverlays();//清空地图覆盖物
+        num = 1;
+        item = "line" + num;
+        var sliderType = 0;
+        while(pointA[item]!=undefined){
+            pointA[item].sort(upDate);
+            for(i in pointA[item]){
+                var x = pointA[item][i].x;
+                var y = pointA[item][i].y;
+                var date = pointA[item][i].date;
+                points.push(new BMap.Point(x,y));
+                points[i].date = date;
+            }
+            if(allMin == 0){
+                allMin = new Date(points[0].date);
+                allMax = new Date(points[points.length-1].date);
+            }
+            if(allMin>new Date(points[0].date)){
+                allMine = new Date(points[0].date);
+            }
+            if(allMax<new Date(points[points.length-1].date)){
+                allMax = new Date(points[points.length-1].date);
+            }
+            num++;
+            item = "line"+num;
+            addPoint(points);
+            points = [];
+            //整体时间路线的最大值和最小值
+        }
+        if(sliderType == 0){
+            sliderLabel(allMin,allMax);
+            sliderType = 1;
+        }
+    }
+    function plus(){
+        var time = $("#time").val();
+        time = new Date(time);
+        var date = time.getDate() + 1;
+        plusTime = time.getFullYear() + "/" + (time.getMonth() + 1) + "/" + date;
+        $("#time").val(plusTime);
+        start();
+    }
+    var pointA = {
+        "line1":[
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/1 11:47"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/1 11:47"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/1 13:21"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/1 16:41"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/1 21:22"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/1 21:28"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/1 21:44"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/1 21:47"},
+            {"x":103.161293	,"y":23.369949  ,"date":"2016/10/2 1:36"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/2 9:17"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/2 9:47"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/2 10:16"},
+            {"x":103.160583	,"y":23.38131  ,"date":"2016/10/2 10:28"},
+            {"x":103.160583	,"y":23.38131  ,"date":"2016/10/2 10:28"},
+            {"x":103.160583	,"y":23.38131  ,"date":"2016/10/2 10:32"},
+            {"x":103.160583	,"y":23.38131  ,"date":"2016/10/2 10:32"},
+            {"x":103.156464	,"y":23.37854  ,"date":"2016/10/2 11:44"},
+            {"x":103.156464	,"y":23.37854  ,"date":"2016/10/2 11:44"},
+            {"x":103.160583	,"y":23.38131  ,"date":"2016/10/2 20:57"},
+            {"x":103.154251	,"y":23.380341  ,"date":"2016/10/2 21:50"},
+            {"x":103.160583	,"y":23.38131  ,"date":"2016/10/3 16:45"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/3 16:56"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/3 17:00"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/3 17:22"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/3 19:50"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/3 21:04"},
+            {"x":103.160583	,"y":23.38131  ,"date":"2016/10/4 9:59"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/4 13:08"},
+            {"x":103.160812	,"y":23.362209  ,"date":"2016/10/4 14:47"},
+            {"x":103.160583	,"y":23.38131  ,"date":"2016/10/4 17:05"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/4 17:07"},
+            {"x":103.160583	,"y":23.38131  ,"date":"2016/10/4 19:38"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/4 22:06"},
+            {"x":103.154251	,"y":23.380341  ,"date":"2016/10/5 11:40"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/5 13:10"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/6 9:52"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/6 12:43"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/6 13:13"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/6 13:37"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/6 14:24"},
+            {"x":103.155151	,"y":23.36603  ,"date":"2016/10/6 14:59"},
+            {"x":103.161926	,"y":23.37586  ,"date":"2016/10/6 17:09"},
+            {"x":103.150192	,"y":23.37335  ,"date":"2016/10/6 23:04"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/7 17:44"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/7 17:44"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/8 14:16"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/8 15:02"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/8 15:05"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/9 17:01"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/9 17:02"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/10 11:13"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/10 11:14"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/10 12:44"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/10 13:30"},
+            {"x":103.16021	,"y":23.375719  ,"date":"2016/10/10 21:26"},
+            {"x":103.156479	,"y":23.377689  ,"date":"2016/10/10 22:20"},
+        ],
+        "line2":[
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/1 7:24"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/1 7:28"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/1 7:29"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/1 7:29"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/1 7:29"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/1 11:23"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/1 11:24"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/1 11:34"},
+            {"x":103.152367 ,"y":23.368361  ,"date":"2016/10/1 20:43"},
+            {"x":103.147171 ,"y":23.358919  ,"date":"2016/10/1 21:43"},
+            {"x":103.147171 ,"y":23.358919  ,"date":"2016/10/2 7:16"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/2 14:52"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/2 14:52"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/2 16:35"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/2 16:35"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/2 18:07"},
+            {"x":103.152634 ,"y":23.368631  ,"date":"2016/10/2 19:28"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/2 21:11"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/3 8:08"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/3 12:33"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/3 12:37"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/3 14:27"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/3 14:49"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/3 14:49"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/3 15:27"},
+            {"x":103.154251 ,"y":23.380341  ,"date":"2016/10/3 19:49"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/3 21:41"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/3 21:41"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/3 21:41"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/3 21:41"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/3 21:42"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/3 21:42"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/3 21:42"},
+            {"x":103.147171 ,"y":23.358919  ,"date":"2016/10/3 21:45"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/4 8:16"},
+            {"x":103.152229 ,"y":23.363779  ,"date":"2016/10/4 8:45"},
+            {"x":103.154793 ,"y":23.363791  ,"date":"2016/10/4 8:53"},
+            {"x":103.154793 ,"y":23.363791  ,"date":"2016/10/4 8:56"},
+            {"x":103.15554 ,"y":23.362329  ,"date":"2016/10/4 9:30"},
+            {"x":103.156326 ,"y":23.365021  ,"date":"2016/10/4 9:38"},
+            {"x":103.157249 ,"y":23.35902  ,"date":"2016/10/4 12:24"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/4 12:53"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/4 13:38"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/4 14:49"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/4 14:49"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/4 17:27"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/4 17:47"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/4 19:16"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/4 19:17"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/4 19:24"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/4 19:27"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/4 19:32"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/4 20:32"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/5 8:07"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/5 14:49"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/5 14:49"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/5 18:02"},
+            {"x":103.147171 ,"y":23.358919  ,"date":"2016/10/5 20:02"},
+            {"x":103.147171 ,"y":23.358919  ,"date":"2016/10/5 20:21"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/5 21:56"},
+            {"x":103.147171 ,"y":23.358919  ,"date":"2016/10/6 8:19"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/6 8:30"},
+            {"x":103.147171 ,"y":23.358919  ,"date":"2016/10/6 8:50"},
+            {"x":103.154411 ,"y":23.36062  ,"date":"2016/10/6 9:18"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/6 10:08"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/6 10:23"},
+            {"x":103.152229 ,"y":23.363779  ,"date":"2016/10/6 11:43"},
+            {"x":103.150887 ,"y":23.362711  ,"date":"2016/10/6 11:51"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/6 12:10"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/6 14:48"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/6 14:48"},
+            {"x":103.157013 ,"y":23.360029  ,"date":"2016/10/6 17:08"},
+            {"x":103.15554 ,"y":23.362329  ,"date":"2016/10/6 17:30"},
+            {"x":103.15554 ,"y":23.362329  ,"date":"2016/10/6 17:31"},
+            {"x":103.155739 ,"y":23.35981  ,"date":"2016/10/6 17:45"},
+            {"x":103.156441 ,"y":23.353559  ,"date":"2016/10/6 18:00"},
+            {"x":103.156441 ,"y":23.353559  ,"date":"2016/10/6 18:01"},
+            {"x":103.156509 ,"y":23.35557  ,"date":"2016/10/6 18:02"},
+            {"x":103.156441 ,"y":23.353559  ,"date":"2016/10/6 19:26"},
+            {"x":103.154068 ,"y":23.35907  ,"date":"2016/10/6 19:47"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/6 20:39"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/6 20:41"},
+            {"x":103.147171 ,"y":23.358919  ,"date":"2016/10/6 21:02"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/6 21:17"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/7 7:52"},
+            {"x":103.147171 ,"y":23.358919  ,"date":"2016/10/7 9:05"},
+            {"x":103.148537 ,"y":23.36339  ,"date":"2016/10/7 9:14"},
+            {"x":103.15554 ,"y":23.362329  ,"date":"2016/10/7 10:54"},
+            {"x":103.15242 ,"y":23.365271  ,"date":"2016/10/7 11:09"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/7 11:34"},
+            {"x":103.147171 ,"y":23.358919  ,"date":"2016/10/7 11:42"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/7 14:48"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/7 14:48"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/7 15:09"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/7 17:42"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/7 17:42"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/7 19:27"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/8 7:35"},
+            {"x":103.157249 ,"y":23.35902  ,"date":"2016/10/8 8:07"},
+            {"x":103.184746 ,"y":23.501831  ,"date":"2016/10/8 9:32"},
+            {"x":102.833221 ,"y":23.631439  ,"date":"2016/10/8 10:49"},
+            {"x":102.634033 ,"y":23.64867  ,"date":"2016/10/8 13:31"},
+            {"x":102.634033 ,"y":23.64867  ,"date":"2016/10/8 14:48"},
+            {"x":102.634033 ,"y":23.64867  ,"date":"2016/10/8 14:48"},
+            {"x":102.607719 ,"y":23.640909  ,"date":"2016/10/9 8:28"},
+            {"x":102.607719 ,"y":23.640909  ,"date":"2016/10/9 8:55"},
+            {"x":102.499008 ,"y":23.663509  ,"date":"2016/10/9 11:34"},
+            {"x":102.490189 ,"y":23.685743  ,"date":"2016/10/9 11:44"},
+            {"x":102.496071 ,"y":23.69981  ,"date":"2016/10/9 11:47"},
+            {"x":102.490189 ,"y":23.685743  ,"date":"2016/10/9 11:48"},
+            {"x":102.490189 ,"y":23.685743  ,"date":"2016/10/9 11:51"},
+            {"x":102.496071 ,"y":23.69981  ,"date":"2016/10/9 11:54"},
+            {"x":102.496071 ,"y":23.69981  ,"date":"2016/10/9 11:58"},
+            {"x":102.499008 ,"y":23.663509  ,"date":"2016/10/9 12:17"},
+            {"x":102.507477 ,"y":23.70615  ,"date":"2016/10/9 12:33"},
+            {"x":102.48632 ,"y":23.713221  ,"date":"2016/10/9 14:26"},
+            {"x":102.492058 ,"y":23.716261  ,"date":"2016/10/9 14:33"},
+            {"x":102.493057 ,"y":23.711559  ,"date":"2016/10/9 14:47"},
+            {"x":102.493057 ,"y":23.711559  ,"date":"2016/10/9 14:47"},
+            {"x":102.493057 ,"y":23.711559  ,"date":"2016/10/9 15:07"},
+            {"x":102.511032 ,"y":23.72081  ,"date":"2016/10/9 15:26"},
+            {"x":102.607719 ,"y":23.640909  ,"date":"2016/10/9 18:08"},
+            {"x":102.607719 ,"y":23.640909  ,"date":"2016/10/9 18:42"},
+            {"x":102.607719 ,"y":23.640909  ,"date":"2016/10/9 18:42"},
+            {"x":102.607719 ,"y":23.640909  ,"date":"2016/10/9 18:42"},
+            {"x":102.607719 ,"y":23.640909  ,"date":"2016/10/9 18:42"},
+            {"x":102.607719 ,"y":23.640909  ,"date":"2016/10/9 20:49"},
+            {"x":102.607719 ,"y":23.640909  ,"date":"2016/10/9 22:45"},
+            {"x":102.607719 ,"y":23.640909  ,"date":"2016/10/10 8:45"},
+            {"x":102.989479 ,"y":23.637409  ,"date":"2016/10/10 10:40"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/10 14:49"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/10 14:49"},
+            {"x":103.157013 ,"y":23.360029  ,"date":"2016/10/10 15:16"},
+            {"x":103.157249 ,"y":23.35902  ,"date":"2016/10/10 16:15"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/10 16:47"},
+            {"x":103.161362 ,"y":23.360081  ,"date":"2016/10/10 17:12"},
+            {"x":103.149353 ,"y":23.356649  ,"date":"2016/10/10 21:21"},
+        ],
+        "line3":[
+            {"x":103.284889  ,"y":23.409479  ,"date":"2016/10/1 10:01"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/1 14:18"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/1 16:47"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/1 18:23"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/1 18:23"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/1 18:31"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/1 18:35"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/1 18:52"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/1 18:52"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/1 19:40"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/1 19:42"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/1 20:50"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/1 20:50"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/1 20:50"},
+            {"x":103.284889  ,"y":23.409479  ,"date":"2016/10/2 8:47"},
+            {"x":103.284889  ,"y":23.409479  ,"date":"2016/10/2 10:09"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/2 15:37"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/2 16:35"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/2 19:17"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/2 19:24"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/2 19:25"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/2 19:40"},
+            {"x":103.284889  ,"y":23.409479  ,"date":"2016/10/3 8:53"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/3 18:20"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/3 19:07"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/3 19:19"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/3 19:28"},
+            {"x":103.284889  ,"y":23.409479  ,"date":"2016/10/4 10:46"},
+            {"x":103.275108  ,"y":23.414249  ,"date":"2016/10/4 12:59"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/4 19:18"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/4 19:44"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/4 19:54"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/4 20:08"},
+            {"x":103.283188  ,"y":23.40974  ,"date":"2016/10/5 8:54"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/5 8:55"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/5 9:11"},
+            {"x":103.284889  ,"y":23.409479  ,"date":"2016/10/5 9:17"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/5 15:51"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/5 16:05"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/5 19:03"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/5 19:04"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/5 19:05"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/5 19:27"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/5 19:37"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/6 7:23"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/6 15:57"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/6 15:57"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/6 17:27"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/6 19:24"},
+            {"x":103.284889  ,"y":23.409479  ,"date":"2016/10/7 9:11"},
+            {"x":103.284889  ,"y":23.409479  ,"date":"2016/10/7 11:02"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/7 13:44"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/7 14:42"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/7 16:07"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/7 16:43"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/7 16:47"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/7 18:58"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/7 19:26"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/8 8:21"},
+            {"x":103.278709  ,"y":23.377371  ,"date":"2016/10/8 9:36"},
+            {"x":103.284889  ,"y":23.409479  ,"date":"2016/10/8 11:56"},
+            {"x":103.284889  ,"y":23.409479  ,"date":"2016/10/8 12:22"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/8 13:11"},
+            {"x":103.244568  ,"y":23.41955  ,"date":"2016/10/8 14:29"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/9 12:41"},
+            {"x":103.280746  ,"y":23.40461  ,"date":"2016/10/9 15:44"},
+            {"x":103.154137  ,"y":23.38994  ,"date":"2016/10/9 16:53"},
+            {"x":103.150948  ,"y":23.39164  ,"date":"2016/10/9 17:18"},
+            {"x":103.150948  ,"y":23.39164  ,"date":"2016/10/9 19:11"},
+            {"x":103.154137  ,"y":23.38994  ,"date":"2016/10/9 19:12"},
+            {"x":103.150948  ,"y":23.39164  ,"date":"2016/10/9 19:51"},
+            {"x":103.273529  ,"y":23.40255  ,"date":"2016/10/9 23:27"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/10 11:24"},
+            {"x":103.279007  ,"y":23.37731  ,"date":"2016/10/10 19:22"},
+        ],
+    }
+        var pointA = {
+            "line1":[
+                { "x":102.73,
+                    "y":25.04,
+                    "date":"2017/01/01 00:00:00"
+                },
+                {
+                    "x":104.06,
+                    "y":30.57,
+                    "date":"2017/01/03 00:00:00"
+                },
+                {
+                    "x":106.23,
+                    "y":38.48,
+                    "date":"2017/01/05 00:00:00"
+                },
+                {
+                    "x":91.17 ,
+                    "y":29.65,
+                    "date":"2017/01/09 00:00:00"
+                },
+                {
+                    "x":94.17 ,
+                    "y":30.65,
+                    "date":"2017/01/11 00:00:00"
+                }
+                ,
+                {
+                    "x":96.17 ,
+                    "y":29.65,
+                    "date":"2017/01/20 00:00:00"
+                }
+                ,
+                {
+                    "x":100.17 ,
+                    "y":29.65,
+                    "date":"2017/01/24 00:00:00"
+                }
+                ,
+                {
+                    "x":103.17 ,
+                    "y":29.65,
+                    "date":"2017/01/25 00:00:00"
+                }
+                ,
+                {
+                    "x":104.17 ,
+                    "y":30.65,
+                    "date":"2017/01/26 00:00:00"
+                }
+                ,
+                {
+                    "x":105.17 ,
+                    "y":31.65,
+                    "date":"2017/02/09 00:00:00"
+                }
+                ,
+                {
+                    "x":100.17 ,
+                    "y":25.65,
+                    "date":"2017/02/12 00:00:00"
+                }
+                ,
+                {
+                    "x":110.17 ,
+                    "y":29.65,
+                    "date":"2017/02/15 00:00:00"
+                }
+                ,
+                {
+                    "x":92.17 ,
+                    "y":33.65,
+                    "date":"2017/01/17 00:00:00"
+                }
+            ],
+            "line2":[
+                {
+                    "x":103.73,
+                    "y":36.03,
+                    "date":"2017/01/05 00:00:00"
+                },
+                {
+                    "x":118.78,
+                    "y":32.04,
+                    "date":"2017/01/09 00:00:00"
+                },
+                {
+                    "x":108.35,
+                    "y":30.83,
+                    "date":"2017/03/13 00:00:00"
+                }
+            ]
+        }
+    var map = new BMap.Map("allmap",{minZoom:5,maxZoom:11});
+    map.centerAndZoom("昆明",5);
+    map.addControl(new BMap.MapTypeControl());
+    map.enableScrollWheelZoom(true);
+    var num = 1;
+    var item = "line"+num;
+    var points = [];
+    var nowTime;
+    var oldMarker;
+
+    function calculatedToDay(time){
+        time = time/1000/60/60/24;
+        return time;
+    }
+    function calculatedToHour(time){
+        time = time/1000/60/60;
+        return time;
+    }
+    function calculatedToMinute(time){
+        teime = time/1000/60;
+        return time;
+    }
+    function calculatedToSecond(time){
+        teime = time/1000;
+        return time;
+    }
+
+    //日期排序
+    function upDate(x,y){
+        return(x.date>y.date)?1:-1;
+    }
+    window.onload = function(){
+
+    }
+    function addPoint(){
+        var line = [];
+        var maxTime,minTime;
+        var timeline = [];
+        var index = 0;
+        var polyline = [];
+        nowTime = new Date($("#time").val());
+        minTime = new Date(points[0].date);
+        maxTime = new Date(points[points.length-1].date);
+//        设置进度条label
+        sliderLabel(minTime,maxTime);
+        console.log("max:"+maxTime+"min:"+minTime);
+//        当前时间点所在的位置
+//        if(nowTime>minTime&&nowTime<=maxTime){
+//            while(nowTime>new Date(points[index].date)){
+//                index++;
+//                console.log(index);
+//            }
+//            for(var i=index-1;i<=index;i++){
+//                var start,end;
+//                var line;
+//                var marker = new BMap.Marker(points[i]);
+//                map.addOverlay(marker);
+//                timeline.push(points[i]);
+//            }
+//            var polyline = new BMap.Polyline(timeline,{strokeColor:"blue",strokeWeight:2,strokeOpacity:0.5});
+//            map.addOverlay(polyline);
+//            addShow(polyline);
+//        }
+        //完整路线图
+        for(var i =0;i<points.length;i++){
+            var start,end;
+            start = new BMap.Label("起点"+i,{offset:new BMap.Size(20,-10)});
+            end = new BMap.Label("终点"+(points.length-i),{offset:new BMap.Size(20,-10)});
+            var marker = new BMap.Marker(points[i]);
+            if(i == 0){
+                marker.setLabel(start);
+            }else if(i == points.length-1){
+                marker.setLabel(end);
+            }
+            map.addOverlay(marker);
+        }
+        polyline = new BMap.Polyline(points,{strokeColor:"blue",strokeWeight:2,strokeOpacity:0.5});
+        map.addOverlay(polyline);
+        addShow(polyline);
+        line = polyline;
+    }
+
+    function addShow(polyline){
+        var linePoint=polyline.getPath();//线的坐标串 (点)
+        var markers=new Array();
+        var carMk;
+        var pixelStart;
+        var pixelEnd;
+        var xn;
+        var yn;
+        var zn;
+        var nn;
+        var calculatedTime;
+        var labelNum = 0;
+        var index = 1;
+            while (new Date(dateLabel[labelNum])>= new Date(linePoint[index-1].date)&&new Date(dateLabel[labelNum]) < new Date(linePoint[index].date)) {
+                nowTime = new Date(dateLabel[labelNum]);
+                pixelStart = map.pointToPixel(linePoint[index-1]);//像素坐标转换
+                pixelEnd = map.pointToPixel(linePoint[index]);
+                xn = pixelEnd.x - pixelStart.x;
+                yn = pixelEnd.y - pixelStart.y;
+                zn = Math.sqrt(xn * xn + yn * yn);//直线长度
+                nn = zn / calculatedToSecond(new Date(linePoint[index].date) - new Date(linePoint[index -1].date));//全长/时间差
+                var x1 = 0;
+                var y1 = 0;
+                var point1;
+                x1 = pixelStart.x + xn / zn * nn * calculatedToSecond(nowTime - new Date(linePoint[index - 1].date));
+                y1 = pixelStart.y + yn / zn * nn * calculatedToSecond(nowTime - new Date(linePoint[index - 1].date));
+                point1 = map.pixelToPoint(new BMap.Pixel(x1, y1));
+                carMk = new BMap.Marker(point1, {icon: myIcon});
+                markers.push(new BMap.Marker(point1));
+                map.addOverlay(markers);
+                map.addOverlay(carMk);
+                labelNum++;
+                debugger;
+                    while(index != (linePoint.length-1)&&new Date(dateLabel[labelNum])>=new Date(linePoint[index].date)) {
+                        index++;
+                        console.log(index);
+                    }
+                }
+    }
+//        for(var i = 0;i<linePoint.length-1;i++){
+//            while(new Date(dateLabel[labelNum])>new Date(linePoint[i+1].date)){
+//                nowTime = new Date(dateLabel[labelNum]);
+//
+//                i++;
+//            }
+//            debugger;
+//            pixelStart=map.pointToPixel(linePoint[i]);//像素坐标转换
+//            pixelEnd=map.pointToPixel(linePoint[i+1]);
+//            xn=pixelEnd.x-pixelStart.x;
+//            yn=pixelEnd.y-pixelStart.y;
+//            zn=Math.sqrt(xn*xn+yn*yn);//直线长度
+//            nn=zn/calculatedToSecond(new Date(linePoint[i+1].date)-new Date(linePoint[i].date));//全长/时间差
+//            var x1=0;
+//            var y1=0;
+//            var point1;
+//                x1=pixelStart.x+xn/zn*nn*calculatedToSecond(nowTime-new Date(linePoint[i].date));
+//                y1=pixelStart.y+yn/zn*nn*calculatedToSecond(nowTime-new Date(linePoint[i].date));
+//                point1=map.pixelToPoint(new BMap.Pixel(x1,y1));
+//                markers.push(new BMap.Marker(point1));
+//                map.addOverlay(markers);
+//        }
+
+
+
+
+//        pixelStart=map.pointToPixel(linePoint[0]);//像素坐标转换
+//        pixelEnd=map.pointToPixel(linePoint[1]);
+//        xn=pixelEnd.x-pixelStart.x;
+//        yn=pixelEnd.y-pixelStart.y;
+//        zn=Math.sqrt(xn*xn+yn*yn);//直线长度
+//        nn=zn/calculatedToSecond(new Date(linePoint[1].date)-new Date(linePoint[0].date));//全长/时间差
+
+//            alert("I:"+i+"--xn:"+xn+"--yn:"+yn+"--zn:"+zn+"--nn:"+nn);
+
+//        var x1=0;
+//        var y1=0;
+//        var point1;
+
+//        for(var i = 0;i<dateLabel.length;i++){
+//            x1=pixelStart.x+xn/zn*nn*calculatedToSecond(dateLabel[i]-new Date(linePoint[0].date));
+//            y1=pixelStart.y+yn/zn*nn*calculatedToSecond(dateLabel[i]-new Date(linePoint[0].date));
+//        }
+
+//        x1=pixelStart.x+xn/zn*nn*calculatedToSecond(nowTime-new Date(linePoint[0].date));
+//        y1=pixelStart.y+yn/zn*nn*calculatedToSecond(nowTime-new Date(linePoint[0].date));
+////像素坐标转换为经纬度坐标。
+//        point1=map.pixelToPoint(new BMap.Pixel(x1,y1));
+//        carMk = new BMap.Marker(point1,{icon:myIcon});
+//        markers.push(new BMap.Marker(point1),{icon:myIcon});
+////        map.addOverlay(carMk);
+//    }
+
+</script>

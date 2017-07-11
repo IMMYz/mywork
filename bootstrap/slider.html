@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+    <link type="text/css" rel="stylesheet" href="js/bootstrap-silder/bootstrap-slider.css"></link>
+    <script type="text/javascript" src="js/bootstrap-silder/bootstrap-slider.js"></script>
+</head>
+<style>
+    .width-50{
+        width:50px
+    }
+</style>
+<body>
+<div style="margin-top:30px">
+    <input id="ex8" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="20" data-slider-step="1" data-slider-value="14"/>
+</div>
+<div class="container">
+    <ul style="height: 50px;width: 50px;overflow: hidden;position: relative;">
+        <div>
+        <li style="float:left"><div class="width-50">1</div></li>
+        <li style="float:left"><div class="width-50">2</div></li>
+        <li style="float:left"><div class="width-50">3</div></li>
+        <li style="float:left"><div class="width-50">4</div></li>
+            <div style="clear:both"></div>
+        </div>
+    </ul>
+    <div id="slidemarginleft" class="slide" style="width: 60%;float: left">
+        <button>
+            slide it
+        </button>
+        <div class="inner">
+            Slide from bottom
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    $("#ex8").slider({
+        tooltip: 'always'
+    });
+    $("#slidemarginleft button").click(function(){
+        var $marginlefty = $(this).next();
+        $marginlefty.animate({
+            marginLeft:parseInt($marginlefty.css('marginLeft'),10)==0 ? $marginlefty.outerWidth() : 0
+        });
+    });
+</script>

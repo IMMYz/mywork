@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="css/select2.css">
+    <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs">
+                <li class="clue_tabs active ticket"><a href="javascript:void(0)" analyisType="show" onclick="showJump(this)"><span ></span> 话单详情</a></li>
+                <li class="clue_tabs ticket"><a href="javascript:void(0)" analysisType="COUNT" onclick="countJump(this)"><span ></span> 通话次数</a></li>
+                <li class="clue_tabs ticket"><a href="javascript:void(0)" analysisType="CALL_LENGTH" onclick="callLengthJump(this)"><span ></span> 通话时间</a></li>
+                <li class="clue_tabs ticket"><a href="javascript:void(0)" analysisType="DATE" onclick="dateJump(this)"><span ></span> 通话日期</a></li>
+                <li class="clue_tabs ticket"><a href="javascript:void(0)" analysisType="IMEI" onclick="imeiJump(this)"><span ></span> 串号</a></li>
+                <li class="clue_tabs ticket"><a href="javascript:void(0)" analysisType="CI" onclick="ciJump(this)"><span ></span> 基站统计</a></li>
+                <li class="clue_tabs ticket"><a href="javascript:void(0)" analysisType="MORNING_NIGHT" onclick="morningJump(this)"><span ></span> 最早最晚通话</a></li>
+                <li class="clue_tabs active"><a href="javascript:void(0)" analysisType="MORNING_NIGHT" onclick="morningJump(this)"><span ></span> 最早最晚通话</a></li>
+            </ul>
+        </div>
+        <div class="col-md-5">
+            <select class="form-control" id="selectID" name="" style="text-align:center">
+                <option style="text-align:center" value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+            </select>
+            <button class="btn btn-primary" abc="abc" onclick="abc(this)">
+                123
+            </button>
+        </div>
+    </div>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    function abc(ele){
+        alert($(ele).attr("abc"));
+    }
+</script>

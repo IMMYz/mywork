@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+</body>
+</html>
+<script type="text/javascript">
+    var pointA = {
+        "point1":[{
+            "x":102.73,
+            "y":25.04,
+            "time":"2017/4/21"
+        },
+            {
+                "x":106.63,
+                "y":26.65,
+                "time":"2017/4/21"
+            },
+            {
+                "x":116.46,
+                "y":39.92,
+                "time":"2017/4/22"
+            }],
+        "point2":[
+            {
+                "x":103.73,
+                "y":36.03,
+                "time":"2017/4/21"
+            },
+            {
+                "x":118.78,
+                "y":32.04,
+                "time":"2017/4/21"
+            },
+            {
+                "x":108.35,
+                "y":30.83,
+                "time":"2017/4/22"
+            }
+        ]
+    }
+    var num = 1;
+    var item = "point"+num;
+    while(pointA[item]!=undefined){
+        for(i in pointA[item]){
+            var x = pointA[item][i].x;
+            var y = pointA[item][i].y;
+            point.push(new BMap.Point(106.63,26.65))
+        }
+        num++;
+        item = "point"+num;
+    }
+
+</script>

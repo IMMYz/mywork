@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=gb2312" />
+    <title>标注沿折线运动</title>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=1.3"></script>
+</head>
+<body>
+<div style="width:1320px;height:640px;border:1px solid gray" id="container"></div>
+<input type='button' value='开始' onclick='run();' />
+</body>
+</html>
+<script type="text/javascript">
+    <!DOCTYPE html>
+    <html lang="en">
+        <head>
+        <meta charset="UTF-8">
+        <title>Title</title>
+        </head>
+        <style>
+        body,html{
+        width:100%;
+        height:100%
+    }
+    #allmap{
+        width:50%;
+        height:100%;
+        margin:0 auto;
+    }
+    #control{
+        position:absolute;
+        top:0;
+        left:0
+    }
+    </style>
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DE0abf6cf5580f24857faef21a4b3870"></script>
+<body>
+<div id="allmap"></div>
+<div id="control">
+    <button type="button" onclick="start()">开始</button>
+    <button type="button" onclick="pause()">暂停</button>
+    <button type="button">停止</button>
+</div>
+</body>
+</html>
+<script type="text/javascript">
+    //贵阳经纬度
+    //106.63 26.65
+    //昆明经纬度
+    //102.73 25.04
+    //GPS坐标转换
+    var points =[];
+    //    var pointsArr = [
+    //        {
+    //            "x":102.73,
+    //            "y":25.04,
+    //            "time":"2017/4/21"
+    //        },
+    //        {
+    //            "x":106.63,
+    //            "y":26.65,
+    //            "time":"2017/4/21"
+    //        },
+    //        {
+    //            "x":116.46,
+    //            "y":39.92,
+    //            "time":"2017/4/22"
+    //        }
+    //    ];
+    var points = []
+    var pointA = {
+        "point1":[{
+            "x":102.73,
+            "y":25.04,
+            "time":"2017/4/21"
+        },
+            {
+                "x":106.63,
+                "y":26.65,
+                "time":"2017/4/21"
+            },
+            {
+                "x":116.46,
+                "y":39.92,
+                "time":"2017/4/22"
+            }],
+        "point2":[
+            {
+                "x":103.73,
+                "y":36.03,
+                "time":"2017/4/21"
+            },
+            {
+                "x":118.78,
+                "y":32.04,
+                "time":"2017/4/21"
+            },
+            {
+                "x":108.35,
+                "y":30.83,
+                "time":"2017/4/22"
+            }
+        ],
+        "point3":[
+            { "x":106.63,
+                "y":26.65,
+                "time":"2017/4/21"},
+            {"x":101.74 ,
+                "y":36.56,
+                "time":"2017/4/21"},
+            {
+                "x":87.68 ,
+                "y":43.77,
+                "time":"2017/4/21"
+            }
+        ]
+    }
+    var num = 1;
+    var item = "point"+num;
+
+    var map = new BMap.Map("allmap",{minZoom:5,maxZoom:11});
+    map.centerAndZoom("昆明",5);
+    map.addControl(new BMap.MapTypeControl());
+    map.enableScrollWheelZoom(true);
+
+    //    //向地图上批量添加点
+    //    translateCallback = function(data){
+    //        if(data.status === 0){
+    //            for(var i = 0;i < data.points.length;i++){
+    //                var start,end;
+    //                start = new BMap.Label("起点",{offset:new BMap.Size(20,-10)});//为地图上的点添加起点终点
+    //                end = new BMap.Label("终点",{offset:new BMap.Size(20,-10)});
+    //                var marker = new BMap.Marker(data.points[i]);
+    //                if(i == 0){
+    //                    marker.setLabel(start);
+    //                }else if(i == points.length - 1){
+    //                    marker.setLabel(end);
+    //                }
+    //                map.addOverlay(marker);
+    //                map.setCenter(data.points[i]);
+    //            }
+    //            var polyline = new BMap.Polyline(points,{strokeColor:"blue",strokeWeight:2,strokeOpacity:0.5})       //添加折线
+    //            map.addOverlay(polyline);
+    //        }
+    //    }
+    //    setTimeout(function(){
+    //        var convertor = new BMap.Convertor();
+    //        convertor.translate(points,1,5,translateCallback)
+    //    },1000);
+    //运动
+    var myP1,myP2;
+    myP1 = new BMap.Point(106.63,26.65);
+    myP2 = new BMap.Point(87.68,43.77);
+    var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/Mario.png", new BMap.Size(32, 70), {    //小车图片
+        //offset: new BMap.Size(0, -5),    //相当于CSS精灵
+        imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+    });
+    //    绘制路线
+    //    var driving2 = new BMap.DrivingRoute(map, {renderOptions:{map: map, autoViewport: false}});
+    //    driving2.search(myP1,myP2);
+    window.run = function(){
+        var driving = new BMap.DrivingRoute(map);
+        driving.search(myP1,myP2);
+        driving.setSearchCompleteCallback(function(){
+            var pts = driving.getResults().getPlan(0).getRoute(0).getPath();
+            var paths = myPoint.length;
+            var carMk = new BMap.Marker(myPoint[0],{icon:myIcon});
+            map.addOverlay(carMk);
+            i = 0;
+            function resetMkPoint(i){
+                carMk.setPosition(myPoint[i]);
+                if(i < paths){
+                    setTimeout(function(){
+                        i++;
+                        resetMkPoint(i);
+                    },3000);
+                }
+                console.log(i)
+            }
+            setTimeout(function(){
+                resetMkPoint(1);
+            },3000)
+        })
+    }
+    var myPoint = [];
+    //    setTimeout(function(){
+    ////        run();
+    //        for(var i=0;i<myPoint.length;i++)
+    //        addRun(myPoint[i]);
+    //    },1500)
+    var cNum = 0;//颜色部分
+
+    function pause(){
+        clearInterval(t);
+    }
+    function start(){
+        for(var i=0;i<myPoint.length;i++) {
+            console.log(myPoint[i]);
+            addRun(myPoint[i]);
+        }
+    }
+
+    color= ["#008B45","#FF0000","#8A2BE2","#9370DB"];
+    function addPoint(){
+        for(var i = 0;i < points.length;i++){
+            var start,end;
+            start = new BMap.Label("起点"+i,{offset:new BMap.Size(20,-10)});//为地图上的点添加起点终点
+            end = new BMap.Label("终点"+i,{offset:new BMap.Size(20,-10)});
+            var marker = new BMap.Marker(points[i]);
+            if(i == 0){
+                marker.setLabel(start);
+            }else if(i == points.length - 1){
+                marker.setLabel(end);
+            }
+            map.addOverlay(marker);
+            var polyline = new BMap.Polyline(points,{strokeColor:color[cNum],strokeWeight:2,strokeOpacity:0.5})       //添加折线
+            map.addOverlay(polyline);
+            map.setCenter(points[i]);
+        }
+        cNum++;
+        console.log(polyline.getPath());
+        myPoint.push(polyline);
+    }
+
+    //addrun
+    function addRun(polyline){
+        var linePoint=polyline.getPath();//线的坐标串 (点)
+        var markers=new Array();
+        var pixelStart;
+        var pixelEnd;
+        var xn;
+        var yn;
+        var zn;
+        var nn;
+        var dValue = 5;
+        for(var i=0;i<linePoint.length-1;i++){//n个点,n-1条直线
+            pixelStart=map.pointToPixel(linePoint[i]);
+            pixelEnd=map.pointToPixel(linePoint[i+1]);
+            xn=pixelEnd.x-pixelStart.x;
+            yn=pixelEnd.y-pixelStart.y;
+            zn=Math.sqrt(xn*xn+yn*yn);//直线长度
+            nn=zn/2 //全长/每次移动长度=时间
+//            alert("I:"+i+"--xn:"+xn+"--yn:"+yn+"--zn:"+zn+"--nn:"+nn);
+            var x1=0;
+            var y1=0;
+            var point1;
+            for(var a=1;a<2;a++){
+                x1=pixelStart.x+xn/zn*nn*a;
+                y1=pixelStart.y+yn/zn*nn*a;
+//像素坐标转换为经纬度坐标。
+                point1=map.pixelToPoint(new BMap.Pixel(x1,y1));
+                markers.push(new BMap.Marker(point1));
+            }
+        }
+        var m=1;
+        var t=setInterval(function(){
+            map.addOverlay(markers[m-1]);
+            if(m!=1){
+                map.removeOverlay(markers[m-2]);
+            }
+            if(m==markers.length+1){//运动结束
+                clearInterval(t);
+            }
+            m++;
+        },200);
+    }
+
+    window.onload = function(){
+        //经纬度坐标批量转换
+        var convertor = new BMap.Convertor();
+        while(pointA[item]!=undefined){
+            for(i in pointA[item]){
+                var x = pointA[item][i].x;
+                var y = pointA[item][i].y;
+                points.push(new BMap.Point(x,y));
+            }
+            addPoint();
+//            convertor.translate(points,1,5,translateCallback);
+            num++;
+            item = "point"+num;
+            points = [];
+        }
+    }
+</script>
+</script>

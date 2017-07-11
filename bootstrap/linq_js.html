@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+
+</head>
+<body>
+
+</body>
+</html>
+<!--<script type="text/javascript" src="https://cdn.bootcss.com/linq.js/2.2.0.2/jquery.linq.js"></script>-->
+<script type="text/javascript" src="js/JSLINQ.js"></script>
+<script type="text/javascript">
+    //重复输出5个3
+    var Enumerable = require('linq');
+    Enumerable.Repeat(3).Take(5);//33333
+    //输出10开始5个值
+    Enumerable.Range(10,5);//10,11,12,13,14
+    //随机
+    Enumerable.Choice("a","b","c","d").Take(5)//随机输出a,b,c,d
+    //输出大于7个数
+    Enumerable.Range(1,10).Count("$>7")//3
+    //输出指定位置的值
+    Enumerable.Range(1,10).ElementAt(3)//4
+    var arr = [
+        {
+            name:'abcd',
+            item:{
+                list:[1,2,3,4]
+            }
+        },
+        {
+            name:'123',
+            item:{
+                list:[3,4,5,6,7,8]
+            }
+        },
+        {
+            name:'你好',
+            item:{
+                list:[5,6,7,8,9]
+            }
+        }
+    ]
+    //选择name字段
+    Enumerable.From(arr).Select('$.name');//abcd,123,你好
+    //输出index为1的
+    Enumerable.From(arr).Select('$.name').Where('v,i=>i==1');//123
+    //输出所有的list
+    Enumerable.From(arr).SelectMany('$.item.list');//123434567856789
+    //输出去重的list
+    Enumerable.From(arr).SelectMany('$.item.list').Distinct();//123456789
+    //倒叙
+    Enumerable.From(arr).SelectMany('$.item.list').Distinct().OrderByDescending();//987654321
+    //分组
+    Enumerable.From(arr).SelectMany('$.item.list').Distinct().GroupBy('$%3').Select("$.Key() + ':' + $.ToString('-')");//1:1-4-7,2:2-5-8,0:3-6-9
+
+
+</script>

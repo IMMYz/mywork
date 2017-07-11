@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<form>
+    <div id="example-1" class="demo">
+        <input v-model="message" placeholder="edit me">
+        <p>Message is: {{ message }}</p>
+    </div>
+    <div id="input1">
+        <input v-model="msg" placeholder="edit me">
+        <p>msg is:{{msg}}</p>
+        <input type="text" v-model="msg">
+    </div>
+    <div id="example-2">
+    <input type="checkbox" id="checkbox" v-model="check">
+    <label for="checkbox">{{check}}</label>
+    </div>
+    <div id="checkName">
+        <input type="checkbox" id="jack" value="jack" v-model="checkedNames">
+        <label for="jack">jack</label>
+        <input type="checkbox" id="dssy" value="dssy" v-model="checkedNames">
+        <label for="dssy">dssy</label>
+        <input type="checkbox" id="pom" value="pom" v-model="checkedNames">
+        <label for="pom">pom</label>
+        <p>checkedNames: {{checkedNames}}</p>
+    </div>
+    <div id="selected">
+    <select v-model="selected">
+        <option v-for="option in options" v-bind:value = "option.value">
+            {{option.text}}
+        </option>
+    </select>
+    <span>Selected:{{selected}}</span>
+    </div>
+    <div id="app-4">
+        <ol>
+            <li v-for="todo in todos">
+                {{ todo.text }}
+            </li>
+        </ol>
+    </div>
+    <script>
+        var app4 = new Vue({
+            el: '#app-4',
+            data: {
+                todos: [
+                    { text: '学习 JavaScript' },
+                    { text: '学习 Vue' },
+                    { text: '整个牛项目' }
+                ]
+            }
+        })
+    </script>
+    <div id="array">
+        <li v-for="item in items">
+            <span>{{item.name}}</span>
+            <span>{{item.age}}</span>
+        </li>
+
+    </div>
+    <script>
+        var sz = [{name:'a',age:'1'},{name:'b',age:'2'}]
+        new Vue({
+            el:"#array",
+            data:{
+                items:sz
+            }
+        })
+    </script>
+</form>
+<script>
+    new Vue({
+        el: '#input1',
+        data: {
+            msg: ''
+        }
+    })
+
+    new Vue({
+        el: '#example-1',
+        data: {
+            message: ''
+        }
+    })
+
+    new Vue({
+        el:"#example-2",
+        data:{
+            check:true
+        }
+    })
+    new Vue({
+        el:"#checkName",
+        data:{
+            checkedNames:[]
+        }
+    })
+    new Vue({
+        el:"#selected",
+        data:{
+            selected:'A',
+            options:[
+                {text:'One',value:'A'},
+                {text:'Two',value:'B'},
+                {text:'Three',value:'C'}
+            ]
+        }
+    })
+</script>
+</body>
+</html>
