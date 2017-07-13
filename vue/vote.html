@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>投票</title>
+    <link rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+    <link rel="stylesheet" href="css/background.css">
+    <link rel="stylesheet" href="css/voteV2.css">
+    <script type="text/javascript" src="../echarts/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body style="background-color:#e9e9fb;">
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<div class="container" id="app">
+    <div class="row bg navbar-fixed-top">
+        <div class="col-md-12 col-sm-12 text-center" style="width:100%">
+            <h2 style="color:#fff;text-align: center;width:100%;margin-top:10px;line-height:1.2">云南省2017年"千百万人才工程"国家级人选推荐评审</h2>
+        </div>
+        <div class="max-div marginTop6">
+            <div class="col-md-7 col-xs-7 col-sm-7 max-agree" v-if="limit">
+                <p>本次投票最多推荐人数：<span></span></p>
+            </div>
+            <div class="col-md-5 col-xs-5 col-sm-5 ">
+                <button type="button" class="col-md-5 col-xs-5 col-sm-5 btn btn-primary button-v2" onclick="return doReset();">重置</button>
+                <button type="button" class="col-md-5 col-xs-5 col-sm-5 btn btn-primary button-v2" onclick="return doSubmit();">提交</button>
+            </div>
+        </div>
+    </div>
+    <div class="xsheight" style="height: 160px;"></div>
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12 clearfix">
+            <div id="tab-title-1" class="tab-title"><a href="javascript:void(0)">首选人(<span>{{candidates.length}}</span>)</a></div>
+            <div id="tab-title-2" class="tab-title"><a href="javascript:void(0)">推荐(<span>{{recommend.length}}</span>)</a></div>
+            <div id="tab-title-3" class="tab-title"><a href="javascript:void(0)">不推荐(<span>{{unrecommend.length}}</span>)</a></div>
+            <div id="tab-title-4" class="tab-title right" style="float:right"><a href="javascript:void(0)">快速投票(<span>11</span>)</a></div>
+        </div>
+        <div id="tab1" class="tab col-md-12 col-sm-12 col-xs-12 active">
+            <ul class="list-group">
+                <li class="list-group-item" v-for="candidate in candidates">
+                        <span :voteObjNum="candidate.voteObjNum" :name="candidate.name" :org="candidate.org">{{candidate.voteObjNum}}.{{candidate.name}}--{{candidate.org}}</span><br/>
+                    <span v-for="(item,index) in choice" >
+                            <input type="radio" class="options" :name="candidate.voteObjNum" :value="index"/>{{item}}
+                    </span>
+                </li>
+            </ul>
+        </div>
+        <div id="tab2" class="tab col-md-12 col-sm-12 col-xs-12">
+            <ul class="list-group recommend-list">
+                <li v-for="item in recommend" class="list-group-item">
+                    <span :voteObjNum="item.voteObjNum">{{item.voteObjNum}}.{{item.name}}--{{item.org}}</span>
+                    <i class="glyphicon glyphicon-remove"
+                       v-on:click="remove(item.voteObjNum,1)"></i>
+                </li>
+            </ul>
+        </div>
+        <div id="tab3" class="tab col-md-12 col-sm-12 col-xs-12">
+            <ul class="list-group unrecommend-list">
+                <li v-for="item in unrecommend" class="list-group-item">
+                    <span>{{item.voteObjNum}}.{{item.name}}--{{item.org}}</span>
+                    <i class="glyphicon glyphicon-remove"
+                       v-on:click="remove(item.voteObjNum,1)"></i>
+                </li>
+            </ul>
+        </div>
+        <div id="tab4" class="tab col-md-12 col-sm-12 col-xs-12">
+            <ul style="list-style:none">
+                <li>
+                    <div class="name-div">
+                        <span class="num">1</span><span>tab4</span>
+                    </div>
+                    <div class="agree-div">
+                        <span class="agree"><i class="glyphicon glyphicon-heart"></i>推荐</span>
+                        <span class="disagree"><i class="glyphicon glyphicon-remove"></i>不推荐</span>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="footer col-md-12 col-sm-12 col-xs-12 clearfix navbar-fixed-bottom" >
+            <div class="col-md-8 col-sm-8 col-xs-8">
+                <input class="form-control"/>
+            </div>
+            <div class="col-md-4 col-sm-4 col-xs-4">
+                <button class="btn quick-vote">快速投票</button>
+            </div>
+        </div>
+    </div>
+    <a type="button" href="javascript:scroll(0,0)" id="backToTop">返回顶部</a>
+</div>
+</body>
+<script type="text/javascript">
+    var candidateData ={
+        candidates: [{'voteObjNum':'1','new':false,'org':'\u5355\u4F4D1','appType':'\u7C7B\u578B1','name':'\u4EBA\u65701','id':2,'createDate':'2017-07-12T15:33:59.675+08:00'}],
+        choice: ['\u63A8\u8350','\u4E0D\u63A8\u8350'],
+        voteType: 'Limit',
+        passCount: 5,
+        limit: 'Limit' === 'Limit'? true : false,
+        recommend:[],
+        unrecommend:[],
+        selectColor:''
+    }
+    new Vue({
+        el:"#app",
+        data:candidateData,
+        methods:{
+            remove:function(){
+            }
+        }
+    })
+    $('.options').change(function(){
+        var node = this.parentNode.parentNode.firstChild;
+        var data = {
+            voteObjNum : node.getAttribute('voteObjNum'),
+            name : node.getAttribute('name'),
+            org : node.getAttribute('org'),
+            result:this.value
+        }
+        if(this.value==0){
+            candidateData.recommend.push(data);
+        }else if(this.value==1){
+            candidateData.unrecommend.push(data);
+        }
+    })
+
+//    tab栏部分切换
+    $("#tab-title-1").click(function(){
+        $(".tab").removeClass('active');
+        $("#tab1").addClass('active');
+    })
+    $("#tab-title-2").click(function(){
+        $(".tab").removeClass('active');
+        $("#tab2").addClass('active');
+    })
+    $("#tab-title-3").click(function(){
+        $(".tab").removeClass('active');
+        $("#tab3").addClass('active');
+    })
+    $("#tab-title-4").click(function(){
+        $(".tab").removeClass('active');
+        $("#tab4").addClass('active');
+    })
+</script>
+</html>
