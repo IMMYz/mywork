@@ -1,0 +1,93 @@
+h2{
+    font-size:1.9em
+}
+.right{
+    float:right
+}
+.marginTop6{
+    margin-top:6%;
+}
+.max-div .button-v2:nth-child(1){
+    margin-right:10px
+}
+.max-agree{
+    line-height:2.5;
+    color:#fff;
+}
+.button-v2{
+    border-radius:22px;
+    background-color:rgba(0,115,255,0.6)
+}
+.tab-title{
+    text-align:center;
+    width:23%;
+    float:left;
+    background-color:rgb(79, 75, 79);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin-right:1px
+}
+.tab-title a{
+    display:block;
+    margin:10px 0;
+    color:#fff;
+}
+.agree{
+    color:#fa5c77;
+    margin-right:30px
+}
+.disagree{
+    color:blue;
+}
+.num{
+    display: block;
+    color:#fff;
+    background-color: #8787d3;
+    width: 20px;
+    height: 20px;
+    float: left;
+    text-align: center;
+    border-radius: 50%;
+    margin-right: 20px;
+}
+.name-div{
+    color:#8787d3;
+    margin: 20px 0;
+}
+.agree-div{
+    margin-left: 39px;
+}
+.footer{
+    height: 53px;
+    /* width: 30px; */
+    padding-top: 12px;
+    background-color: #7a09e6;
+    position: fixed;
+    bottom: 0;
+    text-align:center;
+}
+.quick-vote{
+    color: #fff;
+    background-color: #7a09e6;
+    font-weight: bold;
+    font-size: 1.3em;
+    margin-top: -3px;
+}
+.tab{
+    display:none;
+    padding-left:37px;
+}
+.active{
+    display:block;
+}
+
+@media screen and (min-width:1025px) {
+    .marginTop6{
+        margin-top:3%
+    }
+}
+@media (max-width:1024px){
+    .bg{
+        width:104%
+    }
+}
