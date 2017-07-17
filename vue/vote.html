@@ -38,7 +38,7 @@
         <div id="tab1" class="tab col-md-12 col-sm-12 col-xs-12 active">
             <ul class="list-group">
                 <li class="list-group-item" v-for="candidate in candidates">
-                        <span :voteObjNum="candidate.voteObjNum" :name="candidate.name" :org="candidate.org">{{candidate.voteObjNum}}.{{candidate.name}}--{{candidate.org}}</span><br/>
+                    <span :voteObjNum="candidate.voteObjNum" :name="candidate.name" :org="candidate.org">{{candidate.voteObjNum}}.{{candidate.name}}--{{candidate.org}}--{{choice[candidate.result]}}</span><br/>
                     <span v-for="(item,index) in choice" >
                             <input type="radio" class="options" :name="candidate.voteObjNum" :value="index"/>{{item}}
                     </span>
@@ -47,19 +47,19 @@
         </div>
         <div id="tab2" class="tab col-md-12 col-sm-12 col-xs-12">
             <ul class="list-group recommend-list">
-                <li v-for="item in recommend" class="list-group-item">
+                <li v-for="(item,index) in recommend" class="list-group-item">
                     <span :voteObjNum="item.voteObjNum">{{item.voteObjNum}}.{{item.name}}--{{item.org}}</span>
                     <i class="glyphicon glyphicon-remove"
-                       v-on:click="remove(item.voteObjNum,1)"></i>
+                       v-on:click="remove(recommend,item.voteObjNum,index)"></i>
                 </li>
             </ul>
         </div>
         <div id="tab3" class="tab col-md-12 col-sm-12 col-xs-12">
             <ul class="list-group unrecommend-list">
-                <li v-for="item in unrecommend" class="list-group-item">
+                <li v-for="(item,index) in unrecommend" class="list-group-item">
                     <span>{{item.voteObjNum}}.{{item.name}}--{{item.org}}</span>
                     <i class="glyphicon glyphicon-remove"
-                       v-on:click="remove(item.voteObjNum,1)"></i>
+                       v-on:click="remove(unrecommend.voteObjNum,index)"></i>
                 </li>
             </ul>
         </div>
@@ -88,9 +88,10 @@
     <a type="button" href="javascript:scroll(0,0)" id="backToTop">返回顶部</a>
 </div>
 </body>
+<script type="text/javascript" src="data.js"></script>
 <script type="text/javascript">
     var candidateData ={
-        candidates: [{'voteObjNum':'1','new':false,'org':'\u5355\u4F4D1','appType':'\u7C7B\u578B1','name':'\u4EBA\u65701','id':2,'createDate':'2017-07-12T15:33:59.675+08:00'}],
+        candidates: json,
         choice: ['\u63A8\u8350','\u4E0D\u63A8\u8350'],
         voteType: 'Limit',
         passCount: 5,
@@ -99,11 +100,18 @@
         unrecommend:[],
         selectColor:''
     }
+
+    $.each(candidateData.candidates,function(){
+        this.result = -1
+    })
+
+
     new Vue({
         el:"#app",
         data:candidateData,
         methods:{
-            remove:function(){
+            remove:function(array,voteObjNum,index){
+                array.splice(index,1);
             }
         }
     })
@@ -115,14 +123,36 @@
             org : node.getAttribute('org'),
             result:this.value
         }
-        if(this.value==0){
+        for(var i = 0;i<candidateData.candidates.length;i++){
+            if(candidateData.candidates[i].voteObjNum == data.voteObjNum){
+                candidateData.candidates[i].result = data.result;
+            }
+        }
+        if(data.result==0){
             candidateData.recommend.push(data);
-        }else if(this.value==1){
+            for(var i = 0;i<candidateData.unrecommend.length;i++){
+                if(candidateData.unrecommend[i].voteObjNum == data.voteObjNum){
+                    candidateData.unrecommend.splice(i,1);
+                }
+            }
+            candidateData.recommend.sort(compare);
+        }else if(data.result==1){
             candidateData.unrecommend.push(data);
+            for(var i = 0;i<candidateData.recommend.length;i++){
+                if(candidateData.recommend[i].voteObjNum == data.voteObjNum){
+                    candidateData.recommend.splice(i,1);
+                }
+            }
+            candidateData.unrecommend.sort(compare);
         }
     })
 
-//    tab栏部分切换
+    //    排序
+    function compare(a,b){
+        return a.voteObjNum - b.voteObjNum;
+    }
+
+    //    tab栏部分切换
     $("#tab-title-1").click(function(){
         $(".tab").removeClass('active');
         $("#tab1").addClass('active');
