@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tab</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<style type="text/css">
+    .tab{
+        width:200px;
+        height:200px;
+        background-color:grey;
+        color:#fff;
+    }
+    .tab-title{
+        float:left
+    }
+</style>
+<body>
+<div id="app">
+    <h2>tab1</h2>
+    <div>
+        <a href="javascript:void(0)" id="1" onclick="show(this)">tab1</a>
+        <a href="javascript:void(0)" id="2" onclick="show(this)">tab2</a>
+        <a href="javascript:void(0)" id="3" onclick="show(this)">tab3</a>
+        <a href="javascript:void(0)" id="4" onclick="show(this)">tab3</a>
+    </div>
+    <div class="tab" v-if="seen === '1'">
+        {{seen}}
+    </div>
+    <div class="tab" v-if="seen === '2'">
+        {{seen}}
+    </div>
+    <div class="tab" v-if="seen === '3'">
+        {{seen}}
+    </div>
+</div>
+
+<div id="app2">
+<ul>
+    <li class="tab-title" v-for="(item,index) in tab">{{item.tabNum}}</li>
+</ul>
+    <div v-for="item in tab">
+        {{item.text}}
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+var tab1 = new Vue({
+    el:'#app',
+    data:{seen:''},
+    methods:{
+        show:function(){
+            console.log(this)
+        }
+    }
+})
+    function show(node){
+    var tabNum = node.getAttribute('id');
+    tab.seen = tabNum;
+    }
+var tabs = {
+        tab:[{text:'tab1',tabNum:1},{text:'tab2',tabNum:2}]
+    };
+var tab2 = new Vue({
+    el:'#app2',
+    data:tabs
+})
+</script>
+</html>
