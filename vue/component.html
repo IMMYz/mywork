@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<body>
+<div id="app-7">
+    <ol>
+        <test-item v-for="item in spanList" v-bind:test="item" v-bind:key="item.id">
+
+        </test-item>
+    </ol>
+</div>
+<div id="app-8">
+    <ol>
+        <todo-item
+                v-for="item in groceryList"
+                v-bind:todo="item"
+                v-bind:key="item.id">
+        </todo-item>
+    </ol>
+</div>
+</body>
+
+<head>
+    <meta charset="UTF-8">
+    <title>component</title>
+</head>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/component.js"></script>
+<script type="text/javascript">
+    var app7 = new Vue({
+        el:'#app-7',
+        data:{
+            spanList:[
+                {id:0,text:'蔬菜11'},
+                {id:1,text:'奶酪11'},
+                {id:2,text:'随便其他什么人吃的东西11'}
+            ]
+        }
+    })
+
+    var app8 = new Vue({
+        el: '#app-8',
+        data: {
+            groceryList: [
+                { id: 0, text: '蔬菜' },
+                { id: 1, text: '奶酪' },
+                { id: 2, text: '随便其他什么人吃的东西' }
+            ]
+        }
+    })
+
+</script>
+</html>
