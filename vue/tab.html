@@ -37,34 +37,43 @@
 </div>
 
 <div id="app2">
-<ul>
-    <li class="tab-title" v-for="(item,index) in tab">{{item.tabNum}}</li>
-</ul>
-    <div v-for="item in tab">
+    <ul style="overflow:auto">
+        <li class="tab-title" v-for="(item,index) in tab">
+            <a href="javascript:void(0)" v-on:click="switchTab(index)">{{item.text}}</a>
+        </li>
+    </ul>
+    <div v-for="(item,index) in tab" v-if="item.curr === show">
         {{item.text}}
     </div>
 </div>
 </body>
 <script type="text/javascript">
-var tab1 = new Vue({
-    el:'#app',
-    data:{seen:''},
-    methods:{
-        show:function(){
-            console.log(this)
+    var tab1 = new Vue({
+        el:'#app',
+        data:{seen:''},
+        methods:{
+            show:function(){
+                console.log(this)
+            }
         }
-    }
-})
+    })
     function show(node){
-    var tabNum = node.getAttribute('id');
-    tab.seen = tabNum;
+        var tabNum = node.getAttribute('id');
+        tab.seen = tabNum;
     }
-var tabs = {
-        tab:[{text:'tab1',tabNum:1},{text:'tab2',tabNum:2}]
+    var tabs = {
+        tab:[{text:'tab1',tabNum:0,curr:0},{text:'tab2',tabNum:1,curr:1}],
+        show:''
     };
-var tab2 = new Vue({
-    el:'#app2',
-    data:tabs
-})
+    var tab2 = new Vue({
+        el:'#app2',
+        data:tabs,
+        methods:{
+            switchTab:function(num){
+                console.log(tabs.show);
+               tabs.show = num;
+            }
+        }
+    })
 </script>
 </html>

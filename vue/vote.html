@@ -37,6 +37,7 @@
             <div id="tab-title-5" class="tab-title right" style="float:right"><a href="javascript:void(0)">筛选(<span>11</span>)</a></div>
         </div>
         <div id="tab1" class="tab col-md-12 col-sm-12 col-xs-12 active">
+            <button type="button" class="btn btn-primary" id="getJson">获取json</button>
             <ul class="list-group">
                 <li class="list-group-item" v-for="candidate in candidates">
                     <span :voteObjNum="candidate.voteObjNum" :name="candidate.name" :org="candidate.org">{{candidate.voteObjNum}}.{{candidate.name}}--{{candidate.org}}--{{choice[candidate.result]}}</span><br/>
