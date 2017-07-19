@@ -111,6 +111,51 @@
 <div id="isClass">
     <span v-bind:class="{active:isActive,'text-danger':hasError}">{{isActive}}</span>
 </div>
+
+<div id="repeat-object">
+    <ul>
+        <li v-for="(value,key,index) in object">{{index}}.{{key}}:{{value}}</li>
+    </ul>
+</div>
+<script type="text/javascript">
+    var repeatObject = new Vue({
+        el:'#repeat-object',
+        data:{
+            object:{
+                firstName:'John',
+                lastName:'Doe',
+                age:30
+            }
+        }
+    })
+</script>
+
+<div id="filter">
+    <button type="button" v-on:click="showOrigin">显示原数组</button>
+    <ul>
+        <li v-for="item in eventNumbers">{{item}}</li>
+    </ul>
+</div>
+<script type="text/javascript">
+var filter = new Vue({
+    el:'#filter',
+    data:{
+        numbers:[1,2,3,4,5]
+    },
+    computed:{
+        eventNumbers:function(){
+            return this.numbers.sort(function (a,b){
+                return b-a;
+            })
+        }
+    },
+    methods:{
+        showOrigin:function(){
+            console.log(this.numbers);
+        }
+    }
+})
+</script>
 </body>
 </html>
 <script type="text/javascript">
