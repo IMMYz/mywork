@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>UML-TEST</title>
+</head>
+<body>
+<style>
+    .signal text {
+        fill: #000000;
+    }
+    .signal text:hover {
+        fill: #aaaaaa
+    }
+    .note rect, .note path {
+        fill: #ffff00;
+    }
+    .title rect, .title path,
+    .actor rect, .actor path {
+        fill: #ffffff
+    }
+</style>
+<div id="testTable">
+    <table>
+        <thead>
+        <tr>
+            <th>主叫</th>
+            <th>被叫</th>
+            <th>日期</th>
+            <th>起始时间</th>
+            <th>结束时间</th>
+            <th>通话时长</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(item,index) in table">
+            <td>{{item.call}}</td>
+            <td>{{item.called}}</td>
+            <td>{{item.date}}</td>
+            <td>{{item.start}}</td>
+            <td>{{item.end}}</td>
+            <td>{{item.duration}}</td>
+            <td><button type="button" v-on:click="createUML(index)">时序图字符串生成</button></td>
+        </tr>
+        </tbody>
+    </table>
+    <div id="diagram" style="width:500px;height:500px">
+        <pre style="display:none">{{loadReady}}</pre>
+    </div>
+</div>
+
+</body>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="bower_components/bower-webfontloader/webfont.js"></script>
+<script type="text/javascript" src="bower_components/snap.svg/dist/snap.svg-min.js"></script>
+<script type="text/javascript" src="bower_components/underscore/underscore-min.js"></script>
+<script type="text/javascript" src="bower_components/js-sequence-diagrams/dist/sequence-diagram.js"></script>
+<script type="text/javascript">
+    var umlData = {
+        table:[
+            {'call':'嫌疑人A','called':'嫌疑人B','date':'2016年5月1日','start':'00:00:00','end':'00:05:00','duration':'5分钟'},
+            {'call':'嫌疑人B','called':'嫌疑人C','date':'2016年5月2日','start':'00:00:00','end':'00:10:00','duration':'10分钟'},
+            {'call':'嫌疑人C','called':'嫌疑人D','date':'2016年5月2日','start':'00:00:00','end':'00:10:00','duration':'10分钟'},
+            {'call':'嫌疑人D','called':'嫌疑人C','date':'2016年5月2日','start':'00:00:00','end':'00:10:00','duration':'10分钟'}
+            ],
+        unClick:'',
+        change:[
+            {'call':'participant 嫌疑人A','called':'嫌疑人B','date':'2016年5月1日','start':'00:00:00','end':'00:05:00','duration':'5分钟','click':false},
+            {'call':'participant 嫌疑人B','called':'嫌疑人C','date':'2016年5月2日','start':'00:00:00','end':'00:10:00','duration':'10分钟','click':false},
+            {'call':'participant 嫌疑人C','called':'嫌疑人D','date':'2016年5月2日','start':'00:00:00','end':'00:10:00','duration':'10分钟','click':false},
+            {'call':'participant 嫌疑人D','called':'嫌疑人C','date':'2016年5月2日','start':'00:00:00','end':'00:10:00','duration':'10分钟','click':false},
+        ]
+    }
+    var testTab = new Vue({
+        el:'#testTable',
+        data:umlData,
+        computed:{
+          loadReady:function(){
+              var str = '';
+              for(var i = 0;i<this.table.length;i++){
+                  str += "participant" +" "+this.table[i].call + "\n";
+              }
+              this.unClick = str;
+              return this.unClick;
+          }
+        },
+        methods:{
+            createUML:function(index){
+                this.change[index].call = this.table[index].call;
+                this.change[index].click = true;
+                var str = '';
+                for(var i = 0;i<this.change.length;i++){
+                    if(this.change[i].click == false){
+                        str += this.change[i].call + "\n"
+                    }else{
+                        str += this.change[i].call + "->" + this.change[i].called + ":" + this.change[i].date + this.change[i].start + this.change[i].end + this.change[i].duration + "\n"
+                    }
+                }
+                console.log(str);
+                var d = Diagram.parse(str);
+                d.drawSVG('diagram',options);
+            }
+        }
+    })
+    var d = Diagram.parse(umlData.unClick);
+    var options = {theme: 'simple'};
+    d.drawSVG('diagram', options);
+
+//    var options = {theme: 'simple'};
+//    $(".diagram").sequenceDiagram(options);
+</script>
+</html>
