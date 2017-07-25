@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery/dist/jquery.js"></script>
+    <script src="js/jquery-validation/dist/jquery.validate.js"></script>
+    <!--<script src="js/jquery-validation/src/localization/messages_zh.js"></script>-->
+</head>
+<body>
+<form id="form" method="post" action="" id="form" enctype="multipart/form-data">
+    <input name="test">
+    <input type="submit" value="test">
+</form>
+
+</body>
+<script type="text/javascript">
+    $(function(){
+        $("#form").validate({
+            rules:{
+                test:"required"
+            }
+        });
+    })
+</script>
+</html>

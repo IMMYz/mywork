@@ -15,9 +15,11 @@
     .note rect, .note path {
         fill: #ffff00;
     }
-    .title rect, .title path,
-    .actor rect, .actor path {
+    .title rect, .title path, .actor path {
         fill: #ffffff
+    }
+    .actor rect{
+        fill:url('#image')
     }
 </style>
 <div id="testTable">
@@ -45,6 +47,14 @@
         </tr>
         </tbody>
     </table>
+    <svg width="700" height="660">
+        <defs>
+            <pattern id="image" x="50" y="10" patternUnits="userSpaceOnUse" height="2000" width="2000">
+                <image x="0" y="0"  xlink:href="images/test3.jpg"></image>
+            </pattern>
+        </defs>
+        <circle id='top' cx="180" cy="300" r="300"  fill="url(#image)"/>
+    </svg>
     <div id="diagram" style="width:500px;height:500px">
         <pre style="display:none">{{loadReady}}</pre>
     </div>

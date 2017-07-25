@@ -46,6 +46,31 @@
         {{item.text}}
     </div>
 </div>
+
+<div id="app3">
+    <template v-if="loginType === 'username'">
+        <label>Username:</label>
+        <input placeholder = "Enter your username">
+    </template>
+    <template v-else>
+        <label>Email:</label>
+        <input placeholder="Enter your email address">
+    </template>
+    <button type="button" v-on:click="toggleLoginType()">{{loginType}}</button>
+</div>
+<script type="text/javascript">
+    var loginType = new Vue({
+        el:"#app3",
+        data:{
+            loginType:'username'
+        },
+        methods:{
+            toggleLoginType:function(){
+                this.loginType = this.loginType === 'username' ? 'email' : 'username'
+            }
+        }
+    })
+</script>
 </body>
 <script type="text/javascript">
     var tab1 = new Vue({

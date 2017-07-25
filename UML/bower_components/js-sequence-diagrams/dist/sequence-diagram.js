@@ -1289,7 +1289,7 @@ if (typeof Snap != 'undefined') {
   var RECT = {
         'stroke': '#000000',
         'stroke-width': 2,
-        'fill': '#fff'
+        'fill': 'url(images/test.jpg)'
       };
 
   var LOADED_FONTS = {};

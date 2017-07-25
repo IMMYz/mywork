@@ -14,25 +14,55 @@
 <body>
 <div class="container">
     <script type="text/javascript">
+        var a;
         $(function(){
-            $(".js-example-basic-multiple").select2();
+            $(".select2").select2();
+            a = $(".select2").select2();
         })
-
+        function change(){
+            a.val("1").trigger("change")
+        }
     </script>
+    <button class="btn" type="button" onclick="change()">改成汽车</button>
     <div class="row">
         <div class="col-sm-6">
-            <select class="js-example-basic-multiple" style="width:100%">
-                <option value="">汽车</option>
-                <option value="">小汽车</option>
-                <option value="">飞机</option>
-                <option value="">飞艇</option>
-                <option value="">卡车</option>
-                <option value="">苹果</option>
-                <option value="">果子</option>
+            <select class="select2" style="width:100%">
+                <option value="1">汽车</option>
+                <option value="2">小汽车</option>
+                <option value="3">飞机</option>
+                <option value="4">飞艇</option>
+                <option value="5">卡车</option>
+                <option value="6">苹果</option>
+                <option value="7">果子</option>
             </select>
         </div>
     </div>
 
+    <div class="row">
+        <div class="col-sm-6">
+            <select class="js-example-data-array"></select>
+            <select class="js-example-data-array-selected">
+                <option value="2" selected="selected">duplicate</option>
+            </select>
+        </div>
+    </div>
+    <button type="button" class="btn" onclick="changeBug()">变成bug</button>
+    <script type="text/javascript">
+        var select;
+        $(function(){
+            var data = [{ id: 0, text: 'enhancement' }, { id: 1, text: 'bug' }, { id: 2, text: 'duplicate' }, { id: 3, text: 'invalid' }, { id: 4, text: 'wontfix' }];
+            $(".js-example-data-array").select2({
+                data:data
+            })
+            select =  $(".js-example-data-array").select2();
+            $(".js-example-data-array-selected").select2({
+                data:data
+            })
+        })
+        function changeBug(){
+            select.val("1").trigger("change");
+        }
+    </script>
 </div>
 </body>
 </html>
