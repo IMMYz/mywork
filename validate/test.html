@@ -9,18 +9,10 @@
 </head>
 <body>
 <form id="form" method="post" action="" id="form" enctype="multipart/form-data">
-    <input name="test">
+    <input name="test" class="required">
     <input type="submit" value="test">
 </form>
-
 </body>
 <script type="text/javascript">
-    $(function(){
-        $("#form").validate({
-            rules:{
-                test:"required"
-            }
-        });
-    })
 </script>
 </html>
