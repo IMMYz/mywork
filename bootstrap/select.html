@@ -10,6 +10,8 @@
     <script type="text/javascript" src="js/bootstrap.js"></script>
     <script type="text/javascript" src="js/select2.js"></script>
     <script type="text/javascript" src="js/pinyin.js"></script>
+    <link href="js/magicsuggest/magicsuggest-min.css" rel="stylesheet">
+    <script src="js/magicsuggest/magicsuggest-min.js"></script>
 </head>
 <body>
 <div class="container">
@@ -63,6 +65,33 @@
             select.val("1").trigger("change");
         }
     </script>
+    <div class="row">
+        <div class="col-md-12">
+            <select id="test123" multiple="multiple">
+                <option>鉴定受理</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+                <option>5</option>
+                <option>6</option>
+            </select>
+        </div>
+    </div>
+    <input id="loadUp" type="file" multiple="multiple"/>
+    <script>
+        var inputElement = document.getElementById("loadUp");
+        inputElement.addEventListener("change", handleFiles, false);
+        function handleFiles() {
+            var fileList = this.files; /* now you can work with the file list */
+            console.log(fileList);
+        }
+    </script>
 </div>
+
+
+
+<script>
+    $("#test123").select2();
+</script>
 </body>
 </html>

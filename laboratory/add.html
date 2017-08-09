@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="util/head"></div>
+<link rel="stylesheet" th:href="@{/static/css/plugins/lobibox.css}"/>
+<body class="withvernav">
+<style>
+    .filename{display:none}
+    div.uploader{
+        width:43px;
+    }
+    div.uploader input{
+        height:32px
+    }
+    .filename{
+        display:none !important
+    }
+    .stdform .uploadLabel{
+        width:54px ;
+        float:none ;
+        color:#fb9337;
+        font-size:12px;
+        cursor:pointer;
+    }
+</style>
+<div class="bodywrapper">
+    <div class="centercontent2">
+        <div class="pageheader">
+            <h1 class="pagetitle">鉴定委托</h1>
+        </div><!--pageheader-->
+        <div id="contentwrapper" class="contentwrapper">
+            <div id="basicform" class="subcontent">
+                <form class="stdform" action="/identify/add" method="post" id="form" enctype="multipart/form-data">
+                    <input name="id" th:value="${form.id}" type="hidden" id="id"/>
+                    <input name="commissionNum" th:value="${form.commissionNum}" type="hidden" id="commissionNum"/>
+                    <input name="status" th:value="${form.status}" type="hidden" id="status"/>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin" style="width:100%;">
+                            <label>鉴定情况</label>
+                            <span class="field">
+								<span th:each="i,s:${identifyType}">
+									<input type="radio" name="identifyType" th:checked="${(form.identifyType==null and s.first) or (form.identifyType!=null and form.identifyType.name() eq i.value)}" th:value="${i.value}" onclick="additional(this)"/>
+									<span th:text="${i.remark}"></span> &nbsp; &nbsp;
+								</span>
+							</span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin" style="width:100%;">
+                            <label>鉴定机构方式</label>
+                            <span class="field">
+								<span th:each="i,s:${IdentifyOrgMethod}">
+									<input type="radio" name="identifyOrgMethod" th:checked="${(form.identifyOrgMethod==null and s.first) or (form.identifyOrgMethod!=null and form.identifyOrgMethod.name() eq i.value)}" th:value="${i.value}"/>
+									<span th:text="${i.remark}"></span> &nbsp; &nbsp;
+								</span>
+							</span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>委托鉴定单位<span class="spanxing">*</span></label>
+                            <span class="field"><select class="uniformselect" style="min-width: 22%; float: left;" name="createUnit">
+									<option th:each="i:${unit}" th:value="${i.id}" th:text="${i.name}" th:selected="${form.createUnit!=null and form.createUnit.id eq i.id}"></option>
+								</select>
+							</span>
+                        </p>
+                        <p class="right_margin">
+                            <label>委托时间</label>
+                            <span class="field">
+								<input id="datepicker" type="text" class="hasDatepicker" readonly="readonly" th:value="${form.commissionDate ==null ? #dates.format(#dates.createNow(),'yyyy-MM-dd') : #dates.format(form.commissionDate,'yyyy-MM-dd')}"
+                                       onclick="WdatePicker({skin:'ext',dateFmt:'yyyy-MM-dd HH:mm:ss'})" />
+							</span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%;margin-top:0px;">
+						<span class="contenttitle2">
+							<h3>送检人</h3>
+						</span>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>姓名<span class="spanxing">*</span></label>
+                            <span class="field"><input type="text" th:value="${form.applicantInfo==null?'':form.applicantInfo.firstApplicantName}" v-model="firstApplicantName" name="applicantInfo.firstApplicantName" class="longinput" /></span>
+                        </p>
+                        <p class="right_margin">
+                            <label>姓名<span class="spanxing">*</span></label>
+                            <span class="field"><input type="text" th:value="${form.applicantInfo==null?'':form.applicantInfo.secondApplicantName}" v-model="secondApplicantName" name="applicantInfo.secondApplicantName" class="longinput" /></span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>职务</label>
+                            <span class="field"><input type="text" th:value="${form.applicantInfo==null?'':form.applicantInfo.firstApplicantJob}" v-model="firstApplicantJob" name="applicantInfo.firstApplicantJob" class="longinput" /></span>
+                        </p>
+                        <p class="right_margin">
+                            <label>职务</label>
+                            <span class="field"><input type="text" th:value="${form.applicantInfo==null?'':form.applicantInfo.secondApplicantJob}" v-model="secondApplicantJob" name="applicantInfo.secondApplicantJob" class="longinput" /></span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>证件名称及号码<span class="spanxing">*</span></label>
+                            <span class="field">
+								<select v-model="firstApplicantIdentityType"
+                                        name="applicantInfo.firstApplicantIdentityType" class="uniformselect"
+                                        style="min-width: 22%;width:20%;float: left">
+									<option th:each="i:${idcardType}" th:value="${i.id}" th:text="${i.name}" th:selected="${form.applicantInfo!=null and form.applicantInfo.firstApplicantIdentityType.id eq i.id}"></option>
+								</select>
+								<input type="text" v-model="firstApplicantIdentityNum" th:value="${form.applicantInfo==null?'':form.applicantInfo.firstApplicantIdentityNum}"
+                                       name="applicantInfo.firstApplicantIdentityNum" class="longinput"
+                                       style="width:60%;float:right;"/>
+							</span>
+                        </p>
+                        <p class="right_margin">
+                            <label>证件名称及号码<span class="spanxing">*</span></label>
+                            <span class="field">
+								<select v-model="secondApplicantIdentityType"
+                                        name="applicantInfo.secondApplicantIdentityType" class="uniformselect"
+                                        style="min-width: 22%;width:20%;float: left;">
+									<option th:each="i:${idcardType}" th:value="${i.id}" th:text="${i.name}" th:selected="${form.applicantInfo!=null and form.applicantInfo.secondApplicantIdentityType.id eq i.id}"></option>
+								</select>
+								<input type="text" v-model="secondApplicantIdentityNum" th:value="${form.applicantInfo==null?'':form.applicantInfo.secondApplicantIdentityNum}"
+                                       name="applicantInfo.secondApplicantIdentityNum" class="longinput"
+                                       style="width:60%;float:right;"/>
+							</span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>通讯地址</label>
+                            <span class="field">
+								<input type="text" v-model="applicantAddress" name="applicantInfo.applicantAddress"
+                                       class="longinput" th:value="${form.applicantInfo==null?'':form.applicantInfo.applicantAddress}"/>
+							</span>
+                        </p>
+
+                        <p class="right_margin">
+                            <label>邮政编码</label>
+                            <span class="field">
+								<input type="text" v-model="applicantPostCode" name="applicantInfo.applicantPostCode"
+                                       class="longinput" th:value="${form.applicantInfo==null?'':form.applicantInfo.applicantPostCode}"/>
+							</span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>联系电话<span class="spanxing">*</span></label>
+                            <span class="field">
+								<input type="text" v-model="applicantPhoneNum" name="applicantInfo.applicantPhoneNum"
+                                       class="longinput" th:value="${form.applicantInfo==null?'':form.applicantInfo.applicantPhoneNum}"/>
+							</span>
+                        </p>
+                        <p class="right_margin">
+                            <label>传真号码</label>
+                            <span class="field">
+								<input type="text" v-model="applicantFaxNum" name="applicantInfo.applicantFaxNum"
+                                       class="longinput" th:value="${form.applicantInfo==null?'':form.applicantInfo.applicantFaxNum}"/>
+							</span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>鉴定机构名称</label>
+                            <span class="field">
+								<select v-model="identifyOrgName" name="identifyOrgName" class="longinput">
+									<option>红河哈尼族彝族自治州公安司法鉴定中心</option>
+								</select>
+							</span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%;margin-top:0px;">
+						<span class="contenttitle2">
+							<h3>被鉴定人的情况</h3>
+						</span>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>姓名</label>
+                            <span class="field">
+								<input type="text" v-model="identifiedName" th:value="${form.identifiedInfo==null?'':form.identifiedInfo.identifiedName}"
+                                       name="identifiedInfo.identifiedName" class="longinput"/></span>
+                        </p>
+                        <p class="right_margin">
+                            <label>性别</label>
+                            <span class="field">
+								<select v-model="identifiedSex" name="identifiedInfo.identifiedSex" class="longinput">
+									<option th:each="s:${sex}" th:value="${s.id}" th:text="${s.name}" th:selected="${form.identifiedInfo!=null and form.identifiedInfo.identifiedSex.id eq s.id}"></option>
+								</select>
+							</span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>年龄</label>
+                            <span class="field"><input type="text" v-model="identifiedAge" th:value="${form.identifiedInfo==null?'':form.identifiedInfo.identifiedAge}"
+                                                       name="identifiedInfo.identifiedAge" class="longinput"/></span>
+                        </p>
+
+                        <p class="right_margin">
+                            <label>电话</label>
+                            <span class="field"><input type="text" v-model="identifiedPhoneNum" th:value="${form.identifiedInfo==null?'':form.identifiedInfo.identifiedPhoneNum}"
+                                                       name="identifiedInfo.identifiedPhoneNum"
+                                                       class="longinput"/></span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>单位</label>
+                            <span class="field"><input type="text" v-model="identifiedUnit" th:value="${form.identifiedInfo==null?'':form.identifiedInfo.identifiedUnit}"
+                                                       name="identifiedInfo.identifiedUnit" class="longinput"/></span>
+                        </p>
+
+                        <p class="right_margin">
+                            <label>现住址</label>
+                            <span class="field"><input type="text" v-model="identifiedAddress" th:value="${form.identifiedInfo==null?'':form.identifiedInfo.identifiedAddress}"
+                                                       name="identifiedInfo.identifiedAddress"
+                                                       class="longinput"/></span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%;margin-top:0px;">
+						<span class="contenttitle2">
+							<h3></h3>
+						</span>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>案（事）件名称<span class="spanxing">*</span></label>
+                            <span class="field"><input type="text" v-model="caseName" name="caseInfo.caseName"
+                                                       class="longinput" th:value="${form.caseInfo==null?'':form.caseInfo.caseName}"/></span>
+                        </p>
+                        <p class="right_margin">
+                            <label>案件编号</label>
+                            <span class="field"><input type="text" v-model="caseId" name="caseInfo.caseId" class="longinput" th:value="${form.caseInfo==null?'':form.caseInfo.caseId}"/></span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>案件类型</label>
+                            <span class="field">
+								<span th:each="c,s:${caseType}">
+									<input type="radio" name="caseInfo.caseType" th:value="${c.value}" th:checked="${(form.caseInfo==null and s.first) or (form.caseInfo!=null and form.caseInfo.caseType.name() eq c.value)}"/>
+									<span th:text="${c.remark}"></span> &nbsp; &nbsp;
+								</span>
+							</span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin" style="width:100%">
+                            <label>案（事）件简要情况</label>
+                            <span class="textarea_field"><textarea v-model="caseSimpleDetail"
+                                                                   name="caseInfo.caseSimpleDetail" cols="80" rows="5"
+                                                                   class="longinput"></textarea></span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin" style="width:100%">
+                            <label>原鉴定情况</label>
+                            <span class="textarea_field"><textarea v-model="originalResult" name="originalResult" cols="80" rows="5" class="longinput">无</textarea></span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%;margin-top:0px;">
+						<span class="contenttitle2">
+							<h3>送检的检材情况</h3>
+						</span>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin">
+                            <label>专业</label>
+                            <span class="field">
+                                <select  name="identificationItem" class="longinput" onchange="loadIdentifyRequest(this.value)" id="select">
+									<option th:each="i:${IdentificationItem}" th:text="${i.remark}" th:value="${i.value}" th:selected="${form.identificationItem!=null and form.identificationItem.name() eq i.value }"></option>
+                                </select>
+                            </span>
+                        </p>
+                    </div>
+                    <div class="jiancai">
+                        <div class="stdform_tables">
+                            <table cellpadding="0" cellspacing="0" border="0" class="stdtable" id="jctable">
+                                <colgroup>
+                                    <col class="con0" />
+                                    <col class="con1" />
+                                    <col class="con0" />
+                                    <col class="con1" />
+                                    <col class="con0" />
+                                    <col class="con1" />
+                                    <col class="con0" />
+                                    <col class="con1" />
+                                    <col class="con0" />
+                                </colgroup>
+                                <thead>
+                                <tr>
+                                    <th class="head1">物证编号<span class="spanxing">*</span></th>
+                                    <th class="head0">名称<span class="spanxing">*</span></th>
+                                    <th class="head1">数量<span class="spanxing">*</span></th>
+                                    <th class="head1">单位<span class="spanxing">*</span></th>
+                                    <th class="head0">性状</th>
+                                    <th class="head1">提取部位<span class="spanxing">*</span></th>
+                                    <th class="head0">提取方法<span class="spanxing">*</span></th>
+                                    <th class="head1">包装情况<span class="spanxing">*</span></th>
+                                    <th class="head0">操作</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                <tr class="gradeA" th:each="sa,s:${form.samples}" th:if="${sa.sampleGenre.name() eq 'STUFF'}">
+                                    <td>
+                                        <input type="text" name="s_sampleId" th:value="${sa.sampleId}" class="width100 tInput" placeholder="物证编号" />
+                                        <input type="hidden" name="s_sampleGenre" value="STUFF"/>
+                                    </td>
+                                    <td><input type="text" name="s_sampleName" th:value="${sa.sampleName}" class="width100 tInput" placeholder="物证名称" /></td>
+                                    <td><input type="text" id="spinner" name="s_sampleNum" class="width50 noradiusright" th:value="${sa.sampleNum}"/></td>
+                                    <td>
+                                        <select  name="sampleQuantifier1" class="trSelected" onchange="changeSelect(this)">
+                                            <option th:each="q:${quantifier}" th:value="${q.name}" th:text="${q.name}"></option>
+                                        </select>
+                                        <input type="text" class="_input"  onchange="change_input(this)" th:value="${sa.sampleQuantifier==null?'g':sa.sampleQuantifier}"/>
+                                        <input class="hiddenVal" type="hidden" name="s_sampleQuantifier" th:value="${sa.sampleQuantifier==null?'g':sa.sampleQuantifier}"/>
+                                    </td>
+                                    <td class="center">
+                                        <select  name="identificationItems1" class="trSelected" onchange="changeSelect(this)" >
+                                            <option th:each="q:${shape}" th:value="${q.name}" th:text="${q.name}"></option>
+                                        </select>
+                                        <input type="text" class="_input" onchange="change_input(this)" th:value="${sa.sampleShape==null?'固体':sa.sampleShape}"/>
+                                        <input class="hiddenVal" type="hidden" name="s_sampleShape" th:value="${sa.sampleShape==null?'固体':sa.sampleShape}"/>
+                                    </td>
+                                    <td class="center"><input type="text" class="width100 tInput" name="s_extractPart"  placeholder="提取部位" th:value="${sa.extractPart}"/></td>
+                                    <td><input type="text" name="s_extractMethod" class="width100 tInput"  placeholder="提取方法" th:value="${sa.extractMethod}"/></td>
+                                    <td><input type="text" name="s_packageDetail" class="width100 tInput"  placeholder="包装情况" th:value="${sa.packageDetail}"/></td>
+                                    <td>
+                                        <a href="javascript:;" style="color: #fb9337;margin:0 10px;">删除</a>
+                                        <a href="javascript:;" style="color: #fb9337;margin-right:10px;">拍照</a>
+                                        <a href="javascript:void(0)" style="color: #fb9337;margin-right:10px;" onclick="click_fileUpload(this)">已上传文件</a>
+                                        <label th:for="${sa.id}" class="uploadLabel">上传文件</label>
+                                        <input th:id="${sa.id}" style="display:none" type="file" name="files" multiple="multiple" onchange="markFileName(this)"/>
+                                        <input type="hidden" name="s_annexIds" th:value="${sa.annexIds}"/>
+                                    </td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            <a href="javascript:;" class="button">添加检材</a>
+                        </div>
+                    </div>
+                    <div class="stdformDiv" style="width:100%;margin-top:0px;">
+						<span class="contenttitle2">
+							<h3>送检的样本情况</h3>
+						</span>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <div class="yangben" style="width:100%">
+                            <div class="yangbenDiv" style="width:100%">
+                                <div class="stdform_tables">
+                                    <table cellpadding="0" cellspacing="0" border="0" class="stdtable" id="ybtable">
+                                        <colgroup>
+                                            <col class="con0" />
+                                            <col class="con1" />
+                                            <col class="con0" />
+                                            <col class="con1" />
+                                            <col class="con0" />
+                                            <col class="con1" />
+                                            <col class="con0" />
+                                            <col class="con1" />
+                                            <col class="con0" />
+                                        </colgroup>
+                                        <thead>
+                                        <tr>
+                                            <th class="head1">物证编号<span class="spanxing">*</span></th>
+                                            <th class="head0">名称<span class="spanxing">*</span></th>
+                                            <th class="head1">数量<span class="spanxing">*</span></th>
+                                            <th class="head1">单位<span class="spanxing">*</span></th>
+                                            <th class="head0">性状</th>
+                                            <th class="head1">提取部位<span class="spanxing">*</span></th>
+                                            <th class="head0">提取方法<span class="spanxing">*</span></th>
+                                            <th class="head1">包装情况<span class="spanxing">*</span></th>
+                                            <th class="head0">操作</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="table-2">
+                                        <tr  class="gradeA" th:each="sa,s:${form.samples}" th:if="${sa.sampleGenre.name() eq 'SAMPLE'}">
+                                            <td>
+                                                <input type="text" name="s_sampleId" th:value="${sa.sampleId}" class="width100 tInput" placeholder="物证编号" />
+                                                <input type="hidden" name="s_sampleGenre" value="SAMPLE"/>
+                                            </td>
+                                            <td><input type="text" name="s_sampleName" th:value="${sa.sampleName}" class="width100 tInput" placeholder="物证名称" /></td>
+                                            <td><input type="text" id="spinner_Td" name="s_sampleNum" class="width50 noradiusright" th:value="${sa.sampleNum}"/></td>
+                                            <td>
+                                                <select  name="sampleQuantifier1" class="trSelected" onchange="changeSelect(this)">
+                                                    <option th:each="q:${quantifier}" th:value="${q.name}" th:text="${q.name}"></option>
+                                                    <input type="text" class="_input _input1"  onchange="change_input(this)" th:value="${sa.sampleQuantifier==null?'g':sa.sampleQuantifier}"/>
+                                                    <input class="hiddenVal" type="hidden" name="s_sampleQuantifier" th:value="${sa.sampleQuantifier==null?'g':sa.sampleQuantifier}"/>
+                                                </select>
+                                            </td>
+                                            <td class="center">
+                                                <select  name="identificationItems1" class="trSelected" onchange="changeSelect(this)" >
+                                                    <option th:each="q:${shape}" th:value="${q.name}" th:text="${q.name}"></option>
+                                                </select>
+                                                <input type="text" class="_input _input2"  onchange="change_input(this)" th:value="${sa.sampleShape==null?'固体':sa.sampleShape}"/>
+                                                <input class="hiddenVal _input2" type="hidden" name="s_sampleShape" th:value="${sa.sampleShape==null?'固体':sa.sampleShape}"/>
+                                            </td>
+                                            <td class="center"><input type="text" class="width100 tInput" name="s_extractPart"  placeholder="提取部位" th:value="${sa.extractPart}"/></td>
+                                            <td><input type="text" name="s_extractMethod" class="width100 tInput"  placeholder="提取方法" th:value="${sa.extractMethod}"/></td>
+                                            <td><input type="text" name="s_packageDetail" class="width100 tInput"  placeholder="包装情况" th:value="${sa.packageDetail}"/></td>
+                                            <td>
+                                                <a href="javascript:;" style="color: #fb9337;margin:0 10px;">删除</a>
+                                                <a href="javascript:;" style="color: #fb9337;margin-right:10px;">拍照</a>
+                                                <a href="javascript:void(0)" style="color: #fb9337;margin-right:10px;" onclick="click_fileUpload(this)">已上传文件</a>
+                                                <label th:for="${sa.id}" class="uploadLabel">上传文件</label>
+                                                <input th:id="${sa.id}" style="display:none" type="file" name="files" multiple="multiple" onchange="markFileName(this)"/>
+                                                <input type="hidden" name="s_annexIds" th:value="${sa.annexIds}"/>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="javascript:;" class="yb_button">加入样本</a>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin" style="width:100%">
+                            <label>委托鉴定单位的鉴定要求和</label>
+                            <span class="textarea_field">鉴定要求：<br />
+									 <select id="add-request" data-placeholder="请先选择专业"  style="width:100%" tabindex="4" onchange="addRequest(this)">
+
+									</select>
+                                <textarea id="textarea" v-model="identifyRequest" name="identifyRequest" th:text="${form.identifyRequest}" cols="80" rows="5" class="longinput"></textarea><br /></span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="left_margin" style="width:100%">
+                            <label>诚信声明<span class="spanxing">*</span></label>
+                            <span class="textarea_field">我单位向你鉴定机构介绍的情况客观真实，提交的检材和样本等来源清楚可靠。
+							<br />负责人签字：<a href="javascript:;" class="submit_qm">电子签名</a><span style="float:right;">（单位印章）<a href="javascript:;" class="submit_qm">印章</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;年&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;月&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;日</span></span>
+                        </p>
+                    </div>
+                    <div class="stdformDiv" style="width:100%">
+                        <p class="stdformbutton">
+                            <button class=" radius2" type="button" onclick="click_a()">提交</button>
+                            <!--<input type="reset" class="reset radius2" onclick="click_a()" value="重置" />-->
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- 查看预览（Modal） -->
+<div class="modal fade" id="fileUpLoad" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="filelLabel">已上传文件列表</h4>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <td>序号</td>
+                        <td>文件名</td>
+                        <td>操作</td>
+                    </tr>
+                    </thead>
+                    <tbody >
+                    <tr v-for="(item,index) in reData">
+                        <td>{{index+1}}</td>
+                        <td>{{item.orignName}}</td>
+                        <td><a href="javascript:void(0)">删除</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<!-- 模态框（Modal） -->
+<div class="modal fade" id="myModal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">请您确认</h4>
+            </div>
+            <div class="modal-body">是否确认提交？</div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="addForm()">确认</button>
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<div class="modal-backdrop fade"></div>
+<div th:replace="util/footer"></div>
+<script th:src="@{/static/js/vue.js}"></script>
+<script th:src="@{/static/js/jquery-validation/dist/jquery.validate.js}"></script>
+<script th:src="@{/static/js/jquery-validation/src/localization/messages_zh.js}"></script>
+<script th:src="@{/static/js/lobibox/lobibox.js}"></script>
+<script th:src="@{/static/js/ajaxSubmit.js}"></script>
+</body>
+<script type="text/javascript" th:inline="javascript">
+    /*<![CDATA[*/
+    //    触发上传时间
+
+    //    选择添加鉴定要求
+    function addRequest(ele){
+        let result = jQuery(ele).find("option:selected").text()  + "\n";
+        let textareaVal = jQuery("#textarea").val();
+        textareaVal += result;
+        jQuery("#textarea").val(textareaVal);
+        $("#add-request").val("");
+    }
+    //    表单验证扩展
+    if (jQuery.validator) {
+        jQuery.validator.prototype.elements = function () {
+            var validator = this,
+                rulesCache = {};
+            return jQuery(this.currentForm)
+                .find("input, select, textarea")
+                .not(":submit, :reset, :image, [disabled]")
+                .not(this.settings.ignore)
+                .filter(function () {
+                    if (!this.name && validator.settings.debug && window.console) {
+                        console.error("%o has no name assigned", this);
+                    }
+                    rulesCache[this.name] = true;
+                    return true;
+                });
+        }
+    }
+    jQuery(function(){
+//        鉴定要求多选框清零
+        $("#add-request").val("");
+        jQuery("#form").validate({
+            rules:{
+                "firstname":"required",
+                "applicantInfo.firstApplicantName":"required",
+                "applicantInfo.secondApplicantName":"required",
+                "applicantInfo.firstApplicantIdentityNum":"required",
+                "applicantInfo.secondApplicantIdentityNum":"required",
+                "applicantInfo.applicantPhoneNum":"required",
+                "caseInfo.caseName":"required",
+                "s_sampleId":"required",
+                "s_sampleName":"required",
+                "s_extractPart":"required",
+                "s_packageDetail":"required",
+                "s_extractMethod":"required",
+            },
+        })
+    })
+    //vue生成已上传文件列表
+    var vueData = {reData:[{}]};
+    var fileList = new Vue({
+        el:"#fileUpLoad",
+        data:vueData,
+    })
+    function click_fileUpload(ele) {
+        let fileIds = $(ele).siblings("input[name='s_annexIds']").val();
+        $.post("/annex/list",{"ids":fileIds},
+            function(returnData){
+                reData = returnData.data;
+                fileList.reData = reData;
+                console.log(reData);
+            },"json")
+        jQuery('#fileUpLoad').attr('aria-hidden','flash');
+        jQuery('#fileUpLoad').show();
+        jQuery('.modal-backdrop').show();
+        jQuery('.close').click(function(){
+            jQuery('#fileUpLoad').attr('aria-hidden','true');
+            jQuery('#fileUpLoad').hide();
+            jQuery('.modal-backdrop').hide();
+            return false;
+        });
+        jQuery('.btn-default').click(function(){
+            jQuery('#fileUpLoad').attr('aria-hidden','true');
+            jQuery('#fileUpLoad').hide();
+            jQuery('.modal-backdrop').hide();
+        });
+        jQuery('.btn-primary').click(function(){
+            jQuery('#fileUpLoad').attr('aria-hidden','true');
+            jQuery('#fileUpLoad').hide();
+            jQuery('.modal-backdrop').hide();
+        });
+    }
+    function markFileName(ele){
+        let hideVal = jQuery(ele).next().val();
+        let formData = new FormData();
+        for(let i=0;i<jQuery(ele)[0].files.length;i++){
+            formData.append("files",jQuery(ele)[0].files[i]);
+        }
+        console.log(formData)
+        jQuery.ajax({
+            url:'/identify/upload',
+            type:'POST',
+            data:formData,
+            processData:false,
+            contentType: false,
+            beforeSend:function(){
+                console.log('正在上传')
+            },
+            success:function(responseStr){
+                if(responseStr.code===0){
+                    console.log('success'+responseStr.data);
+                    if(hideVal===""){
+                        hideVal = responseStr.data;
+                    }else{
+                        hideVal += "," + responseStr.data;
+                    }
+                    jQuery(ele).siblings("input[name='s_annexIds']").val(hideVal);
+                }else{
+                    console.log(responseStr);
+                    console.log("失败")
+                }
+            },
+            error:function(responseStr){
+                console.log("error")
+            }
+        })
+    }
+
+    function loadIdentifyRequest(value) {
+        jQuery("#textarea").val("");
+        if(value) {
+            jQuery.post("/identify/loadIdentifyRequest",{"identificationItem":value},
+                function (returnData) {
+                    let $select = jQuery("#add-request");
+                    $select.empty();
+                    jQuery.each(returnData.data,function (index, item) {
+                        $select.append("<option value='"+item.value+"'>"+item.remark+"</option>");
+                        jQuery("#add-request").val("");
+                    });
+                    if (!$select.text()) {
+                        let firstOption = jQuery("#add-request").find("option:selected").text() + "\n";
+                        jQuery("#textarea").val("");
+                    }
+                },"json");
+        }
+    }
+
+    function additional(obj) {
+        let value = $(obj).val();
+        if(value === 'ADDITIONAL_IDENTIFY'){
+            window.location.href = '/identify/list?type=wt';
+        }
+    }
+
+    //提交表单
+
+    jQuery(function () {
+        let select = jQuery("#select").val();
+        loadIdentifyRequest(select);
+
+        if($("#id").val()){
+            $("#form").attr("action","/identify/edit")
+        }
+    });
+    /*]]>*/
+</script>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/Normalize.css"/>
+    <link rel="stylesheet" href="css/word.css"/>
+</head>
+<body>
+<div class="main center print">
+    <style>
+        .main{
+            width:716px;
+        }
+        .center{
+            margin:0 auto;
+        }
+        .left{
+            float:left;
+        }
+        .right{
+            float:right;
+        }
+        .clearfix:after{
+            content:" ";
+            display:block;
+            clear:both;
+            height:0
+        }
+        .clearfix{
+            zoom:1
+        }
+        .text-center{
+            text-align:center;
+        }
+        .text-right{
+            text-align:right
+        }
+        .content{
+            font-size:24px;
+            line-height:1.5
+        }
+        .reason{
+            height:200px
+        }
+        .suggest{
+            height:200px
+        }
+        .before-head{
+            border-bottom:1px solid #000;
+        }
+        .after-header{
+            border-bottom:3px solid #000;
+        }
+        .after-header-p{
+            border-bottom: 1px solid #000;
+            margin-bottom: 2px;
+        }
+        .seal{
+            position: absolute;
+            bottom: -204px;
+            right: -27px;
+        }
+    </style>
+    <div class="clearfix">
+        <p class="left">红河哈尼彝族自治州公安司法鉴定中心</p>
+        <p class="right">编号：HHFSSD-4-00-057-2016 第1版第0次修订</p>
+    </div>
+    <div class="content clearfix">
+        <h1 class="text-center" style="margin:0">受&#12288;理&#12288;鉴&#12288;定&#12288;回&#12288;执</h1>
+        <h3 class="text-center" style="margin-top:0">（凭此回执领取鉴定文书）</h3>
+        <p>&#12288;&#12288;20&#12288;&#12288;年&#12288;月&#12288;日，收到<span>&#12288;&#12288;&#12288;&#12288;</span>派出所</p>
+        <p>位同志送来《鉴定委托书》和相关的检材、样本。</p>
+        <p>&#12288;&#12288;经审核，同意受理鉴定委托。</p>
+        <div style="text-align:center">
+            <p>案&#12288;件&#12288;名&#12288;称：</p>
+            <p>委&#12288;托&#12288;编&#12288;号：</p>
+            <p>受&#12288;理&#12288;编&#12288;号：</p>
+            <p>鉴&#12288;定&#12288;项&#12288;目：</p>
+            <p style="margin:0">&#12288;</p>
+            <p style="margin:0">&#12288;&#12288;受理人：</p>
+            <p style="text-align:right;">20&#12288;&#12288;年&#12288;月&#12288;日&#12288;&#12288;</p>
+        </div>
+        <p>&#12288;&#12288;&#12288;&#12288;&#12288;是否送交鉴定委托书：是</p>
+    </div>
+    <div>
+        <img src="image/recfoot.png">
+    </div>
+</div>
+<!--<button id="print" type="button">test</button>-->
+</body>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/printThis.js"></script>
+<script>
+    $("#print").click(function(){
+        $(".print").printThis();
+    })
+</script>
+</html>

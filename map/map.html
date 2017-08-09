@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8">
+    <title>省厅地图</title>
+    <link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+</head>
+<style>
+    body, html {
+        width: 100%;
+        height: 100%
+    }
+
+    #allmap {
+        width: 100%;
+        height: 800px;
+        margin: 0 auto;
+    }
+
+    #control {
+        position: absolute;
+        left: 0
+    }
+
+    .slider.slider-horizontal {
+        display: block;
+        width: 100%;
+        margin: 0 auto;
+    }
+
+    .slider-tick-label-container {
+        display: none;
+    }
+
+    .slider.slider-horizontal .slider-handle {
+        margin-top: 0px;
+    }
+
+    #nowTime {
+        text-align: center;
+    }
+
+    .mapSlider {
+        width: 100%;
+        height:30px;
+        padding-top:5px;
+        margin: 0 auto;
+        background-color: #afa7a7;
+        position: relative;
+        top: -30px;
+    }
+
+    .mapSlider a {
+        color: #fff;
+    }
+
+    .mapSlider a:hover {
+        color: #000;
+    }
+
+    .mapSlider .slider-active {
+        color: #000;
+    }
+
+    label {
+        position: absolute;
+        display: inline;
+        cursor: inherit;
+        background-color: rgb(255, 255, 255);
+        border: 1px solid rgb(255, 0, 0);
+        padding: 1px;
+        white-space: nowrap;
+        font-style: normal;
+        font-variant: normal;
+        font-weight: normal;
+        font-stretch: normal;
+        font-size: 12px;
+        line-height: normal;
+        font-family: arial, sans-serif;
+        z-index: 80;
+        user-select: none;
+        left: 20px;
+        top: -10px;
+        max-width: inherit;
+    }
+</style>
+<div class="container">
+    <div class="col-md-12">
+        <div class="checkbox-inline"><span>点</span><input id="checkPoint" name="checkPoint" type="checkbox" onclick="checkPL(this)"/></div>
+        <div class="checkbox-inline"><span>线</span><input id="checkLine" name="checkLine" type="checkbox" onclick="checkPL(this)"/></div>
+    </div>
+    <div class="col-md-12">
+        <button type="button" onclick="start()">生成</button>
+        <button type="button" onclick="removePoint()">清除点</button>
+        <button type="button" onclick="removeLine()">清除线</button>
+    </div>
+    <div class="row clearfix">
+        <div id="allmap"></div>
+        <!--<div id="hide-slider" class="text-center clearfix mapSlider" style="display:none">-->
+            <!--<div class="col-md-2 text-left" style="width:120px;padding:0 0 0 5px">-->
+            <!--&lt;!&ndash;<a href="javascript:void(0)" onclick="pause()" class="slider-active"><span>1X</span></a>&ndash;&gt;-->
+            <!--&lt;!&ndash;<a href="javascript:void(0)" onclick="pause()"><span>2X</span></a>&ndash;&gt;-->
+            <!--&lt;!&ndash;<a href="javascript:void(0)"><span>3X</span></a>&ndash;&gt;-->
+            <!--<a id="play" href="javascript:void(0)" onclick="run()"><span-->
+            <!--class="glyphicon glyphicon-play"></span></a>-->
+            <!--<a id="pause" href="javascript:void(0)" onclick="pause()"><span-->
+            <!--class="glyphicon glyphicon-pause"></span></a>-->
+            <!--</div>-->
+            <!--<div class="col-md-8" style="width:400px;">-->
+            <!--<input id="ex8" type="text" style="display:none"/>-->
+            <!--</div>-->
+            <!--<div class="col-md-2" style="width: 200px;">-->
+            <!--<span id="nowTime" style="color:#fff"></span>-->
+            <!--</div>-->
+        <!--</div>-->
+    </div>
+</div>
+</div>
+<script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DE0abf6cf5580f24857faef21a4b3870"></script>
+<script type="text/javascript" src="js/points.js"></script>
+<script type="text/javascript">
+    /*<![CDATA[*/
+    //进度条控件部分
+    Date.prototype.Format = function (fmt) { //author: meizz
+        var o = {
+            "M+": this.getMonth() + 1, //月份
+            "d+": this.getDate(), //日
+            "H+": this.getHours(), //小时
+            "m+": this.getMinutes(), //分
+            "s+": this.getSeconds(), //秒
+            "q+": Math.floor((this.getMonth() + 3) / 3), //季度
+            "S": this.getMilliseconds() //毫秒
+        };
+        if (/(y+)/.test(fmt)) fmt = fmt.replace(RegExp.$1, (this.getFullYear() + "").substr(4 - RegExp.$1.length));
+        for (var k in o)
+            if (new RegExp("(" + k + ")").test(fmt)) fmt = fmt.replace(RegExp.$1, (RegExp.$1.length == 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
+        return fmt;
+    }
+    var dateLabel = [];
+    var labelTest = ['a', 'b', 'c'];
+    var oldMarkers = [];
+    var autoRun;
+    function linesRun() {
+        var allOverlay = map.getOverlays();
+        for (var i = 0; i < allOverlay.length; i++) {
+            if (allOverlay[i].toString() == "[object Marker]") {
+                if (allOverlay[i].getLabel() != null) {
+                    if (allOverlay[i].getLabel().content == "嫌疑人") {
+                        map.removeOverlay(allOverlay[i])
+                    }
+                }
+            }
+        }
+        for (var i = 0; i < polyLines.length; i++) {
+            addShow(polyLines[i])
+        }
+    }
+
+    function sliderClick() {
+        //销毁久的进度条
+        $("#ex8").bootstrapSlider('destroy');
+        sliderLabel(allMin, allMax);
+        $("#ex8").bootstrapSlider({
+            scale: 'linear',
+            step: 1,
+            min: 1,
+            max: 1000,
+            value: 1
+        });
+        $("#ex8").change(function () {
+            timeCount = parseInt($("#ex8").val());
+//            nowTime = new Date($($(".slider-tick-label")[timeCount-1]).text());
+//            nowTime = new Date(dateLabel[1]);
+            $("#nowTime").text(nowTime);
+            nowTime = new Date(dateLabel[timeCount - 1]);
+            linesRun();
+            $("#nowTime").text(dateLabel[timeCount - 1]);
+        });
+        $("#hide-slider").show();
+    }
+
+    function sliderLabel(allMin, allMax) {
+        //根据时间倍率计算
+        var labelDate;
+        if(allMax != 0&&allMin != 0){
+            var gapTime = Math.round((allMax.getTime() - allMin.getTime()) / 1000);
+
+            if (dateLabel.length == 0) {
+                for (var i = 1; i <= 1000; i++) {
+                    labelDate = allMin.getTime() + (gapTime * i);
+                    labelDate = new Date(labelDate).Format("yyyy-MM-dd HH:mm:ss");
+                    dateLabel.push(labelDate);
+                }
+            }
+        }
+    }
+    //运行按钮
+//    function run() {
+//        $("#play").addClass("slider-active");
+//        $("#pause").removeClass("slider-active");
+//        timeCount = parseInt($("#ex8").val());
+//        if (timeCount < 1000) {
+//            autoRun = setInterval(function () {
+//                $("#nowTime").text(dateLabel[timeCount - 1]);
+//                nowTime = new Date(dateLabel[timeCount - 1]);
+//                timeCount++;
+//                $("#ex8").bootstrapSlider("setValue", timeCount);
+//                linesRun();
+//            }, 100)
+//        } else {
+//            clearInterval(autoRun);
+//        }
+//    }
+    function pause() {
+        clearInterval(autoRun);
+        $("#play").removeClass("slider-active");
+        $("#pause").addClass("slider-active");
+    }
+    var pointA = {
+        "line1": pointMapData.line1
+    };
+    var allMin = 0;
+    var allMax = 0;//所有路线的最大时间和最小时间
+    //    var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/Mario.png", new BMap.Size(32, 70), {    //小车图片
+    //        //offset: new BMap.Size(0, -5),    //相当于CSS精灵
+    //        imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+    //    });
+    var myIcon = new BMap.Icon("../../../static/images/ren.png", new BMap.Size(32, 70), {    //小车图片
+        //offset: new BMap.Size(0, -5),    //相当于CSS精灵
+        imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
+    });
+    var map = new BMap.Map("allmap", {minZoom: 8, maxZoom: 18});
+    map.addControl(new BMap.MapTypeControl());
+    map.enableScrollWheelZoom(true);
+    var num = 1;
+    var item = "line" + num;
+    var points = [];
+    var nowTime;
+    var polyLines = [];
+    var oldMarker;
+    var markers = [];
+    var flag = 0;
+    var color = ["blue", "green", "red"];
+    var colorNum = 0;
+    var center;
+    var overPoint = [];
+    var overLine = [];
+    if(pointA['line1'][0]===undefined){
+        center = '昆明';
+    }else{
+        center = new BMap.Point(pointA[item][0].x, pointA[item][0].y);
+    }
+
+    map.centerAndZoom(center, 15);
+    function start() {
+        points = [];
+        num = 1;
+        item = "line" + num;
+        var sliderType = 0;
+        while (pointA[item] != undefined) {
+            for (i in pointA[item]) {
+                var x = pointA[item][i].x;
+                var y = pointA[item][i].y;
+                var date = pointA[item][i].date;
+                points.push(new BMap.Point(x, y));
+                points[i].date = date;
+            }
+            if(points[0]===undefined){
+                return false;
+            }
+            if (allMin == 0) {
+                allMin = new Date(points[0].date);
+                allMax = new Date(points[points.length - 1].date);
+            }
+            if (allMin > new Date(points[0].date)) {
+                allMine = new Date(points[0].date);
+            }
+            if (allMax < new Date(points[points.length - 1].date)) {
+                allMax = new Date(points[points.length - 1].date);
+            }
+            num++;
+            item = "line" + num;
+            addPoint(points);
+            points = [];
+            //整体时间路线的最大值和最小值
+
+        }
+        if (sliderType == 0) {
+            sliderLabel(allMin, allMax);
+            sliderType = 1;
+        }
+    }
+
+
+    function calculatedToDay(time) {
+        time = time / 1000 / 60 / 60 / 24;
+        return time;
+    }
+    function calculatedToHour(time) {
+        time = time / 1000 / 60 / 60;
+        return time;
+    }
+    function calculatedToMinute(time) {
+        teime = time / 1000 / 60;
+        return time;
+    }
+    function calculatedToSecond(time) {
+        teime = time / 1000;
+        return time;
+    }
+
+    window.onload = function () {
+
+    }
+    function addPoint() {
+        debugger;
+        var line = [];
+        var maxTime, minTime;
+        var timeline = [];
+        var index = 0;
+        minTime = new Date(points[0].date);
+        maxTime = new Date(points[points.length - 1].date);
+//        设置进度条label
+//        sliderLabel(minTime,maxTime);
+        //完整路线图
+        if($("#checkPoint").prop("checked")) {
+            for (var i = 0; i < points.length; i++) {
+                var start, end, everyTime;
+                start = new BMap.Label("起点", {offset: new BMap.Size(20, -10)});
+                end = new BMap.Label("终点", {offset: new BMap.Size(20, -10)});
+                everyTime = new BMap.Label(points[i].date, {offset: new BMap.Size(20, -10)});
+//            labelTime = new BMap.Label((" "),{offset:new BMap.Size(20,-10)});
+                var marker = new BMap.Marker(points[i]);
+                marker.setLabel(everyTime);
+//            if (i == 0) {
+//                marker.setLabel(start);
+//            } else if (i == points.length - 1) {
+//                marker.setLabel(end);
+//            } else {
+////                marker.setLabel(labelTime);
+//            }
+                map.addOverlay(marker);
+                overPoint.push(marker);
+            }
+        }
+        console.log(overPoint);
+        if($("#checkLine").prop("checked")){
+        var polyline = new BMap.Polyline(points, {strokeColor: color[colorNum], strokeWeight: 2, strokeOpacity: 0.5});
+        colorNum++;
+        overLine.push(polyline);
+        map.addOverlay(polyline);
+        polyLines.push(polyline);
+        line = polyline;
+        }
+    }
+//    勾选事件
+    function checkPL(ele){
+        if($(ele).prop("checked") == false && $(ele).attr("id")=="checkPoint"){
+            for(var i = 0;i<overPoint.length;i++){
+                map.removeOverlay(overPoint[i]);
+            }
+        }
+        if($(ele).prop("checked") == false && $(ele).attr("id")=="checkLine"){
+            for(var i = 0;i<overLine.length;i++){
+                map.removeOverlay(overLine[i]);
+            }
+        }
+    }
+//    清除地图
+    function removePoint(){
+        for(var i = 0;i<overPoint.length;i++){
+            map.removeOverlay(overPoint[i]);
+        }
+    }
+    function removeLine(){
+        for(var i = 0;i<overLine.length;i++){
+            map.removeOverlay(overLine[i]);
+        }
+    }
+
+    function addShow(polyline) {
+        var linePoint = polyline.getPath();//线的坐标串 (点)
+        var minTime = new Date(linePoint[0].date);
+        var maxTime = new Date(linePoint[linePoint.length - 1].date);
+        var carMk;
+        var pixelStart;
+        var pixelEnd;
+        var xn;
+        var yn;
+        var zn;
+        var nn;
+        var calculatedTime;
+        var labelNum = 0;
+        var index = 1;
+        if (nowTime > minTime && nowTime <= maxTime) {
+            while (nowTime > new Date(linePoint[index].date)) {
+                index++;
+            }
+            pixelStart = map.pointToPixel(linePoint[index - 1]);//像素坐标转换
+            pixelEnd = map.pointToPixel(linePoint[index]);
+            xn = pixelEnd.x - pixelStart.x;
+            yn = pixelEnd.y - pixelStart.y;
+            zn = Math.sqrt(xn * xn + yn * yn);//直线长度
+            nn = zn / calculatedToSecond(new Date(linePoint[index].date) - new Date(linePoint[index - 1].date));//全长/时间差
+            var x1 = 0;
+            var y1 = 0;
+            var point1;
+            x1 = pixelStart.x + xn / zn * nn * calculatedToSecond(nowTime - new Date(linePoint[index - 1].date));
+            y1 = pixelStart.y + yn / zn * nn * calculatedToSecond(nowTime - new Date(linePoint[index - 1].date));
+            point1 = map.pixelToPoint(new BMap.Pixel(x1, y1));
+            var carMk = new BMap.Marker(point1, {icon: myIcon});
+            var label = new BMap.Label("嫌疑人", {offset: new BMap.Size(20, -10)});
+            carMk.setLabel(label);
+            map.addOverlay(carMk);
+        }
+    }
+    /*]]>*/
+    $(function () {
+        console.log(pointA)
+//        start();
+//        sliderClick();
+    })
+</script>

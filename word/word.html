@@ -7,13 +7,14 @@
     <link rel="stylesheet" href="css/word.css"/>
 </head>
 <body>
-<div class="main center">
+<div class="main center print">
     <div class="before-head clearfix">
         <p class="left">红河哈尼彝族自治州公安司法鉴定中心</p>
         <p class="right">编号：HHFSSD-4-00-057-2016 第1版第0次修订</p>
     </div>
     <div class="content clearfix">
-        <h1 class="text-center" style="margin-top:0">鉴定不予受理回执</h1>
+        <h1 class="text-center" style="margin-top:0">受&#12288;理&#12288;鉴&#12288;定&#12288;回&#12288;执</h1>
+        <h3 class="text-center" style="margin-top:0">（）</h3>
         <p class="right">编号：20&#12288;&#12288;年第&#12288;&#12288;号</p>
         <div style="clear:both"></div>
         <p>&#12288;&#12288;你单位&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;&#12288;
@@ -41,6 +42,18 @@
     <div class="after-header">
         <p class="after-header-p">备注：本回执一式两份份，送检人、管理室各持一份。</p>
     </div>
+    <div class="lkbLoggo"></div>
 </div>
+<button id="print" type="button">test</button>
 </body>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/printThis.js"></script>
+<script>
+    $("#print").click(function(){
+        $(".print").printThis({
+            header: "<h1>Amazing header</h1>",
+            footer: $('.hidden-print-header-content')
+        })
+    })
+</script>
 </html>

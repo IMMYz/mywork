@@ -14,5 +14,26 @@
     <input type="text" name="test">
     <button type="button">提交</button>
 </form>
+<div>
+    <label for="file">上传</label>
+    <input id="file" type="file"/>
+</div>
+<div>
+    <ol class="testol">
+        <li>1</li>
+        <li>2</li>
+        <li>3</li>
+        <li>4</li>
+    </ol>
+</div>
+<button type="button" onclick="eachClick()">click</button>
+<script type="text/javascript">
+    function eachClick(){
+        $(".testol li").each(function(){
+            console.log($(this).text())
+        })
+    }
+
+</script>
 </body>
 </html>

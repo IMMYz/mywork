@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/lobibox.css">
+</head>
+<body>
+<button type="button" onclick="test()">click</button>
+</body>
+<script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/lobibox.js"></script>
+<script type="text/javascript" src="js/notifications.js"></script>
+<script type="text/javascript">
+    function test(){
+        Lobibox.confirm('default', {
+            pauseDelayOnHover: true,
+            postition:"top center",
+            continueDelayOnInactiveTab: false,
+            msg: 'Lorem ipsum dolor sit amet hears farmer indemnity inherent.'
+        });}
+</script>
+</html>
