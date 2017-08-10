@@ -2,7 +2,8 @@
 <head>
     <meta charset="UTF-8">
     <title>省厅地图</title>
-    <link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap.css">
+    <!--<link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap.css">-->
+    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 </head>
 <style>
     body, html {
@@ -12,7 +13,7 @@
 
     #allmap {
         width: 100%;
-        height: 800px;
+        height: 100%;
         margin: 0 auto;
     }
 
@@ -61,7 +62,7 @@
         color: #000;
     }
 
-    label {
+    #allmap label {
         position: absolute;
         display: inline;
         cursor: inherit;
@@ -82,18 +83,49 @@
         top: -10px;
         max-width: inherit;
     }
+    .control-pad{
+        background-color:#000;
+    }
+    .height-100{
+        height:100%
+    }
+    .control-pad{
+        position: fixed;
+        z-index: 10;
+        background-color: #fff;
+        left: 10px;
+        top: 10px;
+        border-radius: 5px;
+        border: 1px solid rgb(14, 14, 150);
+    }
+    .control-pad-title{
+        background-color:#7373ff;
+        margin-top:-10px;
+        color:#fff;
+    }
 </style>
-<div class="container">
-    <div class="col-md-12">
-        <div class="checkbox-inline"><span>点</span><input id="checkPoint" name="checkPoint" type="checkbox" onclick="checkPL(this)"/></div>
-        <div class="checkbox-inline"><span>线</span><input id="checkLine" name="checkLine" type="checkbox" onclick="checkPL(this)"/></div>
+<div class="container-fluid height-100">
+    <div class="row">
+        <div class="control-pad">
+            <div class="text-center control-pad-title">
+                <h4>地图控制面板</h4>
+            </div>
+            <div style="padding: 10px;">
+                <div class="form-group">
+                    <label class="control-label">点<input id="checkPoint" name="checkPoint" type="checkbox" onclick="checkPL(this)"/></label>
+                    <label class="control-label">线<input id="checkLine"  name="checkLine" type="checkbox" onclick="checkPL(this)"/></label>
+                    <label class="control-label">热力图<input id="checkHot"  name="checkLine" type="checkbox"/></label>
+                </div>
+                <div class="col-md-12">
+                    <button type="button" onclick="start()">生成</button>
+                    <button type="button" onclick="removePoint()">清除点</button>
+                    <button type="button" onclick="removeLine()">清除线</button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="col-md-12">
-        <button type="button" onclick="start()">生成</button>
-        <button type="button" onclick="removePoint()">清除点</button>
-        <button type="button" onclick="removeLine()">清除线</button>
-    </div>
-    <div class="row clearfix">
+
+    <div class="row clearfix height-100">
         <div id="allmap"></div>
         <!--<div id="hide-slider" class="text-center clearfix mapSlider" style="display:none">-->
             <!--<div class="col-md-2 text-left" style="width:120px;padding:0 0 0 5px">-->
