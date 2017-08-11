@@ -103,8 +103,57 @@
         margin-top:-10px;
         color:#fff;
     }
+    .login{
+        width: 280px;
+        position: absolute;
+        z-index: 5;
+        left: 50%;
+        margin-left: -140px;
+        top: 20%;
+        display:none;
+    }
+    .span3{
+        margin:5px
+    }
+    .left-control{
+        width: 600px;
+        position: fixed;
+        z-index: 5;
+        background-color: #fff;
+        right: 35px;
+    }
+    .left-control-table{
+        width:100%;
+    }
+    .left-control-title{
+        background-color: #7373ff;
+        color: #fff;
+        text-align: center;
+        font-size: 22px;
+    }
 </style>
 <div class="container-fluid height-100">
+    <!--login-->
+    <div class="login">
+        <div class="row">
+            <div class="span4 offset4">
+                <div class="well text-center">
+                    <legend>登陆地图信息系统</legend>
+                    <form method="POST" action="" accept-charset="UTF-8">
+                        <input class="span3" placeholder="请输入账号" type="text" name="username">
+                        <input class="span3" placeholder="请输入密码" type="password" name="password">
+                        <label class="checkbox">
+                            <input type="checkbox" name="remember" value="1"> 记住密码
+                        </label>
+                        <button class="btn-info btn" type="submit">登陆</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--login END-->
+
+    <!--control-pad-->
     <div class="row">
         <div class="control-pad">
             <div class="text-center control-pad-title">
@@ -124,6 +173,32 @@
             </div>
         </div>
     </div>
+<!--control-pan END-->
+
+    <div id="left-control" class="left-control">
+        <div class="left-control-title">
+            话单列表
+        </div>
+            <table class="table table-striped">
+                <tr>
+                    <th>主叫</th>
+                    <th>被叫</th>
+                    <th>显示</th>
+                </tr>
+                <tr v-for="(item,index) in call">
+                    <td>{{item.call}}</td>
+                    <td>{{item.called}}</td>
+                    <td>
+                        <label>显示该话单<input name="callList" :value="item.line" v-model="checkedNames" @click="showList($event)" type="checkbox"></label>
+                        <!--<label>显示该话单<button name="callList" :value="item.line" @click="showList($event)" type="button">显示所有话单</button></label>-->
+                        <label>显示该话单的点<input type="checkbox"></label>
+                        <label>显示该话单的线<input type="checkbox"></label>
+                    </td>
+                </tr>
+            </table>
+        <span>{{checkedNames}}</span>
+    </div>
+
 
     <div class="row clearfix height-100">
         <div id="allmap"></div>
@@ -145,14 +220,39 @@
             <!--</div>-->
         <!--</div>-->
     </div>
-</div>
+
 </div>
 <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DE0abf6cf5580f24857faef21a4b3870"></script>
 <script type="text/javascript" src="js/points.js"></script>
+<script type="text/javascript" src="../vue/js/vue.js"></script>
 <script type="text/javascript">
     /*<![CDATA[*/
+//    地图上显示的数据点集合
+    var pointA = pointMapData1;
+//    左侧话单列表显示
+    $(function(){
+        var vueData = phoneList.list;
+        console.log(vueData);
+        var leftControl = new Vue({
+            el:"#left-control",
+            data:{"call":vueData,checkedNames:[]},
+            methods:{
+//                勾选按钮进行判断
+                showList:function(event){
+                    var el = event.currentTarget;
+                    var line = $(el).val();
+                    if($(el).prop("checked")==true){
+                        pointA = pointMapData1[line];
+                        console.log(pointA);
+                    }else{
+
+                    }
+                }
+            }
+        })
+    })
     //进度条控件部分
     Date.prototype.Format = function (fmt) { //author: meizz
         var o = {
@@ -249,9 +349,6 @@
         $("#play").removeClass("slider-active");
         $("#pause").addClass("slider-active");
     }
-    var pointA = {
-        "line1": pointMapData.line1
-    };
     var allMin = 0;
     var allMax = 0;//所有路线的最大时间和最小时间
     //    var myIcon = new BMap.Icon("http://developer.baidu.com/map/jsdemo/img/Mario.png", new BMap.Size(32, 70), {    //小车图片
@@ -278,18 +375,20 @@
     var center;
     var overPoint = [];
     var overLine = [];
-    if(pointA['line1'][0]===undefined){
-        center = '昆明';
-    }else{
-        center = new BMap.Point(pointA[item][0].x, pointA[item][0].y);
-    }
+//    地图中心点
+//    if(pointA['line1'][0]===undefined){
+//        center = '昆明';
+//    }else{
+//        center = new BMap.Point(pointA[item][0].x, pointA[item][0].y);
+//    }
 
-    map.centerAndZoom(center, 15);
+    map.centerAndZoom('昆明', 10);
     function start() {
         points = [];
         num = 1;
         item = "line" + num;
         var sliderType = 0;
+        console.log(pointA);
         while (pointA[item] != undefined) {
             for (i in pointA[item]) {
                 var x = pointA[item][i].x;
@@ -346,7 +445,6 @@
 
     }
     function addPoint() {
-        debugger;
         var line = [];
         var maxTime, minTime;
         var timeline = [];
