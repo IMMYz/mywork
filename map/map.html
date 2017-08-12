@@ -249,7 +249,6 @@
 //    左侧话单列表显示
     $(function(){
         var vueData = pointMapData1;
-        console.log(vueData);
         var leftControl = new Vue({
             el:"#left-control",
             data:{
@@ -275,13 +274,12 @@
                     var line = $(el).val();
                     if($(el).prop("checked")==true){
                         pointA = pointMapData1[line];
-                        console.log(pointA);
+
                     }else{
 //                        TODO
                     }
                 },
                 showMap:function(event,line){
-                    debugger;
                     var el = event.currentTarget;
                     if($(el).prop("checked")){
                         $(el).parent().next().children().prop("checked","true");
@@ -298,8 +296,10 @@
                     var el = event.currentTarget;
                     if($(el).prop("checked")){
                         leftControl.checkedPoint[line] = true;
+                        controlAddPoint(line)
                     }else{
                         leftControl.checkedPoint[line] = false;
+                        removePoint(line);
 //                        TODO
                     }
                 },
@@ -434,7 +434,8 @@
     var color = ["blue", "green", "red"];
     var colorNum = 0;
     var center;
-    var overPoint = {};
+    var addedPoint = {};//已经增加点的对象
+    var overPoint = [];
     var overLine = [];
 //    地图中心点
 //    if(pointA['line1'][0]===undefined){
@@ -444,17 +445,17 @@
 //    }
 
     map.centerAndZoom('昆明', 10);
-    function start(item) {
+    function start(line) {
         points = [];
         num = 1;
-//        item = "line" + num;
+        item = line
         var sliderType = 0;
-        console.log(pointA);
+
         while (pointA[item] != undefined) {
-            for (i in pointA[item]) {
-                var x = pointA[item][i].x;
-                var y = pointA[item][i].y;
-                var date = pointA[item][i].date;
+            for (i in pointA[line]) {
+                var x = pointA[line][i].x;
+                var y = pointA[line][i].y;
+                var date = pointA[line][i].date;
                 points.push(new BMap.Point(x, y));
                 points[i].date = date;
             }
@@ -473,7 +474,7 @@
             }
             num++;
             item = item + num;
-            addPoint(points);
+            addPoint(points,line);
             points = [];
             //整体时间路线的最大值和最小值
 
@@ -505,7 +506,7 @@
     window.onload = function () {
 
     }
-    function addPoint() {
+    function addPoint(points,lineName) {
         var line = [];
         var maxTime, minTime;
         var timeline = [];
@@ -532,10 +533,12 @@
 //                marker.setLabel(labelTime);
 //            }
                 map.addOverlay(marker);
-                overPoint;
+                overPoint.push(marker);
+                console.log(marker);
             }
+        addedPoint[lineName] = overPoint;
+        overPoint = [];
 
-        console.log(overPoint);
 
         var polyline = new BMap.Polyline(points, {strokeColor: color[colorNum], strokeWeight: 2, strokeOpacity: 0.5});
         colorNum++;
@@ -558,11 +561,25 @@
         }
     }
 //    清除地图
-    function removePoint(){
-        for(var i = 0;i<overPoint.length;i++){
-            map.removeOverlay(overPoint[i]);
+    function removePoint(line){
+        for(var i = 0;i<addedPoint[line].length;i++){
+//            map.removeOverlay(overPoint[i]);
+            map.removeOverlay(addedPoint[line][i]);
         }
     }
+//    单独增加点
+    function controlAddPoint(line){
+        for(var i = 0;i<addedPoint[line].length;i++){
+//            var start, end, everyTime;
+//            start = new BMap.Label("起点", {offset: new BMap.Size(20, -10)});
+//            end = new BMap.Label("终点", {offset: new BMap.Size(20, -10)});
+//            everyTime = new BMap.Label(addedPoint[line][i].date, {offset: new BMap.Size(20, -10)});
+//            addedPoint[line][i].setLabel(everyTime);
+            console.log(addedPoint[line][i]);
+            map.addOverlay( addedPoint[line][i]);
+        }
+    }
+//    清除线
     function removeLine(){
         for(var i = 0;i<overLine.length;i++){
             map.removeOverlay(overLine[i]);
@@ -607,7 +624,7 @@
     }
     /*]]>*/
     $(function () {
-        console.log(pointA)
+
 //        start();
 //        sliderClick();
     })
