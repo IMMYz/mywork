@@ -179,24 +179,31 @@
         <div class="left-control-title">
             话单列表
         </div>
+        <div class="page clearfix">
+            <a href="javascript:void(0)" v-for="item in lineList" :value="item.name" @click="addList(item.name)">
+                {{item.name}}
+            </a>
+            <button type="button"><i class="glyphicon glyphicon-plus"></i></button>
+        </div>
+        <div class="form-group">
+            <label>显示该话单<input name="callList" v-model="checkedAll[thisList]" :value="thisList" @click="showMap($event,thisList)" type="checkbox"></label>
+            <!--<label>显示该话单<button name="callList" :value="item.line" @click="showList($event)" type="button">显示所有话单</button></label>-->
+            <label>显示该话单的点<input :value="thisList" v-model="checkedPoint[thisList]" :value="thisList" type="checkbox" @click="showPoint($event,thisList)"></label>
+            <label>显示该话单的线<input :value="thisList" v-model="checkedLine[thisList]" :value="thisList" type="checkbox" @click="showLine($event,thisList)"></label>
+        </div>
             <table class="table table-striped">
                 <tr>
-                    <th>主叫</th>
-                    <th>被叫</th>
-                    <th>显示</th>
+                    <th>经度</th>
+                    <th>纬度</th>
+                    <th>时间</th>
                 </tr>
                 <tr v-for="(item,index) in call">
-                    <td>{{item.call}}</td>
-                    <td>{{item.called}}</td>
-                    <td>
-                        <label>显示该话单<input name="callList" :value="item.line" v-model="checkedNames" @click="showList($event)" type="checkbox"></label>
-                        <!--<label>显示该话单<button name="callList" :value="item.line" @click="showList($event)" type="button">显示所有话单</button></label>-->
-                        <label>显示该话单的点<input type="checkbox"></label>
-                        <label>显示该话单的线<input type="checkbox"></label>
-                    </td>
+                    <td>{{item.x}}</td>
+                    <td>{{item.y}}</td>
+                    <td>{{item.date}}</td>
                 </tr>
             </table>
-        <span>{{checkedNames}}</span>
+        <span></span>
     </div>
 
 
@@ -231,15 +238,38 @@
     /*<![CDATA[*/
 //    地图上显示的数据点集合
     var pointA = pointMapData1;
+//    循环多个话单数据line
+//    var lineList = [];
+//    for(item in pointMapData1){
+//        var temp = {"line":item};
+//        lineList.push(temp);
+//        console.log(lineList);
+//    }
+    var lineList = {line:[{name:"line1"},{name:"line2"}]};
 //    左侧话单列表显示
     $(function(){
-        var vueData = phoneList.list;
+        var vueData = pointMapData1;
         console.log(vueData);
         var leftControl = new Vue({
             el:"#left-control",
-            data:{"call":vueData,checkedNames:[]},
+            data:{
+                "call":vueData,
+                "lineList":lineList.line,
+                "thisList":{},
+                "thisPoint":{},
+                "thisLine":{},
+                "checkedAll":{},
+                "checkedPoint":{},
+                "checkedLine":{}
+                },
             methods:{
 //                勾选按钮进行判断
+                addList:function(value){
+                    leftControl.call = vueData[value];
+                    leftControl.thisList = value;
+//                    leftControl.thisPoint = value;
+//                    leftControl.thisLine = value;
+                },
                 showList:function(event){
                     var el = event.currentTarget;
                     var line = $(el).val();
@@ -247,7 +277,38 @@
                         pointA = pointMapData1[line];
                         console.log(pointA);
                     }else{
-
+//                        TODO
+                    }
+                },
+                showMap:function(event,line){
+                    debugger;
+                    var el = event.currentTarget;
+                    if($(el).prop("checked")){
+                        $(el).parent().next().children().prop("checked","true");
+                        $(el).parent().next().next().children().prop("checked","true")
+                        leftControl.checkedAll[line] = true;
+                        leftControl.checkedPoint[line] = true;
+                        leftControl.checkedLine[line] = true;
+                        start(line);
+                    }else{
+                        leftControl.checkedAll[line] = false;
+                    }
+                },
+                showPoint:function(event,line){
+                    var el = event.currentTarget;
+                    if($(el).prop("checked")){
+                        leftControl.checkedPoint[line] = true;
+                    }else{
+                        leftControl.checkedPoint[line] = false;
+//                        TODO
+                    }
+                },
+                showLine:function(event,line){
+                    var el = event.currentTarget;
+                    if($(el).prop("checked")){
+                        leftControl.checkedLine[line] = true;
+                    }else{
+                        leftControl.checkLine[line] = false;
                     }
                 }
             }
@@ -373,7 +434,7 @@
     var color = ["blue", "green", "red"];
     var colorNum = 0;
     var center;
-    var overPoint = [];
+    var overPoint = {};
     var overLine = [];
 //    地图中心点
 //    if(pointA['line1'][0]===undefined){
@@ -383,10 +444,10 @@
 //    }
 
     map.centerAndZoom('昆明', 10);
-    function start() {
+    function start(item) {
         points = [];
         num = 1;
-        item = "line" + num;
+//        item = "line" + num;
         var sliderType = 0;
         console.log(pointA);
         while (pointA[item] != undefined) {
@@ -411,7 +472,7 @@
                 allMax = new Date(points[points.length - 1].date);
             }
             num++;
-            item = "line" + num;
+            item = item + num;
             addPoint(points);
             points = [];
             //整体时间路线的最大值和最小值
@@ -454,7 +515,7 @@
 //        设置进度条label
 //        sliderLabel(minTime,maxTime);
         //完整路线图
-        if($("#checkPoint").prop("checked")) {
+
             for (var i = 0; i < points.length; i++) {
                 var start, end, everyTime;
                 start = new BMap.Label("起点", {offset: new BMap.Size(20, -10)});
@@ -468,21 +529,20 @@
 //            } else if (i == points.length - 1) {
 //                marker.setLabel(end);
 //            } else {
-////                marker.setLabel(labelTime);
+//                marker.setLabel(labelTime);
 //            }
                 map.addOverlay(marker);
-                overPoint.push(marker);
+                overPoint;
             }
-        }
+
         console.log(overPoint);
-        if($("#checkLine").prop("checked")){
+
         var polyline = new BMap.Polyline(points, {strokeColor: color[colorNum], strokeWeight: 2, strokeOpacity: 0.5});
         colorNum++;
         overLine.push(polyline);
         map.addOverlay(polyline);
         polyLines.push(polyline);
         line = polyline;
-        }
     }
 //    勾选事件
     function checkPL(ele){
