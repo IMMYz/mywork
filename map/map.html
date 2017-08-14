@@ -437,6 +437,7 @@
     var addedPoint = {};//已经增加点的对象
     var overPoint = [];
     var overLine = [];
+    var beforeToMarker = {};
 //    地图中心点
 //    if(pointA['line1'][0]===undefined){
 //        center = '昆明';
@@ -474,7 +475,8 @@
             }
             num++;
             item = item + num;
-            addPoint(points,line);
+            beforeToMarker[line] = points;
+            addPoint(beforeToMarker,line);
             points = [];
             //整体时间路线的最大值和最小值
 
@@ -506,11 +508,12 @@
     window.onload = function () {
 
     }
-    function addPoint(points,lineName) {
+    function addPoint(beforeToMarker,lineName) {
         var line = [];
         var maxTime, minTime;
         var timeline = [];
         var index = 0;
+        points = beforeToMarker[lineName];
         minTime = new Date(points[0].date);
         maxTime = new Date(points[points.length - 1].date);
 //        设置进度条label
@@ -560,24 +563,32 @@
             }
         }
     }
-//    清除地图
+//    移除已经添加的点
     function removePoint(line){
+        debugger;
         for(var i = 0;i<addedPoint[line].length;i++){
 //            map.removeOverlay(overPoint[i]);
             map.removeOverlay(addedPoint[line][i]);
         }
     }
-//    单独增加点
+//    单独增加点与label坐标
     function controlAddPoint(line){
         for(var i = 0;i<addedPoint[line].length;i++){
-//            var start, end, everyTime;
-//            start = new BMap.Label("起点", {offset: new BMap.Size(20, -10)});
-//            end = new BMap.Label("终点", {offset: new BMap.Size(20, -10)});
-//            everyTime = new BMap.Label(addedPoint[line][i].date, {offset: new BMap.Size(20, -10)});
-//            addedPoint[line][i].setLabel(everyTime);
-            console.log(addedPoint[line][i]);
-            map.addOverlay( addedPoint[line][i]);
+            let points = beforeToMarker[line];
+            for (var i = 0; i < points.length; i++) {
+                var start, end, everyTime;
+                start = new BMap.Label("起点", {offset: new BMap.Size(20, -10)});
+                end = new BMap.Label("终点", {offset: new BMap.Size(20, -10)});
+                everyTime = new BMap.Label(points[i].date, {offset: new BMap.Size(20, -10)});
+                var marker = new BMap.Marker(points[i]);
+                marker.setLabel(everyTime);
+                map.addOverlay(marker);
+                overPoint.push(marker);
+                console.log(marker);
+            }
         }
+        addedPoint[line] = overPoint;
+        overPoint = [];
     }
 //    清除线
     function removeLine(){
