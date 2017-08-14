@@ -131,6 +131,11 @@
         text-align: center;
         font-size: 22px;
     }
+    .page{
+        padding:10px 10px 5px 10px;
+        border-bottom:1px solid #7373ff;
+        margin-bottom:5px
+    }
 </style>
 <div class="container-fluid height-100">
     <!--login-->
@@ -152,28 +157,6 @@
         </div>
     </div>
     <!--login END-->
-
-    <!--control-pad-->
-    <div class="row">
-        <div class="control-pad">
-            <div class="text-center control-pad-title">
-                <h4>地图控制面板</h4>
-            </div>
-            <div style="padding: 10px;">
-                <div class="form-group">
-                    <label class="control-label">点<input id="checkPoint" name="checkPoint" type="checkbox" onclick="checkPL(this)"/></label>
-                    <label class="control-label">线<input id="checkLine"  name="checkLine" type="checkbox" onclick="checkPL(this)"/></label>
-                    <label class="control-label">热力图<input id="checkHot"  name="checkLine" type="checkbox"/></label>
-                </div>
-                <div class="col-md-12">
-                    <button type="button" onclick="start()">生成</button>
-                    <button type="button" onclick="removePoint()">清除点</button>
-                    <button type="button" onclick="removeLine()">清除线</button>
-                </div>
-            </div>
-        </div>
-    </div>
-<!--control-pan END-->
 
     <!--bootstrap slider-->
     <div id="hide-slider" class="text-center clearfix mapSlider">
@@ -200,16 +183,19 @@
             话单列表
         </div>
         <div class="page clearfix">
-            <a href="javascript:void(0)" v-for="item in lineList" :value="item.name" @click="addList(item.name)">
-                {{item.name}}
-            </a>
-            <button type="button"><i class="glyphicon glyphicon-plus"></i></button>
+            <label v-for="item in lineList" class="btn btn-primary" style="float:left;margin-left:5px">
+                <a href="javascript:void(0)"  :value="item.name" @click="addList(item.name)" style="font-size:18px;line-height:1.5;color:#fff">
+                    {{item.name}}
+                </a>
+                <input name="callList" v-model="checkedAll[item.name]" :value="item.name" @click="showMap($event,item.name)" type="checkbox">
+            </label>
+            <button class="btn btn-primary" type="button" style="float:right"><i class="glyphicon glyphicon-plus"></i></button>
         </div>
         <div class="form-group">
-            <label>显示该话单<input name="callList" v-model="checkedAll[thisList]" :value="thisList" @click="showMap($event,thisList)" type="checkbox"></label>
+            <!--<label>显示该话单<input name="callList" v-model="checkedAll[thisList]" :value="thisList" @click="showMap($event,thisList)" type="checkbox"></label>-->
             <!--<label>显示该话单<button name="callList" :value="item.line" @click="showList($event)" type="button">显示所有话单</button></label>-->
-            <label>显示该话单的点<input :value="thisList" v-model="checkedPoint[thisList]" :value="thisList" type="checkbox" @click="showPoint($event,thisList)"></label>
-            <label>显示该话单的线<input :value="thisList" v-model="checkedLine[thisList]" :value="thisList" type="checkbox" @click="showLine($event,thisList)"></label>
+            <label>显示该话单的点<input id="showPoint" :value="thisList" v-model="checkedPoint[thisList]" :value="thisList" type="checkbox" @click="showPoint($event,thisList)"></label>
+            <label>显示该话单的线<input id="showLine" :value="thisList" v-model="checkedLine[thisList]" :value="thisList" type="checkbox" @click="showLine($event,thisList)"></label>
         </div>
             <table class="table table-striped">
                 <tr>
@@ -267,7 +253,7 @@
 //        lineList.push(temp);
 //        console.log(lineList);
 //    }
-    var lineList = {line:[{name:"line1"},{name:"line2"}]};
+    var lineList = {line:[{name:"张三"},{name:"李四"}]};
 //    左侧话单列表显示
     $(function(){
         var vueData = pointMapData1;
@@ -304,8 +290,10 @@
                 showMap:function(event,line){
                     var el = event.currentTarget;
                     if($(el).prop("checked")){
-                        $(el).parent().next().children().prop("checked","true");
-                        $(el).parent().next().next().children().prop("checked","true")
+                        $("#showPoint").prop("checked","true");
+                        $("#showLine").prop("checked","true");
+//                        $(el).parent().next().children().prop("checked","true");
+//                        $(el).parent().next().next().children().prop("checked","true")
                         leftControl.checkedAll[line] = true;
                         leftControl.checkedPoint[line] = true;
                         leftControl.checkedLine[line] = true;
