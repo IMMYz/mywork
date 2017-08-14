@@ -5,6 +5,7 @@
     <!--<link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap.css">-->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" href="js/bootstrap-silder/bootstrap-slider.css">
+    <link rel="stylesheet" href="js/bootstrap-switch/css/bootstrap3/bootstrap-switch.css">
 </head>
 <style>
     body, html {
@@ -194,7 +195,7 @@
         <div class="form-group">
             <!--<label>显示该话单<input name="callList" v-model="checkedAll[thisList]" :value="thisList" @click="showMap($event,thisList)" type="checkbox"></label>-->
             <!--<label>显示该话单<button name="callList" :value="item.line" @click="showList($event)" type="button">显示所有话单</button></label>-->
-            <label>显示该话单的点<input id="showPoint" :value="thisList" v-model="checkedPoint[thisList]" :value="thisList" type="checkbox" @click="showPoint($event,thisList)"></label>
+            <label>显示该话单的点<input class="switch switch-mini" id="showPoint" :value="thisList" v-model="checkedPoint[thisList]" :value="thisList" type="checkbox" @click="showPoint($event,thisList)"></label>
             <label>显示该话单的线<input id="showLine" :value="thisList" v-model="checkedLine[thisList]" :value="thisList" type="checkbox" @click="showLine($event,thisList)"></label>
         </div>
             <table class="table table-striped">
@@ -238,6 +239,7 @@
 <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
 <script type="text/javascript" src="js/bootstrap-silder/bootstrap-slider.js"></script>
+<script type="text/javascript" src="js/bootstrap-switch/js/bootstrap-switch.js"></script>
 <!--<script rel="stylesheet" src="js/bootstrap-silder/bootstrap-slider.css"></script>-->
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DE0abf6cf5580f24857faef21a4b3870"></script>
 <script type="text/javascript" src="js/points.js"></script>
@@ -328,6 +330,8 @@
                 }
             }
         })
+        //        checkbox初始化
+        $("#showPoint").bootstrapSwitch();
     })
     //进度条控件部分
     Date.prototype.Format = function (fmt) { //author: meizz
