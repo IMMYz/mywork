@@ -307,8 +307,10 @@
                     var el = event.currentTarget;
                     if($(el).prop("checked")){
                         leftControl.checkedLine[line] = true;
+                        controlAddLine(line);
                     }else{
-                        leftControl.checkLine[line] = false;
+                        leftControl.checkedLine[line] = false;
+                        removeLine(line);
                     }
                 }
             }
@@ -435,6 +437,7 @@
     var colorNum = 0;
     var center;
     var addedPoint = {};//已经增加点的对象
+    var addedPolyLine = {};
     var overPoint = [];
     var overLine = [];
     var beforeToMarker = {};
@@ -543,12 +546,14 @@
         overPoint = [];
 
 
-        var polyline = new BMap.Polyline(points, {strokeColor: color[colorNum], strokeWeight: 2, strokeOpacity: 0.5});
+        let polyline = new BMap.Polyline(points, {strokeColor: color[colorNum], strokeWeight: 2, strokeOpacity: 0.5});
         colorNum++;
         overLine.push(polyline);
         map.addOverlay(polyline);
         polyLines.push(polyline);
-        line = polyline;
+        addedPolyLine[lineName] = overLine;
+        overLine = [];
+//        line = polyline;
     }
 //    勾选事件
     function checkPL(ele){
@@ -565,7 +570,6 @@
     }
 //    移除已经添加的点
     function removePoint(line){
-        debugger;
         for(var i = 0;i<addedPoint[line].length;i++){
 //            map.removeOverlay(overPoint[i]);
             map.removeOverlay(addedPoint[line][i]);
@@ -590,8 +594,21 @@
         addedPoint[line] = overPoint;
         overPoint = [];
     }
-//    清除线
-    function removeLine(){
+//    单独增加点之间的连接线
+    function controlAddLine(line){
+        let points = beforeToMarker[line];
+        let polyline = new BMap.Polyline(points, {strokeColor: color[colorNum], strokeWeight: 2, strokeOpacity: 0.5});
+        //TODO 重新添加的线颜色需要保持一致
+        colorNum++;
+        overLine.push(polyline);
+        map.addOverlay(polyline);
+        polyLines.push(polyline);
+        addedPolyLine[line] = overLine;
+        overLine = [];
+    }
+//    移除已经添加的连线
+    function removeLine(line){
+        let overLine = addedPolyLine[line];
         for(var i = 0;i<overLine.length;i++){
             map.removeOverlay(overLine[i]);
         }
