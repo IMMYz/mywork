@@ -4,6 +4,7 @@
     <title>省厅地图</title>
     <!--<link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap.css">-->
     <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link rel="stylesheet" href="js/bootstrap-silder/bootstrap-slider.css">
 </head>
 <style>
     body, html {
@@ -28,9 +29,6 @@
         margin: 0 auto;
     }
 
-    .slider-tick-label-container {
-        display: none;
-    }
 
     .slider.slider-horizontal .slider-handle {
         margin-top: 0px;
@@ -42,12 +40,14 @@
 
     .mapSlider {
         width: 100%;
-        height:30px;
-        padding-top:5px;
+        height: 30px;
+        padding-top: 5px;
         margin: 0 auto;
         background-color: #afa7a7;
-        position: relative;
-        top: -30px;
+        position: absolute;
+        /* top: -30px; */
+        z-index: 5;
+        bottom: 0;
     }
 
     .mapSlider a {
@@ -175,6 +175,26 @@
     </div>
 <!--control-pan END-->
 
+    <!--bootstrap slider-->
+    <div id="hide-slider" class="text-center clearfix mapSlider">
+        <div class="col-md-2 text-left" style="width:120px;padding:0 0 0 5px">
+            <!--<a href="javascript:void(0)" onclick="pause()" class="slider-active"><span>1X</span></a>-->
+            <!--<a href="javascript:void(0)" onclick="pause()"><span>2X</span></a>-->
+            <!--<a href="javascript:void(0)"><span>3X</span></a>-->
+            <a id="play" href="javascript:void(0)" onclick="run()"><span
+                    class="glyphicon glyphicon-play"></span></a>
+            <a id="pause" href="javascript:void(0)" onclick="pause()"><span
+                    class="glyphicon glyphicon-pause"></span></a>
+        </div>
+        <div class="col-md-8" id="slider-zone" style="width:400px;">
+            <input id="ex8" type="text"/>
+        </div>
+        <div class="col-md-2" style="width: 200px;">
+            <span id="nowTime" style="color:#fff"></span>
+        </div>
+    </div>
+    <!--bootstrap slider END-->
+
     <div id="left-control" class="left-control">
         <div class="left-control-title">
             话单列表
@@ -231,6 +251,8 @@
 </div>
 <script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="js/bootstrap-silder/bootstrap-slider.js"></script>
+<!--<script rel="stylesheet" src="js/bootstrap-silder/bootstrap-slider.css"></script>-->
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DE0abf6cf5580f24857faef21a4b3870"></script>
 <script type="text/javascript" src="js/points.js"></script>
 <script type="text/javascript" src="../vue/js/vue.js"></script>
@@ -288,6 +310,7 @@
                         leftControl.checkedPoint[line] = true;
                         leftControl.checkedLine[line] = true;
                         start(line);
+                        sliderClick();
                     }else{
                         leftControl.checkedAll[line] = false;
                     }
@@ -353,8 +376,10 @@
     }
 
     function sliderClick() {
-        //销毁久的进度条
-        $("#ex8").bootstrapSlider('destroy');
+        //销毁旧的进度条
+        $("#slider-zone").html("");
+        let node = '<input id="ex8" type="text">';
+        $("#slider-zone").append(node);
         sliderLabel(allMin, allMax);
         $("#ex8").bootstrapSlider({
             scale: 'linear',
@@ -390,23 +415,23 @@
             }
         }
     }
-    //运行按钮
-//    function run() {
-//        $("#play").addClass("slider-active");
-//        $("#pause").removeClass("slider-active");
-//        timeCount = parseInt($("#ex8").val());
-//        if (timeCount < 1000) {
-//            autoRun = setInterval(function () {
-//                $("#nowTime").text(dateLabel[timeCount - 1]);
-//                nowTime = new Date(dateLabel[timeCount - 1]);
-//                timeCount++;
-//                $("#ex8").bootstrapSlider("setValue", timeCount);
-//                linesRun();
-//            }, 100)
-//        } else {
-//            clearInterval(autoRun);
-//        }
-//    }
+//    运行按钮
+    function run() {
+        $("#play").addClass("slider-active");
+        $("#pause").removeClass("slider-active");
+        timeCount = parseInt($("#ex8").val());
+        if (timeCount < 1000) {
+            autoRun = setInterval(function () {
+                $("#nowTime").text(dateLabel[timeCount - 1]);
+                nowTime = new Date(dateLabel[timeCount - 1]);
+                timeCount++;
+                $("#ex8").bootstrapSlider("setValue", timeCount);
+                linesRun();
+            }, 100)
+        } else {
+            clearInterval(autoRun);
+        }
+    }
     function pause() {
         clearInterval(autoRun);
         $("#play").removeClass("slider-active");
@@ -418,7 +443,7 @@
     //        //offset: new BMap.Size(0, -5),    //相当于CSS精灵
     //        imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
     //    });
-    var myIcon = new BMap.Icon("../../../static/images/ren.png", new BMap.Size(32, 70), {    //小车图片
+    var myIcon = new BMap.Icon("images/ren.png", new BMap.Size(32, 70), {    //小车图片
         //offset: new BMap.Size(0, -5),    //相当于CSS精灵
         imageOffset: new BMap.Size(0, 0)    //图片的偏移量。为了是图片底部中心对准坐标点。
     });
