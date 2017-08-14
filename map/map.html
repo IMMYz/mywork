@@ -313,6 +313,8 @@
                         sliderClick();
                     }else{
                         leftControl.checkedAll[line] = false;
+                        removePoint(line);
+                        removeLine(line);
                     }
                 },
                 showPoint:function(event,line){
