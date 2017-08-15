@@ -315,6 +315,7 @@
     var lineList = {line:[{name:"张三"},{name:"李四"}]};
 //    左侧话单列表显示
     $(function(){
+        clearRepeat();
         var vueData = pointMapData1;
         var leftControl = new Vue({
             el:"#left-control",
@@ -341,7 +342,6 @@
                     var line = $(el).val();
                     if($(el).prop("checked")==true){
                         pointA = pointMapData1[line];
-
                     }else{
 //                        TODO
                     }
@@ -526,29 +526,35 @@
     function start(line) {
         points = [];
         num = 1;
-        item = line
+        item = line;
         var sliderType = 0;
+        var minDate = pointA[line][0].date;
+        var maxDate = pointA[line][pointA[line].length-1].date;
+        pointA[line].minDate = minDate;
+        pointA[line].maxTime = maxDate;
 
-        while (pointA[item] != undefined) {
+            debugger;
             for (i in pointA[line]) {
-                var x = pointA[line][i].x;
-                var y = pointA[line][i].y;
-                var date = pointA[line][i].date;
-                points.push(new BMap.Point(x, y));
-                points[i].date = date;
+                if(pointA[line][i].x!=undefined){
+                    var x = pointA[line][i].x;
+                    var y = pointA[line][i].y;
+                    var date = pointA[line][i].date;
+                    points.push(new BMap.Point(x, y));
+                    points[i].date = date;
+                }
             }
             if(points[0]===undefined){
                 return false;
             }
             if (allMin == 0) {
-                allMin = new Date(points[0].date);
-                allMax = new Date(points[points.length - 1].date);
+                allMin = new Date(pointA[line].minDate);
+                allMax = new Date(pointA[line].maxDate);
             }
-            if (allMin > new Date(points[0].date)) {
-                allMine = new Date(points[0].date);
+            if (allMin > new Date(pointA[line].minDate)) {
+                allMin = new Date(pointA[line].minDate);
             }
-            if (allMax < new Date(points[points.length - 1].date)) {
-                allMax = new Date(points[points.length - 1].date);
+            if (allMax < new Date(pointA[line].maxDate)) {
+                allMax = new Date(pointA[line].maxDate);
             }
             num++;
             item = item + num;
@@ -557,7 +563,6 @@
             points = [];
             //整体时间路线的最大值和最小值
 
-        }
         if (sliderType == 0) {
             sliderLabel(allMin, allMax);
             sliderType = 1;
@@ -584,6 +589,35 @@
 
     window.onload = function () {
 
+    }
+
+//    清除连续同一地点的电话
+    function clearRepeat(){
+        for(line in pointMapData1){
+            var i = 0;
+            pointMapData1[line].minDate = pointMapData1[line][0].date;
+            while(i<pointMapData1[line].length-1){
+                var j = i+1;
+                while(pointMapData1[line][i].x==pointMapData1[line][j].x && pointMapData1[line][i].y==pointMapData1[line][j].y){
+                    pointMapData1[line][j].repeat = true;
+                    pointMapData1[line][i].date += ","+pointMapData1[line][j].date;
+                    j++;
+                    if(j==pointMapData1[line].length){
+                        break;
+                    }
+                }
+                i = j;
+            }
+            var lineTempArray =[];
+            for(var i = 0;i<pointMapData1[line].length;i++){
+                if(pointMapData1[line][i].repeat!=true){
+                    lineTempArray.push(pointMapData1[line][i]);
+                }
+            }
+            pointMapData1[line] = lineTempArray;
+        }
+
+        pointA = pointMapData1;
     }
     function addPoint(beforeToMarker,lineName) {
         var line = [];
