@@ -454,7 +454,6 @@
         var labelDate;
         if(allMax != 0&&allMin != 0){
             var gapTime = Math.round((allMax.getTime() - allMin.getTime()) / 1000);
-
             if (dateLabel.length == 0) {
                 for (var i = 1; i <= 1000; i++) {
                     labelDate = allMin.getTime() + (gapTime * i);
@@ -532,13 +531,11 @@
         var maxDate = pointA[line][pointA[line].length-1].date;
         pointA[line].minDate = minDate;
         pointA[line].maxTime = maxDate;
-
-            debugger;
             for (i in pointA[line]) {
                 if(pointA[line][i].x!=undefined){
                     var x = pointA[line][i].x;
                     var y = pointA[line][i].y;
-                    var date = pointA[line][i].date;
+                    var date = pointA[line][i].date.split(",")[0];
                     points.push(new BMap.Point(x, y));
                     points[i].date = date;
                 }
@@ -546,16 +543,18 @@
             if(points[0]===undefined){
                 return false;
             }
-            if (allMin == 0) {
-                allMin = new Date(pointA[line].minDate);
-                allMax = new Date(pointA[line].maxDate);
-            }
-            if (allMin > new Date(pointA[line].minDate)) {
-                allMin = new Date(pointA[line].minDate);
-            }
-            if (allMax < new Date(pointA[line].maxDate)) {
-                allMax = new Date(pointA[line].maxDate);
-            }
+            allMin = new Date(minDate);
+            allMax = new Date(maxDate);
+//            if (allMin == 0) {
+//                allMin = new Date(pointA[line].minDate);
+//                allMax = new Date(pointA[line].maxDate);
+//            }
+//            if (allMin > new Date(pointA[line].minDate)) {
+//                allMin = new Date(pointA[line].minDate);
+//            }
+//            if (allMax < new Date(pointA[line].maxDate)) {
+//                allMax = new Date(pointA[line].maxDate);
+//            }
             num++;
             item = item + num;
             beforeToMarker[line] = points;
@@ -648,7 +647,6 @@
 //            }
                 map.addOverlay(marker);
                 overPoint.push(marker);
-                console.log(marker);
             }
         addedPoint[lineName] = overPoint;
         overPoint = [];
@@ -696,7 +694,6 @@
                 marker.setLabel(everyTime);
                 map.addOverlay(marker);
                 overPoint.push(marker);
-                console.log(marker);
             }
         }
         addedPoint[line] = overPoint;
