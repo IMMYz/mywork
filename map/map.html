@@ -2,10 +2,11 @@
 <head>
     <meta charset="UTF-8">
     <title>省厅地图</title>
-    <!--<link type="text/css" rel="stylesheet" href="../bootstrap/css/bootstrap.css">-->
-    <link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+    <!--<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <link rel="stylesheet" href="js/bootstrap-silder/bootstrap-slider.css">
     <link rel="stylesheet" href="js/bootstrap-switch/css/bootstrap3/bootstrap-switch.css">
+    <link rel="stylesheet" href="js/iview/styles/iview.css">
 </head>
 <style>
     body, html {
@@ -138,6 +139,47 @@
         margin-bottom:5px
     }
 </style>
+<div id="menu">
+    <template>
+        <i-menu mode="horizontal" :theme="theme1" active-name="1">
+            <Menu-item name="1">
+                <Icon type="ios-paper"></Icon>
+                我的轨迹
+            </Menu-item>
+            <Submenu name="2">
+                <template slot="title">
+                    <Icon type="ios-people"></Icon>
+                    用户管理
+                </template>
+                <Menu-group title="选项">
+                    <Menu-item name="2-1">查看个人信息</Menu-item>
+                    <Menu-item name="2-2">登出</Menu-item>
+                </Menu-group>
+            </Submenu>
+            <Submenu name="3">
+                <template slot="title">
+                    <Icon type="stats-bars"></Icon>
+                    统计分析
+                </template>
+                <Menu-group title="使用">
+                    <Menu-item name="3-1">新增和启动</Menu-item>
+                    <Menu-item name="3-2">活跃分析</Menu-item>
+                    <Menu-item name="3-3">时段分析</Menu-item>
+                </Menu-group>
+                <Menu-group title="留存">
+                    <Menu-item name="3-4">用户留存</Menu-item>
+                    <Menu-item name="3-5">流失用户</Menu-item>
+                </Menu-group>
+            </Submenu>
+            <Menu-item name="4">
+                <Icon type="settings"></Icon>
+                综合设置
+            </Menu-item>
+        </i-menu>
+        <br>
+    </template>
+</div>
+
 <div class="container-fluid height-100">
     <!--login-->
     <div class="login">
@@ -195,7 +237,7 @@
         <div class="form-group">
             <!--<label>显示该话单<input name="callList" v-model="checkedAll[thisList]" :value="thisList" @click="showMap($event,thisList)" type="checkbox"></label>-->
             <!--<label>显示该话单<button name="callList" :value="item.line" @click="showList($event)" type="button">显示所有话单</button></label>-->
-            <label>显示该话单的点<input class="switch switch-mini" id="showPoint" :value="thisList" v-model="checkedPoint[thisList]" :value="thisList" type="checkbox" @click="showPoint($event,thisList)"></label>
+            <label>显示该话单的点<input id="showPoint" :value="thisList" v-model="checkedPoint[thisList]" :value="thisList" type="checkbox" @click="showPoint($event,thisList)"></label>
             <label>显示该话单的线<input id="showLine" :value="thisList" v-model="checkedLine[thisList]" :value="thisList" type="checkbox" @click="showLine($event,thisList)"></label>
         </div>
             <table class="table table-striped">
@@ -236,16 +278,31 @@
     </div>
 
 </div>
-<script type="text/javascript" src="../js/jquery-3.2.1.min.js"></script>
-<script type="text/javascript" src="../bootstrap/js/bootstrap.js"></script>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/bootstrap-silder/bootstrap-slider.js"></script>
 <script type="text/javascript" src="js/bootstrap-switch/js/bootstrap-switch.js"></script>
 <!--<script rel="stylesheet" src="js/bootstrap-silder/bootstrap-slider.css"></script>-->
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DE0abf6cf5580f24857faef21a4b3870"></script>
 <script type="text/javascript" src="js/points.js"></script>
-<script type="text/javascript" src="../vue/js/vue.js"></script>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/iview/iview.min.js"></script>
 <script type="text/javascript">
     /*<![CDATA[*/
+//    导航条
+    $(function(){
+        var menu = new Vue ({
+            el:"#menu",
+            data:{
+                theme1:"primary"
+            },
+            methods: {
+                change (status) {
+                    this.$Message.info('开关状态：' + status);
+                }
+            }
+        })
+    })
 //    地图上显示的数据点集合
     var pointA = pointMapData1;
 //    循环多个话单数据line
@@ -330,8 +387,6 @@
                 }
             }
         })
-        //        checkbox初始化
-        $("#showPoint").bootstrapSwitch();
     })
     //进度条控件部分
     Date.prototype.Format = function (fmt) { //author: meizz
