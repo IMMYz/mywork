@@ -252,6 +252,7 @@
                     <td>{{item.date}}</td>
                 </tr>
             </table>
+        <button type="button" class="btn btn-primary">显示热力图</button>
         <span></span>
     </div>
 
@@ -284,6 +285,7 @@
 <script type="text/javascript" src="js/bootstrap-switch/js/bootstrap-switch.js"></script>
 <!--<script rel="stylesheet" src="js/bootstrap-silder/bootstrap-slider.css"></script>-->
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DE0abf6cf5580f24857faef21a4b3870"></script>
+<script type="text/javascript" src="js/heatmap.js"></script>
 <script type="text/javascript" src="js/points.js"></script>
 <script type="text/javascript" src="js/vue.js"></script>
 <script type="text/javascript" src="js/iview/iview.min.js"></script>
@@ -811,6 +813,34 @@
             carMk.setLabel(label);
             map.addOverlay(carMk);
         }
+    }
+
+//    热力图部分
+    heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
+    map.addOverlay(heatmapOverlay);
+    heatmapOverlay.setDataSet({data:points,max:100});
+    //是否显示热力图
+    function openHeatmap(){
+        heatmapOverlay.show();
+    }
+    function closeHeatmap(){
+        heatmapOverlay.hide();
+    }
+    closeHeatmap();
+    function setGradient(){
+        /*格式如下所示:
+         {
+         0:'rgb(102, 255, 0)',
+         .5:'rgb(255, 170, 0)',
+         1:'rgb(255, 0, 0)'
+         }*/
+        var gradient = {};
+        var colors = document.querySelectorAll("input[type='color']");
+        colors = [].slice.call(colors,0);
+        colors.forEach(function(ele){
+            gradient[ele.getAttribute("data-key")] = ele.value;
+        });
+        heatmapOverlay.setOptions({"gradient":gradient});
     }
     /*]]>*/
     $(function () {
