@@ -410,6 +410,7 @@
     var oldMarkers = [];
     var autoRun;
     function linesRun() {
+        overTime();
         var allOverlay = map.getOverlays();
         for (var i = 0; i < allOverlay.length; i++) {
             if (allOverlay[i].toString() == "[object Marker]") {
@@ -451,7 +452,6 @@
 
     function sliderLabel(allMin, allMax) {
         //根据时间倍率计算
-        debugger;
         var labelDate = [];
         dateLabel = [];
         if(allMax != 0&&allMin != 0){
@@ -464,9 +464,6 @@
                 }
             }
         }
-        console.log(dateLabel);
-        console.log("min:"+allMin);
-        console.log("max:"+allMax);
     }
 //    运行按钮
     function run() {
@@ -519,6 +516,8 @@
     var overPoint = [];
     var overLine = [];
     var beforeToMarker = {};
+    var maxOverJson = {};
+    var minOverJson = {};
 //    地图中心点
 //    if(pointA['line1'][0]===undefined){
 //        center = '昆明';
@@ -742,6 +741,39 @@
         }
     }
 
+//    超出最大最小时间添加小人
+    function overTime(){
+        for(line in beforeToMarker){
+            if(nowTime>new Date(pointA[line].maxDate)&&maxOverJson[line]==undefined){
+                var maxOver =  new BMap.Marker(beforeToMarker[line][beforeToMarker[line].length-1],{icon: myIcon});
+                var label = new BMap.Label(" 嫌疑人", {offset: new BMap.Size(20, -10)});
+                maxOver.setLabel(label);
+                map.addOverlay(maxOver);
+                maxOverJson[line] = maxOver;
+            }else if(nowTime<new Date(pointA[line].maxDate)){
+                map.removeOverlay(maxOverJson[line]);
+                delete maxOverJson[line];
+            }
+
+            if(nowTime<new Date(pointA[line].minDate)&&minOverJson[line]==undefined){
+                console.log("min");
+                var label = new BMap.Label(" 嫌疑人", {offset: new BMap.Size(20, -10)});
+                var minOver =  new BMap.Marker(beforeToMarker[line][0],{icon: myIcon});
+                minOver.setLabel(label);
+                map.addOverlay(minOver);
+                minOverJson[line] = minOver;
+                console.log(minOverJson);
+            }else if(nowTime>new Date(pointA[line].minDate)){
+                map.removeOverlay(minOverJson[line]);
+                delete minOverJson[line];
+            }
+//            console.log(line);
+//            console.log("nowTime:"+nowTime);
+//            console.log("minDate:"+new Date(pointA[line].minDate));
+//            console.log("bool:"+nowTime>new Date(pointA[line].minDate));
+        }
+    }
+//    计算点的位置
     function addShow(polyline) {
         var linePoint = polyline.getPath();//线的坐标串 (点)
         var minTime = new Date(linePoint[0].date);
@@ -773,6 +805,8 @@
             y1 = pixelStart.y + yn / zn * nn * calculatedToSecond(nowTime - new Date(linePoint[index - 1].date));
             point1 = map.pixelToPoint(new BMap.Pixel(x1, y1));
             var carMk = new BMap.Marker(point1, {icon: myIcon});
+            carMk.date = new Date(linePoint[index - 1].date);
+//            console.log(carMk);
             var label = new BMap.Label("嫌疑人", {offset: new BMap.Size(20, -10)});
             carMk.setLabel(label);
             map.addOverlay(carMk);
