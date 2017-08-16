@@ -327,7 +327,7 @@
                 "thisLine":{},
                 "checkedAll":{},
                 "checkedPoint":{},
-                "checkedLine":{}
+                "checkedLine":{},
                 },
             methods:{
 //                勾选按钮进行判断
@@ -356,6 +356,7 @@
                         leftControl.checkedAll[line] = true;
                         leftControl.checkedPoint[line] = true;
                         leftControl.checkedLine[line] = true;
+                        calculateTime(line);
                         start(line);
                         sliderClick();
                     }else{
@@ -429,7 +430,6 @@
         $("#slider-zone").html("");
         let node = '<input id="ex8" type="text">';
         $("#slider-zone").append(node);
-        sliderLabel(allMin, allMax);
         $("#ex8").bootstrapSlider({
             scale: 'linear',
             step: 1,
@@ -439,8 +439,8 @@
         });
         $("#ex8").change(function () {
             timeCount = parseInt($("#ex8").val());
-//            nowTime = new Date($($(".slider-tick-label")[timeCount-1]).text());
-//            nowTime = new Date(dateLabel[1]);
+            nowTime = new Date($($(".slider-tick-label")[timeCount-1]).text());
+            nowTime = new Date(dateLabel[1]);
             $("#nowTime").text(nowTime);
             nowTime = new Date(dateLabel[timeCount - 1]);
             linesRun();
@@ -451,7 +451,9 @@
 
     function sliderLabel(allMin, allMax) {
         //根据时间倍率计算
-        var labelDate;
+        debugger;
+        var labelDate = [];
+        dateLabel = [];
         if(allMax != 0&&allMin != 0){
             var gapTime = Math.round((allMax.getTime() - allMin.getTime()) / 1000);
             if (dateLabel.length == 0) {
@@ -462,6 +464,9 @@
                 }
             }
         }
+        console.log(dateLabel);
+        console.log("min:"+allMin);
+        console.log("max:"+allMax);
     }
 //    运行按钮
     function run() {
@@ -527,10 +532,10 @@
         num = 1;
         item = line;
         var sliderType = 0;
-        var minDate = pointA[line][0].date;
-        var maxDate = pointA[line][pointA[line].length-1].date;
-        pointA[line].minDate = minDate;
-        pointA[line].maxTime = maxDate;
+//        var minDate = pointA[line][0].date;
+//        var maxDate = pointA[line][pointA[line].length-1].date;
+//        pointA[line].minDate = minDate;
+//        pointA[line].maxTime = maxDate;
             for (i in pointA[line]) {
                 if(pointA[line][i].x!=undefined){
                     var x = pointA[line][i].x;
@@ -544,8 +549,8 @@
             if(points[0]===undefined){
                 return false;
             }
-            allMin = new Date(minDate);
-            allMax = new Date(maxDate);
+//            allMin = new Date(minDate);
+//            allMax = new Date(maxDate);
 //            if (allMin == 0) {
 //                allMin = new Date(pointA[line].minDate);
 //                allMax = new Date(pointA[line].maxDate);
@@ -563,10 +568,10 @@
             points = [];
             //整体时间路线的最大值和最小值
 
-        if (sliderType == 0) {
-            sliderLabel(allMin, allMax);
-            sliderType = 1;
-        }
+//        if (sliderType == 0) {
+//            sliderLabel(allMin, allMax);
+//            sliderType = 1;
+//        }
     }
 
 
@@ -591,6 +596,24 @@
 
     }
 
+//    计算现有路线的最大最小时间
+    function calculateTime(line){
+        var minDate = pointMapData1[line][0].date;
+        var maxDate = pointMapData1[line][pointMapData1[line].length-1].date;
+        pointMapData1[line].minDate = minDate;
+        pointMapData1[line].maxDate = maxDate;
+        if(allMin==0&&allMax==0){
+            allMin = new Date(pointMapData1[line].minDate);
+            allMax = new Date(pointMapData1[line].maxDate);
+        }
+        if(allMin>new Date(pointMapData1[line].minDate)){
+            allMin = new Date(pointMapData1[line].minDate);
+        }
+        if(allMax<new Date(pointMapData1[line].maxDate)){
+            allMax = new Date(pointMapData1[line].maxDate);
+        }
+        sliderLabel(allMin,allMax);
+    }
 //    清除连续同一地点的电话
     function clearRepeat(){
         for(line in pointMapData1){
@@ -616,7 +639,6 @@
             }
             pointMapData1[line] = lineTempArray;
         }
-
         pointA = pointMapData1;
     }
     function addPoint(beforeToMarker,lineName) {
