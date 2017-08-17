@@ -123,6 +123,7 @@
         z-index: 5;
         background-color: #fff;
         right: 35px;
+        border: 1px solid #7373ff;
     }
     .left-control-table{
         width:100%;
@@ -138,47 +139,41 @@
         border-bottom:1px solid #7373ff;
         margin-bottom:5px
     }
+    .left-control-content{
+        margin: 10px;
+        border: 1px solid #7373ff;
+    }
+    .left-control .line-name-box > a {
+        position: relative;
+        display: inline-block;
+        padding: .3em 1em 0;
+    }
+    .left-control .line-name-box > a::before {
+        content: '';
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        z-index: -1;
+        background: #5137ff;
+        background-image: linear-gradient(
+                hsla(248, 100%, 61%, 0.6),
+                hsla(0,0%,100%,0));
+        border: 1px solid rgba(0,0,0,.4);
+        border-bottom: none;
+        border-radius: .5em .5em 0 0;
+        box-shadow: 0 .15em #5137ff inset;
+        transform: perspective(.5em) rotateX(5deg);
+        transform-origin: left;
+    }
+    .track-table>tbody>tr>th{
+        background-color: #5137ff;
+        color:#fff;
+        text-align:center;
+        border-right:1px solid #fff
+    }
+    .track-table td{
+        text-align:center;
+    }
 </style>
-<div id="menu">
-    <template>
-        <i-menu mode="horizontal" :theme="theme1" active-name="1">
-            <Menu-item name="1">
-                <Icon type="ios-paper"></Icon>
-                我的轨迹
-            </Menu-item>
-            <Submenu name="2">
-                <template slot="title">
-                    <Icon type="ios-people"></Icon>
-                    用户管理
-                </template>
-                <Menu-group title="选项">
-                    <Menu-item name="2-1">查看个人信息</Menu-item>
-                    <Menu-item name="2-2">登出</Menu-item>
-                </Menu-group>
-            </Submenu>
-            <Submenu name="3">
-                <template slot="title">
-                    <Icon type="stats-bars"></Icon>
-                    统计分析
-                </template>
-                <Menu-group title="使用">
-                    <Menu-item name="3-1">新增和启动</Menu-item>
-                    <Menu-item name="3-2">活跃分析</Menu-item>
-                    <Menu-item name="3-3">时段分析</Menu-item>
-                </Menu-group>
-                <Menu-group title="留存">
-                    <Menu-item name="3-4">用户留存</Menu-item>
-                    <Menu-item name="3-5">流失用户</Menu-item>
-                </Menu-group>
-            </Submenu>
-            <Menu-item name="4">
-                <Icon type="settings"></Icon>
-                综合设置
-            </Menu-item>
-        </i-menu>
-        <br>
-    </template>
-</div>
 
 <div class="container-fluid height-100">
     <!--login-->
@@ -223,37 +218,47 @@
 
     <div id="left-control" class="left-control">
         <div class="left-control-title">
-            话单列表
+            轨迹信息
         </div>
-        <div class="page clearfix">
-            <label v-for="item in lineList" class="btn btn-primary" style="float:left;margin-left:5px">
-                <a href="javascript:void(0)"  :value="item.name" @click="addList(item.name)" style="font-size:18px;line-height:1.5;color:#fff">
-                    {{item.name}}
-                </a>
-                <input name="callList" v-model="checkedAll[item.name]" :value="item.name" @click="showMap($event,item.name)" type="checkbox">
-            </label>
-            <button class="btn btn-primary" type="button" style="float:right"><i class="glyphicon glyphicon-plus"></i></button>
+        <div class="left-control-content">
+            <div class="page clearfix">
+                <label v-for="item in lineList"  style="float:left;margin-left:5px">
+                    <div class="line-name-box">
+                        <a href="javascript:void(0)"  :value="item.name" @click="addList(item.name)" style="font-size:18px;line-height:1.5;color:#fff">
+                            {{item.name}}
+                        </a>
+                    </div>
+                    <input style="display:none" name="callList" v-model="checkedAll[item.name]" :value="item.name" @click="showMap($event,item.name)" type="checkbox">
+                </label>
+                <button class="btn btn-primary" type="button" style="float:right"><i class="glyphicon glyphicon-plus"></i></button>
+            </div>
+            <div>
+                <table class="table table-striped track-table">
+                    <tr>
+                        <th>经度</th>
+                        <th>纬度</th>
+                        <th>时间</th>
+                        <th>备注</th>
+                    </tr>
+                    <tr v-for="(item,index) in call">
+                        <td>{{item.x}}</td>
+                        <td>{{item.y}}</td>
+                        <td class="list-date">{{item.date}}</td>
+                        <td></td>
+                    </tr>
+                </table>
+                <div class="form-group">
+                    <label>显示该话单<input name="callList" v-model="currentList[thisList]" :value="currentList.name" @click="showMap($event,thisList)" type="checkbox"></label>
+                    <!--<label>显示该话单<input name="callList" v-model="checkedAll[thisList]" :value="thisList" @click="showMap($event,thisList)" type="checkbox"></label>-->
+                    <!--<label>显示该话单<button name="callList" :value="item.line" @click="showList($event)" type="button">显示所有话单</button></label>-->
+                    <label>显示该话单的点<input id="showPoint" :value="thisList" v-model="checkedPoint[thisList]" :value="thisList" type="checkbox" @click="showPoint($event,thisList)"></label>
+                    <label>显示该话单的线<input id="showLine" :value="thisList" v-model="checkedLine[thisList]" :value="thisList" type="checkbox" @click="showLine($event,thisList)"></label>
+                </div>
+            </div>
+
+            <button type="button" class="btn btn-primary" onclick="openHeatmap()">显示热力图</button>
+            <button type="button" class="btn btn-primary" value="开启" onclick="myDis.open()">启用测距工具</button>
         </div>
-        <div class="form-group">
-            <!--<label>显示该话单<input name="callList" v-model="checkedAll[thisList]" :value="thisList" @click="showMap($event,thisList)" type="checkbox"></label>-->
-            <!--<label>显示该话单<button name="callList" :value="item.line" @click="showList($event)" type="button">显示所有话单</button></label>-->
-            <label>显示该话单的点<input id="showPoint" :value="thisList" v-model="checkedPoint[thisList]" :value="thisList" type="checkbox" @click="showPoint($event,thisList)"></label>
-            <label>显示该话单的线<input id="showLine" :value="thisList" v-model="checkedLine[thisList]" :value="thisList" type="checkbox" @click="showLine($event,thisList)"></label>
-        </div>
-            <table class="table table-striped">
-                <tr>
-                    <th>经度</th>
-                    <th>纬度</th>
-                    <th>时间</th>
-                </tr>
-                <tr v-for="(item,index) in call">
-                    <td>{{item.x}}</td>
-                    <td>{{item.y}}</td>
-                    <td>{{item.date}}</td>
-                </tr>
-            </table>
-        <button type="button" class="btn btn-primary">显示热力图</button>
-        <span></span>
     </div>
 
 
@@ -286,25 +291,12 @@
 <!--<script rel="stylesheet" src="js/bootstrap-silder/bootstrap-slider.css"></script>-->
 <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=DE0abf6cf5580f24857faef21a4b3870"></script>
 <script type="text/javascript" src="js/heatmap.js"></script>
+<script type="text/javascript" src="js/DistanceTool.js"></script>
 <script type="text/javascript" src="js/points.js"></script>
 <script type="text/javascript" src="js/vue.js"></script>
 <script type="text/javascript" src="js/iview/iview.min.js"></script>
 <script type="text/javascript">
     /*<![CDATA[*/
-//    导航条
-    $(function(){
-        var menu = new Vue ({
-            el:"#menu",
-            data:{
-                theme1:"primary"
-            },
-            methods: {
-                change (status) {
-                    this.$Message.info('开关状态：' + status);
-                }
-            }
-        })
-    })
 //    地图上显示的数据点集合
     var pointA = pointMapData1;
 //    循环多个话单数据line
@@ -330,10 +322,15 @@
                 "checkedAll":{},
                 "checkedPoint":{},
                 "checkedLine":{},
+                "currentList":{}
                 },
             methods:{
 //                勾选按钮进行判断
                 addList:function(value){
+                    for(var i = 0;i<vueData[value].length;i++){
+                        var array = vueData[value][i].date.split(",")
+                        vueData[value][i].date = array[array.length-1]
+                    }
                     leftControl.call = vueData[value];
                     leftControl.thisList = value;
 //                    leftControl.thisPoint = value;
@@ -520,6 +517,7 @@
     var beforeToMarker = {};
     var maxOverJson = {};
     var minOverJson = {};
+    var heatMapPoint = [];
 //    地图中心点
 //    if(pointA['line1'][0]===undefined){
 //        center = '昆明';
@@ -537,14 +535,17 @@
 //        var maxDate = pointA[line][pointA[line].length-1].date;
 //        pointA[line].minDate = minDate;
 //        pointA[line].maxTime = maxDate;
+//        坐标转换为百度地图
             for (i in pointA[line]) {
                 if(pointA[line][i].x!=undefined){
                     var x = pointA[line][i].x;
                     var y = pointA[line][i].y;
                     var dateArray = pointA[line][i].date.split(",");
                     var date = dateArray[dateArray.length-1];
+                    var length = dateArray.length;
                     points.push(new BMap.Point(x, y));
                     points[i].date = date;
+                    points[i].count = length;
                 }
             }
             if(points[0]===undefined){
@@ -643,6 +644,7 @@
         pointA = pointMapData1;
     }
     function addPoint(beforeToMarker,lineName) {
+        debugger;
         var line = [];
         var maxTime, minTime;
         var timeline = [];
@@ -816,11 +818,44 @@
     }
 
 //    热力图部分
-    heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
-    map.addOverlay(heatmapOverlay);
-    heatmapOverlay.setDataSet({data:points,max:100});
+    var point = new BMap.Point(116.418261, 39.921984);
+    map.centerAndZoom(point, 15);             // 初始化地图，设置中心点坐标和地图级别
+    map.enableScrollWheelZoom(); // 允许滚轮缩放
+
+    if(!isSupportCanvas()){
+        alert('热力图目前只支持有canvas支持的浏览器,您所使用的浏览器不能使用热力图功能~')
+    }
+    //详细的参数,可以查看heatmap.js的文档 https://github.com/pa7/heatmap.js/blob/master/README.md
+    //参数说明如下:
+    /* visible 热力图是否显示,默认为true
+     * opacity 热力的透明度,1-100
+     * radius 势力图的每个点的半径大小
+     * gradient  {JSON} 热力图的渐变区间 . gradient如下所示
+     *	{
+     .2:'rgb(0, 255, 255)',
+     .5:'rgb(0, 110, 255)',
+     .8:'rgb(100, 0, 255)'
+     }
+     其中 key 表示插值的位置, 0~1.
+     value 为颜色值.
+     */
+
+
+
     //是否显示热力图
+    heatmapOverlay = new BMapLib.HeatmapOverlay({"radius":20});
     function openHeatmap(){
+        debugger;
+        for(line in beforeToMarker){
+            for(var i=0;i<beforeToMarker[line].length;i++){
+                var heatPoint = {
+                    "lng":beforeToMarker[line][i].lng,"lat":beforeToMarker[line][i].lat,"count":beforeToMarker[line][i].count
+                }
+                heatMapPoint.push(heatPoint);
+            }
+        }
+        map.addOverlay(heatmapOverlay);
+        heatmapOverlay.setDataSet({data:heatMapPoint,max:15});
         heatmapOverlay.show();
     }
     function closeHeatmap(){
@@ -842,6 +877,20 @@
         });
         heatmapOverlay.setOptions({"gradient":gradient});
     }
+    //判断浏览区是否支持canvas
+    function isSupportCanvas(){
+        var elem = document.createElement('canvas');
+        return !!(elem.getContext && elem.getContext('2d'));
+    }
+
+    //测距
+    var myDis = new BMapLib.DistanceTool(map);
+
+//    添加比例尺
+    var top_left_control = new BMap.ScaleControl({anchor: BMAP_ANCHOR_TOP_LEFT});// 左上角，添加比例尺
+    var top_left_navigation = new BMap.NavigationControl();  //左上角，添加默认缩放平移控件
+    map.addControl(top_left_control);
+    map.addControl(top_left_navigation);
     /*]]>*/
     $(function () {
 
