@@ -6,7 +6,8 @@
     <!--<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <link rel="stylesheet" href="js/bootstrap-silder/bootstrap-slider.css">
     <link rel="stylesheet" href="js/bootstrap-switch/css/bootstrap3/bootstrap-switch.css">
-    <link rel="stylesheet" href="js/iview/styles/iview.css">
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
 </head>
 <style>
     body, html {
@@ -173,6 +174,9 @@
     .track-table td{
         text-align:center;
     }
+    .table-bottom{
+        border-bottom:1px solid #5137ff;
+    }
 </style>
 
 <div class="container-fluid height-100">
@@ -233,7 +237,7 @@
                 <button class="btn btn-primary" type="button" style="float:right"><i class="glyphicon glyphicon-plus"></i></button>
             </div>
             <div>
-                <table class="table table-striped track-table">
+                <table class="table table-striped track-table table-bottom">
                     <tr>
                         <th>经度</th>
                         <th>纬度</th>
@@ -247,12 +251,23 @@
                         <td></td>
                     </tr>
                 </table>
-                <div class="form-group">
-                    <label>显示该话单<input name="callList" v-model="currentList[thisList]" :value="currentList.name" @click="showMap($event,thisList)" type="checkbox"></label>
+                <div class="form-group" v-if="visible">
+                    <div id="switch">
+                        <label style="margin-right:10px">显示该话单:
+                        <el-switch v-model="currentList[thisList].switch1" @change="changeSwitch1(thisList)"  on-text="" off-text></el-switch>
+                        </label>
+                        <label style="margin-right:10px">显示该话单的点:
+                        <el-switch v-model="currentList[thisList].switch2" @change="changeSwitch2(thisList)" on-text="" off-text></el-switch>
+                        </label>
+                        <label>显示该话单的线:
+                        <el-switch v-model="currentList[thisList].switch3" @change="changeSwitch3(thisList)" on-text="" off-text></el-switch>
+                        </label>
+                    </div>
+                    <!--<label>显示该话单<input name="callList" v-model="currentList[thisList]" :value="thisList"  type="checkbox"></label>-->
                     <!--<label>显示该话单<input name="callList" v-model="checkedAll[thisList]" :value="thisList" @click="showMap($event,thisList)" type="checkbox"></label>-->
                     <!--<label>显示该话单<button name="callList" :value="item.line" @click="showList($event)" type="button">显示所有话单</button></label>-->
-                    <label>显示该话单的点<input id="showPoint" :value="thisList" v-model="checkedPoint[thisList]" :value="thisList" type="checkbox" @click="showPoint($event,thisList)"></label>
-                    <label>显示该话单的线<input id="showLine" :value="thisList" v-model="checkedLine[thisList]" :value="thisList" type="checkbox" @click="showLine($event,thisList)"></label>
+                    <!--<label>显示该话单的点<input id="showPoint" :value="thisList" v-model="checkedPoint[thisList]" :value="thisList" type="checkbox" @click="showPoint($event,thisList)"></label>-->
+                    <!--<label>显示该话单的线<input id="showLine" :value="thisList" v-model="checkedLine[thisList]" :value="thisList" type="checkbox" @click="showLine($event,thisList)"></label>-->
                 </div>
             </div>
 
@@ -294,7 +309,8 @@
 <script type="text/javascript" src="js/DistanceTool.js"></script>
 <script type="text/javascript" src="js/points.js"></script>
 <script type="text/javascript" src="js/vue.js"></script>
-<script type="text/javascript" src="js/iview/iview.min.js"></script>
+<!-- 引入组件库 -->
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script type="text/javascript">
     /*<![CDATA[*/
 //    地图上显示的数据点集合
@@ -313,7 +329,7 @@
         var vueData = pointMapData1;
         var leftControl = new Vue({
             el:"#left-control",
-            data:{
+            data(){return{
                 "call":vueData,
                 "lineList":lineList.line,
                 "thisList":{},
@@ -322,7 +338,11 @@
                 "checkedAll":{},
                 "checkedPoint":{},
                 "checkedLine":{},
-                "currentList":{}
+                "currentList":{"张三":{switch1:false,switch2:false,switch3:false},"李四":{switch1:false,switch2:false,switch3:false}},
+                "switch":{},
+                value1:false,
+                visible:false
+            }
                 },
             methods:{
 //                勾选按钮进行判断
@@ -331,10 +351,53 @@
                         var array = vueData[value][i].date.split(",")
                         vueData[value][i].date = array[array.length-1]
                     }
+//                    for(item in leftControl.currentList){
+//                        leftControl.currentList[item] = false;
+//                    }
+//                    leftControl.currentList[value] = true;
+                    leftControl.visible = true;
                     leftControl.call = vueData[value];
                     leftControl.thisList = value;
 //                    leftControl.thisPoint = value;
 //                    leftControl.thisLine = value;
+                },
+                changeSwitch1:function(line){
+                    console.log(line);
+                    if(leftControl.currentList[line].switch1==true){
+                        leftControl.checkedAll[line] = true;
+                        leftControl.checkedPoint[line] = true;
+                        leftControl.checkedLine[line] = true;
+                        leftControl.currentList[line].switch2=true;
+                        leftControl.currentList[line].switch3=true;
+                        calculateTime(line);
+                        start(line);
+                        sliderClick();
+                    }else{
+                        leftControl.checkedAll[line] = false;
+                        removePoint(line);
+                        removeLine(line);
+                        leftControl.currentList[line].switch2=false;
+                        leftControl.currentList[line].switch3=false;
+                    }
+                },
+                changeSwitch2:function(line){
+                    if(leftControl.currentList[line].switch2==true){
+                        leftControl.checkedPoint[line] = true;
+                        controlAddPoint(line)
+                    }else{
+                        leftControl.checkedPoint[line] = false;
+                        removePoint(line);
+//                        TODO
+                    }
+                },
+                changeSwitch3:function(line){
+                    if(leftControl.currentList[line].switch3==true){
+                        leftControl.checkedLine[line] = true;
+                        controlAddLine(line);
+                    }else{
+                        leftControl.checkedLine[line] = false;
+                        removeLine(line);
+                    }
                 },
                 showList:function(event){
                     var el = event.currentTarget;
@@ -347,6 +410,7 @@
                 },
                 showMap:function(event,line){
                     var el = event.currentTarget;
+                    leftControl.$set(currentList[line], true);
                     if($(el).prop("checked")){
                         $("#showPoint").prop("checked","true");
                         $("#showLine").prop("checked","true");
@@ -363,6 +427,12 @@
                         removePoint(line);
                         removeLine(line);
                     }
+                },
+                showMap2:function(status){
+
+                },
+                checkBox:function(status){
+                    consoel.log(ststus)
                 },
                 showPoint:function(event,line){
                     var el = event.currentTarget;
@@ -386,8 +456,8 @@
                     }
                 }
             }
-        })
-    })
+        }).$mount('#left-control')
+    });
     //进度条控件部分
     Date.prototype.Format = function (fmt) { //author: meizz
         var o = {
@@ -644,7 +714,6 @@
         pointA = pointMapData1;
     }
     function addPoint(beforeToMarker,lineName) {
-        debugger;
         var line = [];
         var maxTime, minTime;
         var timeline = [];
