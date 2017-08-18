@@ -6,8 +6,8 @@
     <!--<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">-->
     <link rel="stylesheet" href="js/bootstrap-silder/bootstrap-slider.css">
     <link rel="stylesheet" href="js/bootstrap-switch/css/bootstrap3/bootstrap-switch.css">
-    <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+    <!-- 引入样式 -->
 </head>
 <style>
     body, html {
@@ -123,7 +123,8 @@
         position: fixed;
         z-index: 5;
         background-color: #fff;
-        right: 35px;
+        top:145px;
+        right: 0px;
         border: 1px solid #7373ff;
     }
     .left-control-table{
@@ -141,6 +142,7 @@
         margin-bottom:5px
     }
     .left-control-content{
+        height:500px;
         margin: 10px;
         border: 1px solid #7373ff;
     }
@@ -176,6 +178,33 @@
     }
     .table-bottom{
         border-bottom:1px solid #5137ff;
+    }
+    .tool-slider{
+        position:fixed;
+        right:297px;
+        z-index:5;
+        width: 300px;
+        background-color: #fff;
+        padding: 5px;
+        border: 1px solid #7373ff;
+    }
+    .userImg{
+        position: fixed;
+        right:150px;
+        z-index:5;
+        border-radius:50%;
+        width:100px
+    }
+    .userImg img{
+        border-radius: 50%;
+        height: 119px;
+    }
+    .table-content{
+        height:370px;
+        overflow: auto;
+    }
+    .v-modal{
+        display:none
     }
 </style>
 
@@ -219,7 +248,18 @@
         </div>
     </div>
     <!--bootstrap slider END-->
-
+    <!--顶部工具栏-->
+    <div class="tool-slider">
+        <button type="button" class="btn btn-primary" onclick="openHeatmap()"><i class="glyphicon glyphicon-fire"></i></button>
+        <button type="button" class="btn btn-primary" value="开启" onclick="myDis.open()"><i class="glyphicon glyphicon-resize-full"></i></button>
+    </div>
+    <!--顶部工具栏结束-->
+    <!--头像-->
+    <div class="userImg">
+        <img src="images/rainbow.jpg">
+    </div>
+    <!--头像结束-->
+    <!--left-control-->
     <div id="left-control" class="left-control">
         <div class="left-control-title">
             轨迹信息
@@ -234,16 +274,20 @@
                     </div>
                     <input style="display:none" name="callList" v-model="checkedAll[item.name]" :value="item.name" @click="showMap($event,item.name)" type="checkbox">
                 </label>
-                <button class="btn btn-primary" type="button" style="float:right"><i class="glyphicon glyphicon-plus"></i></button>
+                <button class="btn btn-primary" type="button" @click="dialogVisible = true" style="float:right"><i class="glyphicon glyphicon-plus"></i></button>
             </div>
             <div>
-                <table class="table table-striped track-table table-bottom">
+                <table class="table table-striped track-table table-bottom" style="margin-bottom:0">
                     <tr>
                         <th>经度</th>
                         <th>纬度</th>
                         <th>时间</th>
                         <th>备注</th>
                     </tr>
+                </table>
+                <div class="table-content">
+
+                <table class="table table-striped track-table table-bottom">
                     <tr v-for="(item,index) in call">
                         <td>{{item.x}}</td>
                         <td>{{item.y}}</td>
@@ -251,6 +295,7 @@
                         <td></td>
                     </tr>
                 </table>
+                </div>
                 <div class="form-group" v-if="visible">
                     <div id="switch">
                         <label style="margin-right:10px">显示该话单:
@@ -270,12 +315,22 @@
                     <!--<label>显示该话单的线<input id="showLine" :value="thisList" v-model="checkedLine[thisList]" :value="thisList" type="checkbox" @click="showLine($event,thisList)"></label>-->
                 </div>
             </div>
-
-            <button type="button" class="btn btn-primary" onclick="openHeatmap()">显示热力图</button>
-            <button type="button" class="btn btn-primary" value="开启" onclick="myDis.open()">启用测距工具</button>
         </div>
-    </div>
+            <el-dialog title="添加话单" :visible.sync="dialogVisible" size="tiny" :before-close="handleClose">
+                <div>
+                    <label>
+                        请输入要添加的姓名：
+                        <input type="text">
+                    </label>
+                </div>
+                <span slot="footer" class="dialog-footer">
+    <el-button @click="dialogVisible = false">取 消</el-button>
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
+            </el-dialog>
 
+    </div>
+<!--left-control END-->
 
     <div class="row clearfix height-100">
         <div id="allmap"></div>
@@ -341,7 +396,8 @@
                 "currentList":{"张三":{switch1:false,switch2:false,switch3:false},"李四":{switch1:false,switch2:false,switch3:false}},
                 "switch":{},
                 value1:false,
-                visible:false
+                visible:false,
+                dialogVisible:false,
             }
                 },
             methods:{
@@ -454,6 +510,14 @@
                         leftControl.checkedLine[line] = false;
                         removeLine(line);
                     }
+                },
+                handleClose(done) {
+                    this.$confirm('确认关闭？')
+                        .then(_ => {
+                            done();
+                            leftControl.dialogVisible = false;
+                        })
+                        .catch(_ => {});
                 }
             }
         }).$mount('#left-control')
