@@ -167,6 +167,22 @@
         transform: perspective(.5em) rotateX(5deg);
         transform-origin: left;
     }
+    .left-control .line-name-box-clicked > a::before {
+        content: '';
+        position: absolute;
+        top: 0; right: 0; bottom: 0; left: 0;
+        z-index: -1;
+        background: #ff7d06;
+        background-image: linear-gradient(
+                hsla(29, 100%, 51%, 0.6),
+                hsla(0,0%,100%,0));
+        border: 1px solid rgba(0,0,0,.4);
+        border-bottom: none;
+        border-radius: .5em .5em 0 0;
+        box-shadow: 0 .15em #ff7d06 inset;
+        transform: perspective(.5em) rotateX(5deg);
+        transform-origin: left;
+    }
     .track-table>tbody>tr>th{
         background-color: #5137ff;
         color:#fff;
@@ -197,7 +213,7 @@
     }
     .userImg img{
         border-radius: 50%;
-        height: 119px;
+        height: 80px;
     }
     .table-content{
         height:370px;
@@ -205,6 +221,10 @@
     }
     .v-modal{
         display:none
+    }
+    .btn-clicked{
+        background-color: #fff;
+        color: #000;
     }
 </style>
 
@@ -268,9 +288,10 @@
             <div class="page clearfix">
                 <label v-for="item in lineList"  style="float:left;margin-left:5px">
                     <div class="line-name-box">
-                        <a href="javascript:void(0)"  :value="item.name" @click="addList(item.name)" style="font-size:18px;line-height:1.5;color:#fff">
-                            {{item.name}}
-                        </a>
+                        <button class="btn-call btn btn-primary" onClick="aClick(this)" href="javascript:void(0)"  :value="item.name" @click="addList($event,item.name)"> {{item.name}}</button>
+                        <!--<a class="a-clicked" click="aClick(this)" href="javascript:void(0)"  :value="item.name" @click="addList($event,item.name)" style="font-size:18px;line-height:1.5;color:#fff">-->
+                            <!--{{item.name}}-->
+                        <!--</a>-->
                     </div>
                     <input style="display:none" name="callList" v-model="checkedAll[item.name]" :value="item.name" @click="showMap($event,item.name)" type="checkbox">
                 </label>
@@ -402,7 +423,7 @@
                 },
             methods:{
 //                勾选按钮进行判断
-                addList:function(value){
+                addList:function(event,value){
                     for(var i = 0;i<vueData[value].length;i++){
                         var array = vueData[value][i].date.split(",")
                         vueData[value][i].date = array[array.length-1]
@@ -522,6 +543,13 @@
             }
         }).$mount('#left-control')
     });
+
+    function aClick(ele){
+        $(".btn-call").removeClass("btn-clicked");
+        $(".btn-call").addClass("btn-primary");
+        $(ele).addClass("btn-clicked");
+        $(ele).removeClass("btn-primary");
+    }
     //进度条控件部分
     Date.prototype.Format = function (fmt) { //author: meizz
         var o = {
