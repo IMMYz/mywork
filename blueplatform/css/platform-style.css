@@ -1,0 +1,41 @@
+.body-background{
+    background-image:url(../images/blueSky.jpg);
+    background-size:cover;
+    background-repeat:no-repeat;
+}
+.container{
+    width:1447px;
+    color:#fff;
+}
+.header{
+    width: 1156px;
+    margin: 0 auto;
+}
+.headerTitle{
+    font-size:48px;
+    line-height:1.5;
+    margin: 20px 26px;
+}
+.userImg img{
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    float: left;
+}
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+.tab-head-title{
+    width: 180px;
+    height: 25px;
+    background-image:url(../images/tab-head.png);
+    background-repeat:no-repeat;
+}
+.tab-content{
+    height:250px;
+    padding:20px;
+    background-color:rgba(45, 69, 112, 0.7);
+}
