@@ -22,7 +22,7 @@
     </div>
 </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" style="margin-bottom:15px">
             <div class="clearfix" style="width:574px;margin-right:15px;margin:0 auto">
                 <div class="left" style="width:374px;padding-left:20px">
                     <input class="form-control" placeholder="请输入搜索关键字"/>
@@ -39,25 +39,22 @@
                     编辑中(<span>180</span>)
                 </div>
                 <div class="text-right">
-                    我的情报
+                    <span class="skew">我的情报</span>
                 </div>
             </div>
             <div class="tab-content">
                 <table class="table table-content-xx">
                     <tr>
-                        <th>编号</th>
                         <th>名称</th>
                         <th>创建时间</th>
                         <th>状态</th>
                     </tr>
                     <tr>
-                       <td>001</td>
                        <td>名称1</td>
                        <td>创建时间1</td>
                        <td>green</td>
                     </tr>
                     <tr>
-                        <td>002</td>
                         <td>名称2</td>
                         <td>创建时间2</td>
                         <td>red</td>
@@ -71,7 +68,7 @@
                     记事
                 </div>
                 <div class="text-right">
-                    我的便签
+                    <span class="skew">我的便签</span>
                 </div>
             </div>
             <div class="tab-content">
@@ -90,7 +87,7 @@
                     待办事项
                 </div>
                 <div class="text-right">
-                    我的待办事项
+                    <span class="skew">我的待办事项</span>
                 </div>
             </div>
             <div class="tab-content">
@@ -119,7 +116,7 @@
                     大队通知
                 </div>
                 <div class="text-right">
-                    通知
+                    <span class="skew">通知</span>
                 </div>
             </div>
             <div class="tab-content">
@@ -138,16 +135,22 @@
         <div class="col-md-3"  style="margin-top:20px;">
             <div class="tab-content" style="height:278px;background-color:#27395f">
                 <div class="col-md-12">
-                    <p>待办事项</p>
-                    <button class="btn btn-primary">7天</button>
-                    <button class="btn btn-primary">15天</button>
-                    <button class="btn btn-primary">1个月</button>
+                    <p>工作统计</p>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary">7天</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="btn btn-primary">15天</button>
+                    </div>
+                   <div class="col-md-4">
+                       <button class="btn btn-primary">1个月</button>
+                   </div>
                 </div>
                 <div id="pie-charts" style="height:190px"></div>
             </div>
         </div>
         <div class="col-md-3" style="margin-top:20px">
-            <div class="table-content" style="height:278px;background-color:#27395f">
+            <div class="tab-content" style="height:278px;background-color:#27395f">
                 <p>个人空间</p>
                 <div style="padding:0 5px">
                     <div class="progress">
@@ -157,8 +160,11 @@
                             <span class="sr-only">90% 完成（成功）</span>
                         </div>
                     </div>
-                    <div class="text-right">
-                        <p>90%</p>
+                    <div class="progress-left">
+                        <span>90%/90T</span>
+                    </div>
+                    <div class="text-right progress-right">
+                        <span>10%/10T</span>
                     </div>
                     <div>
                         <a href="javascript:void(0)" >文件列表</a>
@@ -177,24 +183,37 @@
         </div>
     </div>
 </div>
-<div class="bottom-menu clearfix">
-    <ul style="list-style:none">
-        <li style="margin-top:14px;margin-left:40px"><a href="javascript(0)"><img src="images/team-manager.png"></a></li>
-        <li style="margin-top:10px"><a href="javascript(0)"><img src="images/case-manager.png"></a></li>
-        <li><a href="javascript(0)"><img src="images/account-manager.png"></a></li>
-        <li style="margin-top:10px"><a href="javascript(0)"><img src="images/information-manager.png"></a></li>
-        <li><a href="javascript(0)"><img src="images/analysis.png"></a></li>
-        <li><a href="javascript(0)"><img src="images/device.png"></a></li>
-        <li><a href="javascript(0)"><img src="images/scout.png"></a></li>
-        <li><a href="javascript(0)"><img src="images/skill.png"></a></li>
-        <li><a href="javascript(0)"><img src="images/work-show.png"></a></li>
-    </ul>
-</div>
+<div class="clearfix"></div>
+    <div  class="bottom-menu clearfix">
+        <ul style="list-style:none;list-style: none;position: relative;left: 46px;">
+            <li class="menu-li" style="margin-top:14px;margin-left:4px"><a href="javascript(0)"><img src="images/team-manager.png"></a></li>
+            <li class="menu-li" style="margin-top:10px"><a href="javascript(0)"><img src="images/case-manager.png"></a></li>
+            <li class="menu-li"><a href="javascript(0)"><img src="images/account-manager.png"></a></li>
+            <li class="menu-li" style="margin-top:10px"><a href="javascript(0)"><img src="images/information-manager.png"></a></li>
+            <li class="menu-li"><a href="javascript(0)"><img src="images/analysis.png"></a></li>
+            <li class="menu-li"><a href="javascript(0)"><img src="images/device.png"></a></li>
+            <li class="menu-li"><a href="javascript(0)"><img src="images/scout.png"></a></li>
+            <li class="menu-li"><a href="javascript(0)"><img src="images/skill.png"></a></li>
+            <li class="menu-li"><a href="javascript(0)"><img src="images/work-show.png"></a></li>
+        </ul>
+    </div>
+
+
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/echarts.js"></script>
 <script>
+    $(".menu-li").mouseover(function(){
+        console.log($(this));
+        $(this).addClass("scale1-5");
+        $(this).prev().addClass("scale1-1")
+        $(this).next().addClass("scale1-1");
+    });
+    $(".menu-li").mouseleave(function(){
+        $(".menu-li").removeClass("scale1-1");
+        $(".menu-li").removeClass("scale1-5");
+    })
     $(function(){
         lineChart.setOption(lineOption);
         pieChart.setOption(pieOption);

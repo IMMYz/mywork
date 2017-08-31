@@ -55,6 +55,7 @@ bodu{
     height: 25px;
     background-image:url(../images/tab-head.png);
     background-repeat:no-repeat;
+    padding-left:35px
 }
 .tab-content{
     overflow:auto;
@@ -86,7 +87,7 @@ bodu{
 }
 .bottom-menu{
     width:1204px;
-    height:80px;
+    height:109px;
     border-top-left-radius: 30px;
     border-top-right-radius: 30px;
     background-color:rgba(45, 69, 112, 0.7);
@@ -94,7 +95,7 @@ bodu{
     left:50%;
     margin-left:-602px;
     z-index:5;
-    margin: -87px auto 0 auto;
+    margin: -109px auto 0 auto;
 }
 .bottom-menu >ul > li{
     float:left;
@@ -103,4 +104,30 @@ bodu{
 }
 .bottom-menu > ul > li:nth-last-child(1){
     margin-right:0;
+}
+.skew{
+    display:block;
+    transform: skew(20deg);
+    -webkit-transform: skew(20deg);
+    -moz-transform: skew(20deg);
+}
+.progress-left{
+    position: absolute;
+    top: 50px;
+    color: #1c2841;
+    font-weight: bold;
+}
+.progress-right{
+    position: absolute;
+    top: 50px;
+    right: 44px;
+    color: #00c121;
+    font-weight: bold;
+}
+
+.scale1-5{
+    transform:scale(1.5);
+}
+.scale1-1{
+    transform:scale(1.1);
 }

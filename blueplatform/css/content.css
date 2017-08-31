@@ -1,0 +1,23 @@
+.left-content{
+    width:282px;
+}
+.mid-content{
+    width:908px;
+}
+.right{
+    width:365px;
+}
+.tab-inner-title{
+    background-image:url(../images/tab-inner-title.png);
+    background-repeat:no-repeat;
+}
+.left-content-tab1 {
+    width: 282px;
+    height: 236px;
+}
+.content-background-color{
+    background-color:#3f79ac;
+}
+.left-content-tab1-content{
+    height:233px;
+}
