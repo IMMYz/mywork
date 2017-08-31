@@ -6,7 +6,10 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/platform-style.css" rel="stylesheet">
 </head>
-<body class="body-background">
+<body>
+<div class="body-background">
+    <img src="images/blueSky.jpg"/>
+</div>
 <div class="container">
 <div class="header clearfix">
     <div class="userImg left">
@@ -40,7 +43,7 @@
                 </div>
             </div>
             <div class="tab-content">
-                <table class="table">
+                <table class="table table-content-xx">
                     <tr>
                         <th>编号</th>
                         <th>名称</th>
@@ -65,62 +68,46 @@
         <div class="col-md-3">
             <div class="tab-head clearfix">
                 <div class="tab-head-title left">
-                    记事(<span>180</span>)
+                    记事
                 </div>
                 <div class="text-right">
                     我的便签
                 </div>
             </div>
             <div class="tab-content">
-                <table class="table">
-                    <tr>
-                        <th>编号</th>
-                        <th>名称</th>
-                        <th>创建时间</th>
-                        <th>状态</th>
-                    </tr>
-                    <tr>
-                        <td>001</td>
-                        <td>名称1</td>
-                        <td>创建时间1</td>
-                        <td>green</td>
-                    </tr>
-                    <tr>
-                        <td>002</td>
-                        <td>名称2</td>
-                        <td>创建时间2</td>
-                        <td>red</td>
-                    </tr>
-                </table>
+               <div class="record-date">
+                   <p style="margin-bottom:0">2017-8-26</p>
+               </div>
+                <div>
+                    <p>记事一</p>
+                    <p>出部且面國運靈樹種行覺中真燈的需子在……信長學化意一就升國小不好致雄法面企位投清層行一帶系又人親裡立常其公正論人文生醫鄉目我他為……心大洲有</p>
+                </div>
             </div>
         </div>
         <div class="col-md-3">
             <div class="tab-head clearfix">
                 <div class="tab-head-title left">
-                    待办事项(<span>180</span>)
+                    待办事项
                 </div>
                 <div class="text-right">
                     我的待办事项
                 </div>
             </div>
             <div class="tab-content">
-                <table class="table">
+                <table class="table table-content-xx">
                     <tr>
-                        <th>编号</th>
-                        <th>名称</th>
-                        <th>创建时间</th>
+                        <th>名字</th>
+                        <th>来源</th>
                         <th>状态</th>
                     </tr>
                     <tr>
                         <td>001</td>
                         <td>名称1</td>
-                        <td>创建时间1</td>
                         <td>green</td>
                     </tr>
                     <tr>
                         <td>002</td>
                         <td>名称2</td>
-                        <td>创建时间2</td>
                         <td>red</td>
                     </tr>
                 </table>
@@ -129,38 +116,381 @@
         <div class="col-md-3">
             <div class="tab-head clearfix">
                 <div class="tab-head-title left">
-                    大队通知(<span>180</span>)
+                    大队通知
                 </div>
                 <div class="text-right">
                     通知
                 </div>
             </div>
             <div class="tab-content">
-                <table class="table">
-                    <tr>
-                        <th>编号</th>
-                        <th>名称</th>
-                        <th>创建时间</th>
-                        <th>状态</th>
-                    </tr>
-                    <tr>
-                        <td>001</td>
-                        <td>名称1</td>
-                        <td>创建时间1</td>
-                        <td>green</td>
-                    </tr>
-                    <tr>
-                        <td>002</td>
-                        <td>名称2</td>
-                        <td>创建时间2</td>
-                        <td>red</td>
-                    </tr>
-                </table>
+                <div class="record-date">
+                    <p style="margin-bottom:0">2017-8-26</p>
+                </div>
+                <div>
+                    <p>记事一</p>
+                    <p>出部且面國運靈樹種行覺中真燈的需子在……信長學化意一就升國小不好致雄法面企位投清層行一帶系又人親裡立常其公正論人文生醫鄉目我他為……心大洲有</p>
+                </div>
+            </div>
+            </div>
+        <div class="col-md-6" style="margin-top:20px">
+                <div id="line-charts" style="height:278px"></div>
+        </div>
+        <div class="col-md-3"  style="margin-top:20px;">
+            <div class="tab-content" style="height:278px;background-color:#27395f">
+                <div class="col-md-12">
+                    <p>待办事项</p>
+                    <button class="btn btn-primary">7天</button>
+                    <button class="btn btn-primary">15天</button>
+                    <button class="btn btn-primary">1个月</button>
+                </div>
+                <div id="pie-charts" style="height:190px"></div>
+            </div>
+        </div>
+        <div class="col-md-3" style="margin-top:20px">
+            <div class="table-content" style="height:278px;background-color:#27395f">
+                <p>个人空间</p>
+                <div style="padding:0 5px">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-primary" role="progressbar"
+                             aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                             style="width: 90%;">
+                            <span class="sr-only">90% 完成（成功）</span>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <p>90%</p>
+                    </div>
+                    <div>
+                        <a href="javascript:void(0)" >文件列表</a>
+                        <a href="javascript:void(0)" >数据表</a>
+                    </div>
+                    <div class="content-list1">
+                        <ul>
+                            <li>文件1</li>
+                            <li>文件2</li>
+                            <li>文件3</li>
+                            <li>文件4</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 </div>
+<div class="bottom-menu clearfix">
+    <ul style="list-style:none">
+        <li style="margin-top:14px;margin-left:40px"><a href="javascript(0)"><img src="images/team-manager.png"></a></li>
+        <li style="margin-top:10px"><a href="javascript(0)"><img src="images/case-manager.png"></a></li>
+        <li><a href="javascript(0)"><img src="images/account-manager.png"></a></li>
+        <li style="margin-top:10px"><a href="javascript(0)"><img src="images/information-manager.png"></a></li>
+        <li><a href="javascript(0)"><img src="images/analysis.png"></a></li>
+        <li><a href="javascript(0)"><img src="images/device.png"></a></li>
+        <li><a href="javascript(0)"><img src="images/scout.png"></a></li>
+        <li><a href="javascript(0)"><img src="images/skill.png"></a></li>
+        <li><a href="javascript(0)"><img src="images/work-show.png"></a></li>
+    </ul>
+</div>
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/echarts.js"></script>
+<script>
+    $(function(){
+        lineChart.setOption(lineOption);
+        pieChart.setOption(pieOption);
+    })
+    var lineChart = echarts.init(document.getElementById('line-charts'));
+    var pieChart = echarts.init(document.getElementById("pie-charts"))
+    // Generate data
+    // Generate data
+    var category = [];
+    var dottedBase = +new Date();
+    var lineData = [];
+    var barData = [];
+
+//    折线柱状图开始
+    for (var i = 0; i < 20; i++) {
+        var date = new Date(dottedBase += 1000 * 3600 * 24);
+        category.push([
+            date.getFullYear(),
+            date.getMonth() + 1,
+            date.getDate()
+        ].join('-'));
+        var b = Math.random() * 200;
+        var d = Math.random() * 200;
+        barData.push(b)
+        lineData.push(d + b);
+    }
+
+
+    // option
+    lineOption = {
+        backgroundColor: '#0f375f',
+        tooltip: {
+            trigger: 'axis',
+            axisPointer: {
+                type: 'shadow',
+                label: {
+                    show: true,
+                    backgroundColor: '#333'
+                }
+            }
+        },
+        legend: {
+            data: ['提交情报','已采纳', '未采纳','待审核'],
+            textStyle: {
+                color: '#ccc'
+            }
+        },
+        xAxis: {
+            data: category,
+            axisLine: {
+                lineStyle: {
+                    color: '#ccc'
+                }
+            }
+        },
+        yAxis: {
+            splitLine: {show: false},
+            axisLine: {
+                lineStyle: {
+                    color: '#ccc'
+                }
+            }
+        },
+        series: [{
+            name: '提交情报',
+            type: 'line',
+            smooth: true,
+            showAllSymbol: true,
+            symbol: 'emptyCircle',
+            symbolSize: 15,
+            data: lineData
+        }, {
+            name: '已采纳',
+            type: 'bar',
+            barWidth: 10,
+            itemStyle: {
+                normal: {
+                    barBorderRadius: 5,
+                    color: new echarts.graphic.LinearGradient(
+                        0, 0, 0, 1,
+                        [
+                            {offset: 0, color: '#14c8d4'},
+                            {offset: 1, color: '#43eec6'}
+                        ]
+                    )
+                }
+            },
+            data: barData
+        }, {
+            name: '未采纳',
+            type: 'bar',
+            barGap: '-100%',
+            barWidth: 10,
+            itemStyle: {
+                normal: {
+                    color: new echarts.graphic.LinearGradient(
+                        0, 0, 0, 1,
+                        [
+                            {offset: 0, color: 'rgba(20,200,212,0.5)'},
+                            {offset: 0.2, color: 'rgba(20,200,212,0.2)'},
+                            {offset: 1, color: 'rgba(20,200,212,0)'}
+                        ]
+                    )
+                }
+            },
+            z: -102,
+            data: lineData
+        },
+            {
+                name: '待审核',
+                type: 'pictorialBar',
+                symbol: 'rect',
+                itemStyle: {
+                    normal: {
+                        color: '#15476e'
+                    }
+                },
+                symbolRepeat: true,
+                symbolSize: [12, 4],
+                symbolMargin: 1,
+                z: -10,
+                data: lineData
+            }
+        ]
+    };
+//    折线柱状图结束
+//    饼状图开始
+    pieOption = {
+        backgroundColor: '#27395f',
+        series: [{
+            type: 'pie',
+            radius: ['65%', '55%'],
+            silent: true,
+            data: [{
+                value: 1,
+                itemStyle: {
+                    normal: {
+                        color: '#050f58',
+                        borderColor: '#162abb',
+                        borderWidth: 2,
+                        shadowBlur: 50,
+                        shadowColor: 'rgba(21,41,185,.75)'
+                    }
+                }
+            }]
+        }, {
+            type: 'pie',
+            radius: ['65%', '55%'],
+            silent: true,
+            label: {
+                normal: {
+                    show: false,
+                }
+            },
+            data: [{
+                value: 1,
+                itemStyle: {
+                    normal: {
+                        color: '#050f58',
+                        shadowBlur: 50,
+                        shadowColor: 'rgba(21,41,185,.75)'
+                    }
+                }
+            }]
+        }, {
+            name: '占比',
+            type: 'pie',
+            radius: ['65%', '52%'],
+            hoverAnimation: false,
+
+            data: [{
+                value: 52.7,
+                name: "已完成",
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            textStyle: {
+                                fontSize: 12,
+                            },
+                            position: "center"
+                        },
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(5,193,255,1)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(15,15,90,1)'
+                        }])
+                    }
+                },
+                label: {
+                    normal: {
+                        position: 'outside',
+                        textStyle: {
+                            color: '#fff',
+                            fontSize: 12
+                        },
+                        formatter: '{b}: 1,120\n\n{a}: {c}%'
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false,
+                        length: 18,
+                        length2: 0,
+                        smooth: false,
+                        lineStyle: {
+                            width: 1,
+                            color: "#2141b5"
+                        }
+                    }
+                }
+            }, {
+                value: 47.3,
+                name: "未完成",
+                itemStyle: {
+                    normal: {
+                        label: {
+                            show: true,
+                            textStyle: {
+                                fontSize: 12,
+                            },
+                            position: "center"
+                        },
+                        color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                            offset: 0,
+                            color: 'rgba(5,15,88,1)'
+                        }, {
+                            offset: 1,
+                            color: 'rgba(235,122,255,1)'
+                        }])
+                    }
+                },
+                label: {
+                    normal: {
+                        position: 'outside',
+                        textStyle: {
+                            color: '#fff',
+                            fontSize: 12
+                        },
+                        formatter: '{b}: 1,120\n\n{a}: {c}%'
+                    }
+                },
+                labelLine: {
+                    normal: {
+                        show: false,
+                        length: 18,
+                        length2: 0,
+                        smooth: false,
+                        lineStyle: {
+                            width: 1,
+                            color: "#2141b5"
+                        }
+                    }
+                }
+            }]
+        }, {
+            name: '',
+            type: 'pie',
+            clockWise: true,
+            hoverAnimation: false,
+            radius: [200, 200],
+            label: {
+                normal: {
+                    position: 'center'
+                }
+            },
+            data: [{
+                value: 0,
+                label: {
+                    normal: {
+                        formatter: '38',
+                        textStyle: {
+                            color: '#fe8b53',
+                            fontSize: 25,
+                            fontWeight: 'bold'
+                        }
+                    }
+                }
+            }, {
+                tooltip: {
+                    show: false
+                },
+                label: {
+                    normal: {
+                        formatter: '\n待办事项',
+                        textStyle: {
+                            color: '#bbeaf9',
+                            fontSize: 12
+                        }
+                    }
+                }
+            }]
+        }]
+    };
+//    饼状图结束
+</script>
 </html>
