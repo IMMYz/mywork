@@ -6,32 +6,135 @@
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/platform-style.css" rel="stylesheet">
     <link href="css/content.css" rel="stylesheet">
+    <link href="css/jquery.mCustomScrollbar.css" rel="stylesheet">
 </head>
+<style>
+    .container{
+        width:1233px
+    }
+</style>
 <body>
 <div class="body-background">
     <img src="images/blueSky.jpg"/>
 </div>
 <div class="container clearfix">
-    <div class="left-content left" style="margin-top:20px">
-        <div class="left-content-tab1">
-            <div class="tab-head">
-                <div class="tab-head-title left">
-                    <div class="tab-inner-title">
-                        大队通知
-                    </div>
+    <div class="left-content left" style="margin-top:7%">
+        <div class="left-content-title clearfix pad-15">
+                <div class="left">
+                    <img src="images/touxiang.png">
+                </div>
+                <div class="left" style="margin-left:10px">
+                    <p>赵东来</p>
+                    <p class="left" style="margin-right:20px">职务：<span>侦察员</span></p>
+                    <p class="left">单位：<span>昆明网安支队</span></p>
+                    <div style="clear:both"></div>
+                </div>
+            <div style="clear:both"></div>
+            <div class="search-area">
+                <i class="glyphicon glyphicon-search searchIcon"></i>
+                <input type="text" class="form-control search-color" style="padding-left:30px" placeholder="搜索"/>
+            </div>
+            </div>
+        <div class="left-content-tab-menu clearfix" style="margin-top:10px">
+                <a class="tab-menu left text-center" href="javascript:void(0)"><img src="images/info-tab.png" style="margin-top: -3px;"/></a>
+                <a class="tab-menu left text-center" href="javascript:void(0)"><img src="images/notes-tab.png"/></a>
+                <a class="tab-menu left text-center" href="javascript:void(0)"><img src="images/word-tab.png"/></a>
+        </div>
+        <div class="left-content-tab1" style="overflow:auto;height:530px">
+            <div class="tab-item clearfix">
+                <div class="level-box left" style="margin-left:15px;margin-right:10px">
+                    <img src="images/grey-squer.png"/>
+                </div>
+                <div class="left" style="width:209px">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
                 </div>
             </div>
-            <div class="left-content-tab1-content">
-
-            </div>
         </div>
+        <!--<div class="left-content-tab2 pad-15">-->
+            <!--<div class="tab-item clearfix">-->
+                <!--<div class="level-box left" style="margin-left:15px;margin-right:10px">-->
+                    <!--<img src="images/grey-squer.png"/>-->
+                <!--</div>-->
+                <!--<div class="left" style="width:233px">-->
+                    <!--<div class="left"><p>情报1</p></div>-->
+                    <!--<div class="right text-right"><p>8-31</p></div>-->
+                    <!--<div style="clear:both"></div>-->
+                    <!--<p>关于XXX在我市进行XXX</p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="tab-item clearfix">-->
+                <!--<div class="level-box left" style="margin-left:15px;margin-right:10px">-->
+                    <!--<img src="images/grey-squer.png"/>-->
+                <!--</div>-->
+                <!--<div class="left" style="width:233px">-->
+                    <!--<div class="left"><p>情报1</p></div>-->
+                    <!--<div class="right text-right"><p>8-31</p></div>-->
+                    <!--<div style="clear:both"></div>-->
+                    <!--<p>关于XXX在我市进行XXX</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
+        <!--<div class="left-content-tab3 pad-15">-->
+            <!--<div class="tab-item clearfix">-->
+                <!--<div class="level-box left" style="margin-left:15px;margin-right:10px">-->
+                    <!--<img src="images/grey-squer.png"/>-->
+                <!--</div>-->
+                <!--<div class="left" style="width:233px">-->
+                    <!--<div class="left"><p>情报1</p></div>-->
+                    <!--<div class="right text-right"><p>8-31</p></div>-->
+                    <!--<div style="clear:both"></div>-->
+                    <!--<p>关于XXX在我市进行XXX</p>-->
+                <!--</div>-->
+            <!--</div>-->
+            <!--<div class="tab-item clearfix">-->
+                <!--<div class="level-box left" style="margin-left:15px;margin-right:10px">-->
+                    <!--<img src="images/grey-squer.png"/>-->
+                <!--</div>-->
+                <!--<div class="left" style="width:233px">-->
+                    <!--<div class="left"><p>情报1</p></div>-->
+                    <!--<div class="right text-right"><p>8-31</p></div>-->
+                    <!--<div style="clear:both"></div>-->
+                    <!--<p>关于XXX在我市进行XXX</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</div>-->
     </div>
-    <div class="right-content left">
+    <div class="right-content left" style="margin-top:7%">
+        <div class="text-center">
+            <h3 style="color:#000">情报</h3>
+        </div>
+        <div id="editor">
 
+        </div>
+        <div class="button-area">
+            <button type="button" class="btn btn-default">保存</button>
+            <button type="button" class="btn btn-default">取消</button>
+        </div>
     </div>
 </div>
 </body>
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/echarts.js"></script>
+<script type="text/javascript" src="js/wangEditor.js"></script>
+<script type="text/javascript" src="js/jquery.mCustomScrollbar.concat.min.js"></script>
+<script>
+    var E = window.wangEditor;
+    var editor = new E('#editor');
+    editor.create();
+    (function($){
+        $(window).on("load",function(){
+            $(".left-content-tab1").mCustomScrollbar();
+        });
+    })(jQuery);
+    $(function(){
+        $(".left-content-tab1").mCustomScrollbar({
+            axis:"y",
+            theme:"dark"
+        })
+    })
+</script>
 </html>

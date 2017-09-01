@@ -60,8 +60,8 @@ bodu{
 .tab-content{
     overflow:auto;
     height:250px;
-    padding:20px;
     background-color:rgba(45, 69, 112, 0.7);
+    font-size:12px;
 }
 .record-date{
     border-bottom:1px solid #fff;
@@ -113,13 +113,13 @@ bodu{
 }
 .progress-left{
     position: absolute;
-    top: 50px;
+    top: 30px;
     color: #1c2841;
     font-weight: bold;
 }
 .progress-right{
     position: absolute;
-    top: 50px;
+    top: 30px;
     right: 44px;
     color: #00c121;
     font-weight: bold;
@@ -130,4 +130,13 @@ bodu{
 }
 .scale1-1{
     transform:scale(1.1);
+}
+.pad-20{
+    padding:20px;
+}
+.no-border td{
+    border:none !important
+}
+.no-pad td{
+    padding:0 !important
 }

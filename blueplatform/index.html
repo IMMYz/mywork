@@ -22,9 +22,9 @@
     </div>
 </div>
     <div class="row">
-        <div class="col-md-12" style="margin-bottom:15px">
-            <div class="clearfix" style="width:574px;margin-right:15px;margin:0 auto">
-                <div class="left" style="width:374px;padding-left:20px">
+        <div class="col-md-12" style="margin-bottom:50px">
+            <div class="clearfix" style="width:680px;margin-right:15px;margin:0 auto">
+                <div class="left" style="width:500px;padding-left:20px">
                     <input class="form-control" placeholder="请输入搜索关键字"/>
                 </div>
                 <button class="btn btn-primary" style="margin-left:10px">搜索</button>
@@ -36,7 +36,7 @@
         <div class="col-md-3">
             <div class="tab-head clearfix">
                 <div class="tab-head-title left">
-                    编辑中(<span>180</span>)
+                    编辑中(<span style="color:#f50c42">180</span>)
                 </div>
                 <div class="text-right">
                     <span class="skew">我的情报</span>
@@ -48,16 +48,16 @@
                         <th>名称</th>
                         <th>创建时间</th>
                         <th>状态</th>
+                    </tr>-
+                    <tr>
+                       <td>一二三四五六七八九十十一</td>
+                       <td>09/01 10:09</td>
+                       <td>编辑中</td>
                     </tr>
                     <tr>
-                       <td>名称1</td>
-                       <td>创建时间1</td>
-                       <td>green</td>
-                    </tr>
-                    <tr>
-                        <td>名称2</td>
-                        <td>创建时间2</td>
-                        <td>red</td>
+                        <td>一二三四五六七八九十十一</td>
+                        <td>09/01 10:09</td>
+                        <td>编辑中</td>
                     </tr>
                 </table>
             </div>
@@ -71,13 +71,12 @@
                     <span class="skew">我的便签</span>
                 </div>
             </div>
-            <div class="tab-content">
+            <div class="tab-content pad-20">
                <div class="record-date">
-                   <p style="margin-bottom:0">2017-8-26</p>
+                   <p style="margin-bottom:0;color:#e01346">记事一</p>
                </div>
                 <div>
-                    <p>记事一</p>
-                    <p>出部且面國運靈樹種行覺中真燈的需子在……信長學化意一就升國小不好致雄法面企位投清層行一帶系又人親裡立常其公正論人文生醫鄉目我他為……心大洲有</p>
+                    <p><span style="color:#27f3d9">2017-8-26</span>出部且面國運靈樹種行覺中真燈的需子在……信長學化意一就升國小不好致雄法面企位投清層行一帶系又人親裡立常其公正論人文生醫鄉目我他為……心大洲有</p>
                 </div>
             </div>
         </div>
@@ -119,14 +118,21 @@
                     <span class="skew">通知</span>
                 </div>
             </div>
-            <div class="tab-content">
-                <div class="record-date">
-                    <p style="margin-bottom:0">2017-8-26</p>
-                </div>
-                <div>
-                    <p>记事一</p>
-                    <p>出部且面國運靈樹種行覺中真燈的需子在……信長學化意一就升國小不好致雄法面企位投清層行一帶系又人親裡立常其公正論人文生醫鄉目我他為……心大洲有</p>
-                </div>
+            <div class="tab-content pad-20">
+                <table class="table no-border no-pad">
+                    <tr>
+                        <td style="color:#e01346">通知一</td>
+                        <td class="text-right">2017-8-26</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#e01346">通知一</td>
+                        <td class="text-right">2017-8-26</td>
+                    </tr>
+                    <tr>
+                        <td style="color:#e01346">通知一</td>
+                        <td class="text-right">2017-8-26</td>
+                    </tr>
+                </table>
             </div>
             </div>
         <div class="col-md-6" style="margin-top:20px">
@@ -204,6 +210,7 @@
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/echarts.js"></script>
 <script>
+//    鼠标移入放大
     $(".menu-li").mouseover(function(){
         console.log($(this));
         $(this).addClass("scale1-5");
@@ -213,7 +220,8 @@
     $(".menu-li").mouseleave(function(){
         $(".menu-li").removeClass("scale1-1");
         $(".menu-li").removeClass("scale1-5");
-    })
+    });
+//    鼠标移入放大结束
     $(function(){
         lineChart.setOption(lineOption);
         pieChart.setOption(pieOption);
