@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -7,6 +6,12 @@
     <link href="css/platform-style.css" rel="stylesheet">
     <link href="css/jquery.mCustomScrollbar.css" rel="stylesheet">
     <link href="css/content.css" rel="stylesheet">
+    <link href="js/umeditor1.2.3/themes/default/_css/umeditor.css" type="text/css" rel="stylesheet">
+    <script type="text/javascript" src="js/umeditor1.2.3/third-party/jquery.min.js"></script>
+    <script type="text/javascript" src="js/umeditor1.2.3/third-party/template.min.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/umeditor1.2.3/umeditor.config.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/umeditor1.2.3/_examples/editor_api.js"></script>
+    <script type="text/javascript" src="js/umeditor1.2.3/lang/zh-cn/zh-cn.js"></script>
 </head>
 <style>
     .container{
@@ -194,9 +199,9 @@
         <div class="text-center">
             <h3 style="color:#000">情报</h3>
         </div>
-        <div id="editor">
-
-        </div>
+        <script type="text/plain" id="myEditor" style="width:868px;height:500px;">
+    <p>这里我可以写一些输入提示</p>
+</script>
         <div class="button-area" style="margin-top:20px;padding:10px">
             <button type="button" class="btn btn-primary">保存</button>
             <button type="button" class="btn btn-warning">取消</button>
@@ -241,12 +246,13 @@
 </div>
 </body>
 <!--<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>-->
-<script src="js/jquery-3.2.1.min.js"></script>
+<!--<script src="js/jquery-3.2.1.min.js"></script>-->
 <script type="text/javascript" src="js/bootstrap.js"></script>
 <script type="text/javascript" src="js/echarts.js"></script>
-<script type="text/javascript" src="js/wangEditor.js"></script>
+<!--<script type="text/javascript" src="js/wangEditor.js"></script>-->
 <script type="text/javascript" src="js/jquery.mCustomScrollbar.concat.min.js"></script>
 <script type="text/javascript">
+    var um = UM.getEditor('myEditor');
 //    tab栏部分的隐藏与显示
 var currentImg = "info-tab";
 var currentID = "info-tab";
@@ -260,9 +266,8 @@ function tabSwitch(aClick,ele,img){
     $("."+ele).removeClass("tab-hide");
 }
 //    tab栏部分隐藏与显示结束
-    var E = window.wangEditor;
-    var editor = new E('#editor');
-    editor.create();
+//    var E = window.wangEditor;
+//    editor.create();
     (function($){
         $(window).on("load",function(){
             $(".left-content-tab1").mCustomScrollbar();
