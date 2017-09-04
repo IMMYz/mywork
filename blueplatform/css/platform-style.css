@@ -140,3 +140,23 @@ bodu{
 .no-pad td{
     padding:0 !important
 }
+.search-input{
+    background-color:rgba(103,134,177,0.7);
+    color:#000;
+    border:none;
+}
+.search-input::-webkit-input-placeholder{
+    color:#000
+}
+.col-md-3{
+    width:25%;
+    float: left;
+}
+.col-md-6{
+    width:50%;
+    float:left;
+}
+.col-md-4{
+    width:33.3333333333333%;
+    float:left;
+}

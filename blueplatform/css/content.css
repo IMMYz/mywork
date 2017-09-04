@@ -45,6 +45,7 @@
     height:88px;
     padding:14px 0;
     margin-left: 6px;
+    border-bottom: 1px solid #000;
 }
 .right-content{
     width:872px;
@@ -64,4 +65,51 @@
 .tab-hide{
     display:none;
 }
+.tab-item-title{
+    overflow: hidden;
+    height: 20px;
+    text-overflow: ellipsis;
+    width: 254px;
+    white-space: nowrap;
+}
+.tab-item-textBox a{
+    color:#fff;
+}
 
+.tab-item-sub{
+    overflow: hidden;
+    height: 20px;
+    text-overflow: ellipsis;
+    width: 240px;
+    white-space: nowrap;
+}
+.tab2-item-sub{
+    overflow: hidden;
+    height: 64px;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    text-align: justify;
+    padding: 7px;
+}
+.tab-item-file
+{
+    overflow: hidden;
+    height: 20px;
+    text-overflow: ellipsis;
+    width: 215px;
+    white-space: nowrap;
+}
+.tab2-item{
+    height:125px;
+    padding:14px 0;
+    margin-left: 6px;
+    border-bottom: 1px solid #000;
+}
+.tab3-item{
+    height:50px;
+    padding:14px 0;
+    margin-left: 6px;
+    border-bottom: 1px solid #000;
+}
