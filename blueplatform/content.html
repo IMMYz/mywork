@@ -5,8 +5,8 @@
     <title>Title</title>
     <link href="css/bootstrap.css" rel="stylesheet">
     <link href="css/platform-style.css" rel="stylesheet">
-    <link href="css/content.css" rel="stylesheet">
     <link href="css/jquery.mCustomScrollbar.css" rel="stylesheet">
+    <link href="css/content.css" rel="stylesheet">
 </head>
 <style>
     .container{
@@ -15,7 +15,7 @@
 </style>
 <body>
 <div class="body-background">
-    <img src="images/blueSky.jpg"/>
+    <img src="images/content-Bk2.jpg"/>
 </div>
 <div class="container clearfix">
     <div class="left-content left" style="margin-top:7%">
@@ -35,17 +35,90 @@
                 <input type="text" class="form-control search-color" style="padding-left:30px" placeholder="搜索"/>
             </div>
             </div>
+        <!--左侧图标导航栏-->
         <div class="left-content-tab-menu clearfix" style="margin-top:10px">
-                <a class="tab-menu left text-center" href="javascript:void(0)"><img src="images/info-tab.png" style="margin-top: -3px;"/></a>
-                <a class="tab-menu left text-center" href="javascript:void(0)"><img src="images/notes-tab.png"/></a>
-                <a class="tab-menu left text-center" href="javascript:void(0)"><img src="images/word-tab.png"/></a>
+                <a class="tab-menu left text-center" href="javascript:void(0)" onclick="tabSwitch(this,'left-content-tab1','qb_click')">
+                    <img id="info-tab" src="images/qb_click.png" />
+                    <!--<img src="images/qb_click.png.png"/>-->
+                </a>
+                <a class="tab-menu left text-center" href="javascript:void(0)" onclick="tabSwitch(this,'left-content-tab2','bq_click')">
+                    <img id="notes-tab" src="images/notes-tab.png"/>
+                    <!--<img src="images/bq_click.png.png"/>-->
+                </a>
+                <a class="tab-menu left text-center" href="javascript:void(0)" onclick="tabSwitch(this,'left-content-tab3','wd_click')">
+                    <img id="word-tab" src="images/word-tab.png"/>
+                    <!--<img src="images/wd_click.png"/>-->
+                </a>
         </div>
+        <!--左侧图标导航栏结束-->
+        <div class="left-content-tab-area">
         <div class="left-content-tab1" style="overflow:auto;height:530px">
             <div class="tab-item clearfix">
-                <div class="level-box left" style="margin-left:15px;margin-right:10px">
-                    <img src="images/grey-squer.png"/>
+                <div class="tab-item-textBox textBox-active left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
                 </div>
-                <div class="left" style="width:209px">
+            </div>
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
+                </div>
+            </div>
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
+                </div>
+            </div>
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
+                </div>
+            </div>
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
+                </div>
+            </div>
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
+                </div>
+            </div>
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
+                </div>
+            </div>
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
+                </div>
+            </div>
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
                     <div class="left"><p>情报1</p></div>
                     <div class="right text-right"><p>8-31</p></div>
                     <div style="clear:both"></div>
@@ -53,54 +126,43 @@
                 </div>
             </div>
         </div>
-        <!--<div class="left-content-tab2 pad-15">-->
-            <!--<div class="tab-item clearfix">-->
-                <!--<div class="level-box left" style="margin-left:15px;margin-right:10px">-->
-                    <!--<img src="images/grey-squer.png"/>-->
-                <!--</div>-->
-                <!--<div class="left" style="width:233px">-->
-                    <!--<div class="left"><p>情报1</p></div>-->
-                    <!--<div class="right text-right"><p>8-31</p></div>-->
-                    <!--<div style="clear:both"></div>-->
-                    <!--<p>关于XXX在我市进行XXX</p>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="tab-item clearfix">-->
-                <!--<div class="level-box left" style="margin-left:15px;margin-right:10px">-->
-                    <!--<img src="images/grey-squer.png"/>-->
-                <!--</div>-->
-                <!--<div class="left" style="width:233px">-->
-                    <!--<div class="left"><p>情报1</p></div>-->
-                    <!--<div class="right text-right"><p>8-31</p></div>-->
-                    <!--<div style="clear:both"></div>-->
-                    <!--<p>关于XXX在我市进行XXX</p>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
-        <!--<div class="left-content-tab3 pad-15">-->
-            <!--<div class="tab-item clearfix">-->
-                <!--<div class="level-box left" style="margin-left:15px;margin-right:10px">-->
-                    <!--<img src="images/grey-squer.png"/>-->
-                <!--</div>-->
-                <!--<div class="left" style="width:233px">-->
-                    <!--<div class="left"><p>情报1</p></div>-->
-                    <!--<div class="right text-right"><p>8-31</p></div>-->
-                    <!--<div style="clear:both"></div>-->
-                    <!--<p>关于XXX在我市进行XXX</p>-->
-                <!--</div>-->
-            <!--</div>-->
-            <!--<div class="tab-item clearfix">-->
-                <!--<div class="level-box left" style="margin-left:15px;margin-right:10px">-->
-                    <!--<img src="images/grey-squer.png"/>-->
-                <!--</div>-->
-                <!--<div class="left" style="width:233px">-->
-                    <!--<div class="left"><p>情报1</p></div>-->
-                    <!--<div class="right text-right"><p>8-31</p></div>-->
-                    <!--<div style="clear:both"></div>-->
-                    <!--<p>关于XXX在我市进行XXX</p>-->
-                <!--</div>-->
-            <!--</div>-->
-        <!--</div>-->
+        <div class="left-content-tab2 pad-15 tab-hide">
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
+                </div>
+            </div>
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
+                </div>
+            </div>
+        </div>
+        <div class="left-content-tab3 pad-15 tab-hide">
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
+                </div>
+            </div>
+            <div class="tab-item clearfix">
+                <div class="tab-item-textBox left">
+                    <div class="left"><p>情报1</p></div>
+                    <div class="right text-right"><p>8-31</p></div>
+                    <div style="clear:both"></div>
+                    <p>关于XXX在我市进行XXX</p>
+                </div>
+            </div>
+        </div>
+        </div>
     </div>
     <div class="right-content left" style="margin-top:7%">
         <div class="text-center">
@@ -109,7 +171,7 @@
         <div id="editor">
 
         </div>
-        <div class="button-area">
+        <div class="button-area" style="margin-top:20px">
             <button type="button" class="btn btn-default">保存</button>
             <button type="button" class="btn btn-default">取消</button>
         </div>
@@ -121,7 +183,20 @@
 <script type="text/javascript" src="js/echarts.js"></script>
 <script type="text/javascript" src="js/wangEditor.js"></script>
 <script type="text/javascript" src="js/jquery.mCustomScrollbar.concat.min.js"></script>
-<script>
+<script type="text/javascript">
+//    tab栏部分的隐藏与显示
+var currentImg = "info-tab";
+var currentID = "info-tab";
+function tabSwitch(aClick,ele,img){
+    $("#"+currentID).attr("src","images/"+currentImg+".png");
+    currentID = $(aClick).find("img").attr("id");
+    currentImg = $(aClick).find("img").attr("id");
+    var aClickImg = $(aClick).find("img");
+    aClickImg.attr("src","images/"+img+".png");
+    $(".left-content-tab-area").children().addClass("tab-hide");
+    $("."+ele).removeClass("tab-hide");
+}
+//    tab栏部分隐藏与显示结束
     var E = window.wangEditor;
     var editor = new E('#editor');
     editor.create();

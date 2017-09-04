@@ -44,7 +44,6 @@
 .tab-item{
     height:88px;
     padding:14px 0;
-    background-color:#3a3f45;
     margin-left: 6px;
 }
 .right-content{
@@ -52,3 +51,17 @@
     height:722px;
     background-color:#f2f2f2
 }
+.mCSB_inside > .mCSB_container{
+    margin-right:0px
+}
+.tab-item-textBox{
+    width:95%;
+    padding:5px;
+}
+.textBox-active{
+    background-color:#3a3f45
+}
+.tab-hide{
+    display:none;
+}
+
