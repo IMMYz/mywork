@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>tab</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<style type="text/css">
+    .tab{
+        width:200px;
+        height:200px;
+        background-color:grey;
+        color:#fff;
+    }
+    .tab-title{
+        float:left
+    }
+    .clear{
+        clear:both;
+    }
+    .left{
+        float:left
+    }
+    .file-list,.detail-list,.person-list{
+        width:300px;
+        height:500px;
+        margin:10px;
+        border:1px solid #000
+    }
+</style>
+<body>
+<div id="app">
+    <h2>transfer</h2>
+    <div class="file-list left">
+        <ul>
+            <li v-for="(item,index) in file" v-if="item.selected == false">
+                <input type="checkbox" :value="index" v-model="fileSelected">{{item.fileName}}
+            </li>
+        </ul>
+        <div>{{fileSelected}}</div>
+        <button type="button" v-on:click="addFile">添加文件</button>
+    </div>
+    <div class="detail-list left">
+        <div class="left">
+            <ul>
+                <li v-for="(item,index) in file" v-if="item.selected">
+                    <input type="checkbox" :value="index" v-model="readySendFile">{{item.fileName}}
+                </li>
+            </ul>
+            <div>{{readySendFile}}</div>
+            <button type="button" v-on:click="removeFile">移回文件</button>
+        </div>
+        <div class="left">
+            <ul v-for="(item,index) in person" v-if="item.selected">
+                <input type="checkbox" :value="index" v-model="readySendPerson">{{item.personName}}
+            </ul>
+            <div>{{readySendPerson}}</div>
+            <button type="button" v-on:click="removePerson">移回警官</button>
+        </div>
+        <div class="clear"></div>
+    </div>
+    <div class="person-list left">
+        <ul>
+            <li v-for="(item,index) in person" v-if="item.selected==false">
+                <input type="checkbox" :value="index" v-model="personSelected">{{item.personName}}
+            </li>
+        </ul>
+        <div>{{personSelected}}</div>
+        <button type="button" v-on:click="addPerson">添加警官</button>
+    </div>
+    <div class="clear"></div>
+</div>
+<script type="text/javascript">
+    var mutilpleFile = new Vue({
+        el:'#app',
+        data:{
+            file:[{fileName:'文件1',selected:false},{fileName:'文件2',selected:false},{fileName:'文件3',selected:false}],
+            person:[{personName:'警官1',selected:false},{personName:'警官2',selected:false},{personName:'警官3',selected:false}],
+            readySendFile:[],
+            fileSelected:[],
+            personSelected:[],
+            readySendPerson:[]
+        },
+        methods:{
+            addFile:function(){
+                for(var i=0;i<this.fileSelected.length;i++){
+                    this.file[i].selected = true;
+                }
+                this.fileSelected = [];
+            },
+            removeFile:function(){
+                for(var i=0;i<this.readySendFile.length;i++){
+                    this.file[i].selected=false;
+                }
+                this.readySendFile = [];
+            },
+            addPerson:function(){
+              for(var i = 0;i<this.personSelected.length;i++){
+                  this.person[i].selected = true;
+              }
+              this.personSelected = [];
+            },
+            removePerson:function(){
+                for(var i=0;i<this.readySendPerson.length;i++){
+                    this.person[i].selected=false;
+                }
+                this.readySendPerson = [];
+            }
+        }
+    });
+</script>
+</body>
+</html>

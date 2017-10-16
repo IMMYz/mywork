@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <!-- 引入样式 -->
     <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-default/index.css">
+    <link rel="stylesheet" href="css/layout.css">
 </head>
 <body>
 <div id="app">
@@ -22,8 +23,15 @@
         <input v-model="input.name"  type="text"/>
         <input v-model="input.address"  type="text"/>
     </div>
-
+    <el-steps :space="100" :active="active">
+        <el-step title="步骤 1" icon="edit"></el-step>
+        <el-step title="步骤 2" icon="upload"></el-step>
+        <el-step title="步骤 3" icon="picture"></el-step>
+    </el-steps>
     <button @click="add"></button>
+    <ul v-for="a in item">
+        <li>{{a}}</li>
+    </ul>
 </div>
 </body>
 <!-- 先引入 Vue -->
@@ -36,7 +44,9 @@
         data() {
             return {
                 tableData: [{data:1,name:2,address:3}],
-                input:{data:"",name:"",address:""}
+                input:{data:"",name:"",address:""},
+                active:1,
+                item:[{msg:1},{msg:2},{msg:3}]
             }
         },
         methods:{

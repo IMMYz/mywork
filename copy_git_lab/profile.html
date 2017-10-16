@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html class="" lang="en">
+<head prefix="og: http://ogp.me/ns#">
+    <title>Profile · User Settings · GitLab</title>
+    <meta content="GitLab Community Edition" name="description">
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="css/select2.css">
+    <link type="text/css" rel="stylesheet" href="css/index2.css">
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.js"></script>
+</head>
+
+<body class="ui_charcoal" data-group="" data-page="profiles:show" data-project="">
+<script>
+    //<![CDATA[
+    window.gon = {};
+    gon.api_version = "v3";
+    gon.default_avatar_url = "http:\/\/192.168.1.68:10080\/assets\/no_avatar-849f9c04a3a0d0cea2424ae97b27447dc64a7dbfae83c036c45b403392f0e8ba.png";
+    gon.max_file_size = 10;
+    gon.relative_url_root = "";
+    gon.shortcuts_path = "\/help\/shortcuts";
+    gon.user_color_scheme = "white";
+    gon.award_menu_url = "\/emojis";
+    gon.katex_css_url = "\/assets\/katex-e46cafe9c3fa73920a7c2c063ee8bb0613e0cf85fd96a3aea25f8419c4bfcfba.css";
+    gon.katex_js_url = "\/assets\/katex-04bcf56379fcda0ee7c7a63f71d0fc15ffd2e014d017cd9d51fd6554dfccf40a.js";
+    gon.current_user_id = 7;
+    gon.current_username = "yezi";
+    //]]>
+</script>
+
+<header class="navbar navbar-fixed-top navbar-gitlab with-horizontal-nav">
+    <a class="sr-only gl-accessibility" href="#content-body" tabindex="1">Skip to content</a>
+    <div class="container-fluid">
+        <div class="header-content">
+            <button id="global-expand" aria-label="Toggle global navigation" class="side-nav-toggle" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars"></i>
+            </button>
+            <button class="navbar-toggle" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-ellipsis-v"></i>
+            </button>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li class="hidden-sm hidden-xs">
+                        <div class="search search-form">
+                            <form class="navbar-form" action="/search" accept-charset="UTF-8" method="get"><input
+                                    name="utf8" type="hidden" value="&#x2713;"/>
+                                <div class="search-input-container">
+                                    <div class="search-input-wrap">
+                                        <div class="dropdown" data-url="/search/autocomplete">
+                                            <input type="search" name="search" id="search" placeholder="Search"
+                                                   class="search-input dropdown-menu-toggle no-outline js-search-dashboard-options"
+                                                   spellcheck="false" tabindex="1" autocomplete="off"
+                                                   data-toggle="dropdown"
+                                                   data-issues-path="http://192.168.1.68:10080/dashboard/issues"
+                                                   data-mr-path="http://192.168.1.68:10080/dashboard/merge_requests"/>
+                                            <div class="dropdown-menu dropdown-select">
+                                                <div class="dropdown-content">
+                                                    <ul>
+                                                        <li>
+                                                            <a class="is-focused dropdown-menu-empty-link">
+                                                                Loading...
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                                <div class="dropdown-loading"><i class="fa fa-spinner fa-spin"></i>
+                                                </div>
+                                            </div>
+                                            <i class="search-icon"></i>
+                                            <i class="clear-icon js-clear-input"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="group_id" id="group_id" class="js-search-group-options"/>
+                                <input type="hidden" name="project_id" id="search_project_id" value=""
+                                       class="js-search-project-options"/>
+                                <input type="hidden" name="repository_ref" id="repository_ref"/>
+
+                                <div class="search-autocomplete-opts hide"
+                                     data-autocomplete-path="/search/autocomplete"></div>
+                            </form>
+                        </div>
+
+                    </li>
+                    <li class="visible-sm visible-xs">
+                        <a title="Search" aria-label="Search" data-toggle="tooltip" data-placement="bottom"
+                           data-container="body" href="/search"><i class="fa fa-search"></i>
+                        </a></li>
+                    <li>
+                        <a title="Todos" aria-label="Todos" data-toggle="tooltip" data-placement="bottom"
+                           data-container="body" href="/dashboard/todos"><i class="fa fa-bell fa-fw"></i>
+                            <span class="badge todos-pending-count">
+1
+</span>
+                        </a></li>
+                    <li class="header-user dropdown">
+                        <a class="header-user-dropdown-toggle" data-toggle="dropdown" href="/yezi"><img width="26"
+                                                                                                        height="26"
+                                                                                                        class="header-user-avatar"
+                                                                                                        src="img/avatar.png"
+                                                                                                        alt="Avatar"/>
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                        <div class="dropdown-menu-nav dropdown-menu-align-right">
+                            <ul>
+                                <li>
+                                    <a class="profile-link" aria-label="Profile" data-user="yezi"
+                                       href="/yezi">Profile</a>
+                                </li>
+                                <li>
+                                    <a aria-label="Settings" href="/profile">Settings</a>
+                                </li>
+                                <li>
+                                    <a aria-label="Help" href="/help">Help</a>
+                                </li>
+                                <li class="divider"></li>
+                                <li>
+                                    <a class="sign-out-link" aria-label="Sign out" rel="nofollow" data-method="delete"
+                                       href="/users/sign_out">Sign out</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <h1 class="title"><a href="/profile">用户设置</a></h1>
+            <div class="header-logo">
+                <a class="home" title="Dashboard" id="logo" href="/">
+                    <svg width="36" height="36" class="tanuki-logo">
+                        <path class="tanuki-shape tanuki-left-ear" fill="#e24329"
+                              d="M2 14l9.38 9v-9l-4-12.28c-.205-.632-1.176-.632-1.38 0z"/>
+                        <path class="tanuki-shape tanuki-right-ear" fill="#e24329"
+                              d="M34 14l-9.38 9v-9l4-12.28c.205-.632 1.176-.632 1.38 0z"/>
+                        <path class="tanuki-shape tanuki-nose" fill="#e24329" d="M18,34.38 3,14 33,14 Z"/>
+                        <path class="tanuki-shape tanuki-left-eye" fill="#fc6d26" d="M18,34.38 11.38,14 2,14 6,25Z"/>
+                        <path class="tanuki-shape tanuki-right-eye" fill="#fc6d26" d="M18,34.38 24.62,14 34,14 30,25Z"/>
+                        <path class="tanuki-shape tanuki-left-cheek" fill="#fca326"
+                              d="M2 14L.1 20.16c-.18.565 0 1.2.5 1.56l17.42 12.66z"/>
+                        <path class="tanuki-shape tanuki-right-cheek" fill="#fca326"
+                              d="M34 14l1.9 6.16c.18.565 0 1.2-.5 1.56L18 34.38z"/>
+                    </svg>
+
+                </a></div>
+
+        </div>
+    </div>
+</header>
+
+
+<div class="page-with-sidebar">
+    <div class="sidebar-wrapper nicescroll">
+        <div class="sidebar-action-buttons">
+            <div id="global-close" class="nav-header-btn toggle-nav-collapse" title="Open/Close">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars"></i>
+            </div>
+            <div class="nav-header-btn pin-nav-btn has-tooltip  js-nav-pin" data-container="body" data-placement="right"
+                 title="Pin Navigation">
+                <span class="sr-only">Toggle navigation pinning</span>
+                <i class="fa fa-fw fa-thumb-tack"></i>
+            </div>
+        </div>
+        <div class="nav-sidebar">
+            <ul class="nav">
+                <li class="home"><a title="Projects" class="dashboard-shortcuts-projects"
+                                    href="/dashboard/projects"><span>
+项目
+</span>
+                </a></li>
+                <li class=""><a class="dashboard-shortcuts-activity" title="Activity" href="/dashboard/activity"><span>
+活动
+</span>
+                </a></li>
+                <li class=""><a title="Groups" href="/dashboard/groups"><span>
+小组
+</span>
+                </a></li>
+                <li class=""><a title="Issues" class="dashboard-shortcuts-issues"
+                                href="/dashboard/issues?assignee_id=7"><span>
+问题
+<span class="count">1</span>
+</span>
+                </a></li>
+                <li class=""><a title="Merge Requests" class="dashboard-shortcuts-merge_requests"
+                                href="/dashboard/merge_requests?assignee_id=7"><span>
+合并请求
+<span class="count">0</span>
+</span>
+                </a></li>
+                <li class=""><a title="Snippets" href="/dashboard/snippets"><span>
+代码片段
+</span>
+                </a></li>
+                <a title="About GitLab CE" class="about-gitlab" href="/help"><span>
+关于本项目
+</span>
+                </a></ul>
+        </div>
+
+    </div>
+    <div class="layout-nav">
+        <div class="container-fluid">
+            <div class="scrolling-tabs-container">
+                <div class="fade-left">
+                    <i class="fa fa-angle-left"></i>
+                </div>
+                <div class="fade-right">
+                    <i class="fa fa-angle-right"></i>
+                </div>
+                <ul class="nav-links scrolling-tabs">
+                    <li class="home active"><a title="Profile Settings" href="/profile"><span>
+个人档案
+</span>
+                    </a></li>
+                    <li class=""><a title="Account" href="/profile/account"><span>
+账户
+</span>
+                    </a></li>
+                    <li class=""><a title="Applications" href="/profile/applications"><span>
+应用
+</span>
+                    </a></li>
+                    <li class=""><a title="Chat" href="/profile/chat_names"><span>
+消息
+</span>
+                    </a></li>
+                    <li class=""><a title="Emails" href="/profile/emails"><span>
+邮件
+</span>
+                    </a></li>
+                    <li class=""><a title="Password" href="/profile/password/edit"><span>
+密码
+</span>
+                    </a></li>
+                    <li class=""><a title="Notifications" href="notifications.html"><span>
+通知
+</span>
+                    </a></li>
+                </ul>
+            </div>
+
+        </div>
+    </div>
+    <div class="content-wrapper page-with-layout-nav">
+
+        <div class="alert-wrapper">
+
+
+            <div class="flash-container flash-container-page">
+            </div>
+
+
+        </div>
+        <div class="container-fluid container-limited ">
+            <div class="content" id="content-body">
+
+                <form class="edit-user prepend-top-default" id="edit_user_7" enctype="multipart/form-data"
+                      action="/profile" accept-charset="UTF-8" method="post"><input name="utf8" type="hidden"
+                                                                                    value="&#x2713;"/><input
+                        type="hidden" name="_method" value="put"/><input type="hidden" name="authenticity_token"
+                                                                         value="Q1cjAwJgoYsneImuRdzXwNNqMQYTfQlm79csvn+B7pxRNo9U7twNcdzb9NnoMjDuUb/ciY93KlM7iiHoKB9VPQ=="/>
+                    <div class="row">
+                        <div class="col-lg-3 profile-settings-sidebar">
+                            <h4 class="prepend-top-0">
+                                公开头像
+                            </h4>
+                            <p>
+                                你可以在这里改变你的头像或删除当前的头像以恢复
+                            </p>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="clearfix avatar-image append-bottom-default">
+                                <a target="_blank"
+                                   href="http://192.168.1.68:10080/uploads/user/avatar/7/avatar.png"><img alt=""
+                                                                                                          class="avatar s160"
+                                                                                                          src="img/avatar.png"/>
+                                </a></div>
+                            <h5 class="prepend-top-0">
+                                上传新头像
+                            </h5>
+                            <div class="prepend-top-5 append-bottom-10">
+                                <a class="btn js-choose-user-avatar-button">
+                                    浏览文件...
+                                </a>
+                                <span class="avatar-file-name prepend-left-default js-avatar-filename">No file chosen</span>
+                                <input class="js-user-avatar-input hidden" accept="image/*" type="file"
+                                       name="user[avatar]" id="user_avatar"/>
+                            </div>
+                            <div class="help-block">
+                                最大文件不能超过 200KB.
+                            </div>
+                            <hr>
+                            <a data-confirm="Avatar will be removed. Are you sure?" class="btn btn-gray" rel="nofollow"
+                               data-method="delete" href="/profile/avatar">移除头像</a>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-lg-3 profile-settings-sidebar">
+                            <h4 class="prepend-top-0">
+                                主要设置
+                            </h4>
+                            <p>
+                                此信息将显示在您的个人资料中。
+                            </p>
+                        </div>
+                        <div class="col-lg-9">
+                            <div class="form-group">
+                                <label class="label-light" for="user_name">姓名</label>
+                                <input class="form-control" required="required" type="text" value="叶子" name="user[name]"
+                                       id="user_name"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-light" for="user_email">邮箱</label>
+                                <input class="form-control" required="required" type="text" value="yz@gfire.cn"
+                                       name="user[email]" id="user_email"/>
+                            </div>
+                            <div class="form-group">
+                                <label class="label-light" for="user_public_email">公共邮箱</label>
+                                <select class="select2" name="user[public_email]" id="user_public_email">
+                                    <option value="">Do not show on profile</option>
+                                    <option value="yz@gfire.cn">yz@gfire.cn</option>
+                                </select>
+                            </div>
+                            <div class="prepend-top-default append-bottom-default">
+                                <input type="submit" name="commit" value="上传相关文件"
+                                       class="btn btn-success"/>
+                                <a class="btn btn-cancel" href="/yezi">Cancel</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="modal modal-profile-crop">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button class="close" data-dismiss="modal" type="button">
+<span>
+&times;
+</span>
+                                </button>
+                                <h4 class="modal-title">
+                                    Position and size your new avatar
+                                </h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="profile-crop-image-container">
+                                    <img alt="Avatar cropper" class="modal-profile-crop-image">
+                                </div>
+                                <div class="crop-controls">
+                                    <div class="btn-group">
+                                        <button class="btn btn-primary" data-method="zoom" data-option="0.1">
+                                            <span class="fa fa-search-plus"></span>
+                                        </button>
+                                        <button class="btn btn-primary" data-method="zoom" data-option="-0.1">
+                                            <span class="fa fa-search-minus"></span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button class="btn btn-primary js-upload-user-avatar" type="button">
+                                    Set new profile picture
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+<script type="text/javascript">
+    $('#global-expand').click(function () {
+        $(".page-with-sidebar").addClass('page-sidebar-expanded')
+    })
+    $('#global-close').click(function () {
+        $(".page-with-sidebar").removeClass('page-sidebar-expanded')
+    })
+</script>
+</html>
+
