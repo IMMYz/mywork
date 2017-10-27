@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Mock Test</title>
+    <script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="js/mock.js"></script>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+<button type="button" @click="send">send</button>
+<table>
+    <tr>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>颜色</th>
+    </tr>
+    <tr v-for="item in list">
+        <td>{{item.name}}</td>
+        <td>{{item.age}}</td>
+        <td>{{item.color}}</td>
+    </tr>
+</table>
+</div>
+</body>
+<script>
+    var main = new Vue({
+        el:"#app",
+        data:{
+            list:{}
+        },
+        methods:{
+            send:function(){
+                $.ajax({
+                    url:'http://g.cn',
+                    dataType:'json',
+                    success:function(res){
+                        return main.$data.list = res;
+                    }
+                })
+            }
+        }
+    })
+    var data = Mock.mock({
+        'list|1-10':[{
+            'id|+1':1
+        }]
+    });
+    $('<pre>').text(JSON.stringify(data,null,4)).appendTo('body');
+    Mock.mock('http://g.cn',[
+        {'name':'name1',
+        'age|1-100':1,
+        'color':'@color'},
+        {'name':'name2',
+        'age|1-100':2,
+        'color':'@color'}
+    ]);
+//    $('button').click(function(){
+//        $.ajax({
+//            url:'http://g.cn',
+//            dataType:'json'
+//        }).done(function(data,status,xhr){
+//            console.log(JSON.stringify(data,null,4));
+//        })
+//    })
+</script>
+</html>

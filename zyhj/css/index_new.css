@@ -1,0 +1,230 @@
+html,body{
+    width:100%;
+    height:100%
+}
+#background{
+    position: absolute;
+    z-index: -1;
+    width: 1920px;
+    height: 973px;
+}
+.container{
+    width:1785px;
+}
+.left-content,.right-content,#swiper,.mid-bot{
+    position:relative;
+}
+.item-border{
+    border: 2px solid #030d3e;
+    border-radius:5px
+}
+.left-content{
+    width:410px;
+    height:755px;
+
+}
+.right-content{
+    width:405px;
+    height:755px;
+
+}
+.mid-content{
+    width:876px;
+    height:755px;
+
+    margin:0 47px;
+}
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+#swiper{
+    height:508px;
+    margin-bottom:10px
+}
+.mid-top{
+    height:50px;
+}
+.mid-bot{
+    position: relative;
+    height:252px
+}
+.update-item p{
+    margin:0
+}
+.left-content .update-item{
+    padding:10px 22px;
+    color:#999fee;
+    width:355px;
+    height:100px;
+    /*background-color:rgba(16,72,219,0.6);*/
+    margin-bottom:13px;
+    background-image:url('../img/item-back.png');
+}
+.update-item{
+    background-image:url('../img/item-back.png');
+}
+.swiper1-update-item .update-item{
+    width:423px;
+    height:104px;
+    color:#999fee;
+    background-image:url('../img/item-back.png');
+    border-left:6px solid #1048db;
+    padding:11px 16px;
+    margin-bottom:5px
+}
+.item-border{
+    width:410px;
+    height:710px;
+    padding:10px 22px;
+    padding-top:23px
+}
+.mid-content-border{
+    border: 2px solid rgba(29, 47, 136, 0.5);
+    border-radius:5px;
+    height:212px;
+}
+.mid-content-border>.title-img{
+    top: 26px;
+    left: 234px;
+}
+#charts{
+    height:207px
+}
+.content-title{
+    font-size:24px;
+    color:#999fee
+}
+.title-img{
+    position: absolute;
+    top: 20px;
+}
+.title-img img{
+    width:409px
+}
+.swiper-title{
+    font-size:36px;
+    color:#999fee
+}
+.swiper-slide{
+    overflow:auto
+}
+.swiper-slide::-webkit-scrollbar{
+    display:none;
+}
+.swiper-title-span{
+    width:37px;
+    height:51px;
+    padding: 5px 9px;
+    color:#000;
+    background-image:url('../img/span-bk.png');
+    background-repeat:no-repeat;
+}
+.mid-content-item-area .update-item:nth-child(2n){
+    margin-left:30px
+}
+.mid-content-item-area{
+    margin-top:10px
+}
+.right-content .update-item{
+    width:364px;
+    height:63px;
+    color:#999fee;
+    padding:11px 24px;
+    margin-top:10px;
+    margin: 10px auto;
+}
+.right-content .item-border{
+    height:462px;
+    padding:0
+}
+.circle-content{
+    position:relative
+}
+.circle-content .item-border{
+    height:224px
+}
+#charts2{
+    height:220px;
+    height: 197px;
+    margin-top: 23px;
+}
+.swiper1-update-item .table{
+    color:#999fee;
+}
+.content-td{
+    background-color:rgba(16,72,219,0.6);
+}
+.first-td{
+    padding:0 !important
+}
+.first-td-div{
+    border-left: 6px solid #1048db;
+    height: 38px;
+    line-height: 2;
+    padding:0
+}
+.first-td-div i{
+    left: -70px;
+    top: 6px;
+    font-size: 22px;
+}
+.table th{
+    text-align:center;
+    background-color:#0e33a6;
+    border-right:3px solid #030525;
+    border-top:none !important
+}
+.table td{text-align:center; background-image:url('../img/item-back.png');;border-right:3px solid #030525}
+.table tr{
+    border-bottom: 3px solid #020626;
+}
+#data-name,.data-name-content{
+    width:361px;
+    margin-right:5px;
+}
+#source-from,.source-from-content{
+    width:100px;
+    margin-right:5px;
+}
+#fzr,.fzr-content{
+    width:80px;
+    margin-right:5px;
+}
+#update-time,.update-time-content{
+    width:120px;
+    margin-right:10px;
+}
+#count,.count-content{
+    width:190px
+}
+.source-from-content,.fzr-content,.update-time-content,.count-content{
+    text-align:center;
+    padding-left:5px
+}
+.mid-table-title div{
+    background-color: #0c319f;
+    color: #999fee;
+    height: 30px;
+    line-height: 2;
+}
+.mid-table-title p{
+    margin-bottom:0
+}
+.mid-table-content-item{
+    background-color:rgba(16,72,219,0.6);
+    color:#999fee;
+    margin-bottom: 5px;
+}
+.first-content{
+    border-left:6px solid #1048db
+}
+.mid-table-content-item div{
+    height: 42px;
+    line-height: 3;
+}
+.highLight-color{
+    color:#a913a4
+}
