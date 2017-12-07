@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript" src="js/component.js"></script>
+</head>
+<body>
+<div id="app">
+    <span>{{success.text}}</span>
+    <ul>
+        <test-item v-bind:test="success"></test-item>
+    </ul>
+</div>
+<div id="app2">
+    <div>使用:来绑定来自父组件的数据</div>
+    <my-component :message="message"></my-component>
+    <div>没有使用:的情况下会改为字符串</div>
+    <my-component message="not the father message"></my-component>
+    <div>将整个对象进行传递，使用v-bind="对象名",在子组件中使用props选择对象的属性，直接进行数据绑定</div>
+    <todo-item v-bind="todo"></todo-item>
+    <div>单项数据流,需要在子组件中使用一个局部变量，来对父组件的变量进行操作，或者是输出</div>
+    <div>{{fatherCounter}}</div>
+    <counter-item :counter="fatherCounter"></counter-item>
+</div>
+<div id="counter-event-example">
+    <div>vue组件进行自定义时间处理</div>
+    <p>{{total}}</p>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+</div>
+</body>
+<script>
+    var Main = new Vue({
+        el: '#app',
+        data: {
+            success: 'success'
+        }
+    });
+    var Child1 = {
+        props: ['message'],
+        template: '<div>{{message}}</div>'
+    }
+    var Child2 = {
+        props: ['text', 'isComplete'],
+        template: '<div>{{text}}:{{isComplete}}</div>'
+    }
+    var Child3 = {
+        props:['counter'],
+        data:function(){
+          return {childCounter:this.counter+1}
+        },
+        template:'<div>{{childCounter}}</div>'
+    }
+    new Vue({
+        el: '#app2',
+        data: {
+            message: "I'm the father message",
+            todo: {
+                text: 'Learn Vue',
+                isComplete: 'false'
+            },
+            fatherCounter:1
+        },
+        components: {
+            'my-component': Child1,
+            'todo-item': Child2,
+            'counter-item':Child3
+        }
+    });
+
+    Vue.component('button-counter',{
+        template:'<button v-on:click="incrementCounter">{{counter}}</button>',
+        data:function(){
+            return{
+                counter:0
+            }
+        },
+        methods:{
+            incrementCounter:function(){
+                this.counter += 1
+                this.$emit('increment')
+            }
+        }
+    })
+
+    new Vue({
+        el:'#counter-event-example',
+        data:{
+            total:0
+        },
+        methods:{
+            incrementTotal:function(){
+                this.total += 1;
+            }
+        }
+    })
+
+</script>
+</html>

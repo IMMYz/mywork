@@ -10,12 +10,14 @@
     <ul>
         <li v-for="a in item">{{a}}</li>
     </ul>
+    <img :src="'123'+img.status">
 </div>
 <script>
     var vm = new Vue({
         el:"#app",
         data:{
-            item:[{msg:1},{msg:2}]
+            item:[{msg:1},{msg:2}],
+            img:{status:'success'}
         }
     })
 </script>

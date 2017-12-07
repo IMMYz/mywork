@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <div>{{total}}</div>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+    <button-counter v-on:increment="incrementTotal"></button-counter>
+    {{text||'暂无数据'}}
+    <son v-on:getsonmsg="showSonMsg"></son>
+</div>
+</body>
+<script>
+    Vue.component('button-counter',{
+        template:'<button v-on:click="incrementCounter" type="button">{{counter}}</button>',
+        data:function(){
+            return{
+                counter:0
+            }
+        },
+        methods:{
+            incrementCounter:function(){
+                this.counter += 1;
+                this.$emit('increment');
+            }
+        }
+    })
+    Vue.component('son',{
+        template:'<button v-on:click="sendData" type=button>send</button>',
+        data:function(){
+            return{
+                text:'子组件数据'
+            }
+        },
+        methods:{
+            sendData:function(){
+                this.$emit('getsonmsg',this.text);
+                console.log('sonSend');
+            }
+        }
+    })
+    new Vue({
+        el:"#app",
+        data:{
+            total:0,
+            text:''
+        },
+        methods:{
+            incrementTotal:function(){
+                this.total += 1;
+            },
+            showSonMsg:function(text){
+                console.log(text);
+                this.text = text;
+            }
+        }
+    })
+</script>
+</html>

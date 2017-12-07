@@ -5,273 +5,185 @@
     <script type="text/javascript" src="js/component.js"></script>
 </head>
 <body>
-<div id="app-7">
-    <ol>
-        <test-item v-for="item in spanList" v-bind:test="item" v-bind:key="item.id">
-
-        </test-item>
-    </ol>
-</div>
-<div id="app-8">
-    <ol>
-        <todo-item
-                v-for="item in groceryList"
-                v-bind:todo="item"
-                v-bind:key="item.id">
-        </todo-item>
-    </ol>
-</div>
-<div id="example">
-    <my-component></my-component>
-</div>
-
-<script type="text/javascript">
-    Vue.component('my-component',{
-        template:'<div>A custom component!</div>'
-    })
-    new Vue({
-        el:'#example'
-    })
-</script>
-
-<!--组件之间通信-->
-<div id="propDemo">
-    <input v-model="parentMsg"/>
-    <child v-bind:my-message="parentMsg"></child>
-</div>
-<script type="text/javascript">
-    var propDemo = new Vue({
-        el:'#propDemo',
-        data:{
-            parentMsg:'Message from parent'
-        },
-        components:{
-            child:{
-                props:['myMessage'],
-                template:'<span>{{myMessage}}</span>'
-            }
-        }
-    })
-</script>
-
-<!--注册组件-->
-<div id="extendComponent">
-    <first-component></first-component>
-    <inner-component></inner-component>
-</div>
-<script type="text/javascript">
-    var firstComponent = Vue.extend({
-        template:'<div>This is my first component</div>'
-    })
-//    全局组件注册
-    Vue.component('first-component',firstComponent);
-    var extendComponent = new Vue({
-        el:'#extendComponent',
-        component: {
-            innerComponent:{
-                template: '<div>This is my inner component</div>'
-            }
-        }
-    })
-</script>
-
-<div id="counter-event-example">
-    <p>{{total}}</p>
-    <button-counter v-on:increment="incrementTotal"></button-counter>
-    <button-counter v-on:increment="incrementTotal"></button-counter>
-</div>
-<script type="text/javascript">
-    Vue.component('button-counter',{
-        template:'<button v-on:click="increment">{{counter}}</button>',
-        data:function(){
-            return{
-                counter:0
-            }
-        },
-        methods:{
-            increment:function(){
-                this.counter +=1;
-                this.$emit('increment')
-            }
-        }
-    })
-    new Vue({
-        el:'#counter-event-example',
-        data:{
-            total:0
-        },
-        methods:{
-            incrementTotal:function(){
-                this.total +=1
-            }
-        }
-    })
-</script>
-</body>
-<script type="text/javascript">
-    var app7 = new Vue({
-        el:'#app-7',
-        data:{
-            spanList:[
-                {id:0,text:'蔬菜11'},
-                {id:1,text:'奶酪11'},
-                {id:2,text:'随便其他什么人吃的东西11'}
-            ]
-        }
-    })
-
-    var app8 = new Vue({
-        el: '#app-8',
-        data: {
-            groceryList: [
-                { id: 0, text: '蔬菜' },
-                { id: 1, text: '奶酪' },
-                { id: 2, text: '随便其他什么人吃的东西' }
-            ]
-        }
-    })
-
-</script>
-<div id="component-1">
+<!--全局注册实现组件的方法-->
+<div id="gfireComponent">
     <my-component></my-component>
 </div>
 <script>
+//    使用Vue.extend创建组件
     var myComponent = Vue.extend({
         template:'<div>This is my first component!</div>'
     })
-    Vue.component('my-component',myComponent);
+//使用component注册为全局组件
+    Vue.component('my-component',myComponent)
     new Vue({
-        el:"#component-1"
+        el:'#gfireComponent'
     })
 </script>
-<div id="component-2">
-    <my-component></my-component>
+<!--将组件改为局部注册的方法-->
+<div id="components">
+    <my-components></my-components>
 </div>
 <script>
-    var myComponent = Vue.extend({
-        template:'<div>This is my first component2222 2!</div>'
+    var myComponents = Vue.extend({
+        template:'<div>This is my components</div>'
     })
+
     new Vue({
-        el:"#component-2",
+        el:'#components',
         components:{
-            'my-component':myComponent
+            'my-components':myComponents
         }
     })
 </script>
-<div id="component-3">
-    <parent-component>
 
-    </parent-component>
+<div id="fatherAchild">
+<parent-component></parent-component>
 </div>
 <script>
     var Child = Vue.extend({
-        template: '<p>This is a child component!</p>'
+        template:'<p>This is just a kid</p>'
     })
-
     var Parent = Vue.extend({
-        // 在Parent组件内使用<child-component>标签，外部需要用其他的元素包裹
-        template :'<div><p>This is a Parent component</p><child-component></child-component></div>',
-        components: {
-            // 局部注册Child组件，该组件只能在Parent组件内使用
-            'child-component': Child
-        }
-    })
-
-    // 全局注册Parent组件
-    Vue.component('parent-component', Parent)
-
-    new Vue({
-        el: '#component-3'
-    })
-</script>
-<div id="my-component-4">
-    <my-component1></my-component1>
-</div>
-<script>
-    Vue.component('my-component1',{
-        template:'<div>This is the first component!</div>'
-    })
-    var vm1 = new Vue({
-        el:"#my-component-4"
-    })
-</script>
-<div id="my-component-5">
-    <my-component2></my-component2>
-    <my-component3></my-component3>
-</div>
-<script>
-    var c5 = new Vue({
-        el:'#my-component-5',
+        template:'<div><p>This is a Parent Component</p><child-component></child-component></div>',
         components:{
-            'my-component2':{
-                template:'<div>This is the second component!</div>'
-            },
-            'my-component3':{
-                template:'<div>This is the third component!</div>'
-            }
+            'child-component':Child
         }
+    });
+    Vue.component('parent-component',Parent);
+    new Vue({
+        el:'#fatherAchild'
     })
 </script>
-<div id="my-component-6">
-    <my-component></my-component>
+
+<!--使用script标签进行组件注册-->
+<div id="app">
+<my-component></my-component>
+<my-component2></my-component2>
 </div>
 <script type="text/x-template" id="myComponent">
-<div>This is a component!</div>
+    <div>This is a myComponent!</div>
 </script>
+<template id="myComponent2">
+    <div>This is a myComponent2!</div>
+</template>
 <script>
     Vue.component('my-component',{
         template:'#myComponent'
     })
+    Vue.component('my-component2',{
+        template:'#myComponent2'
+    })
     new Vue({
-        el:'#my-component-6'
+        el:'#app'
     })
 </script>
-<div id="my-component-7">
-    <my-component></my-component>
-</div>
-<template id="myComponent-2">
-    <div>This is myComponent-2</div>
+<!--父子组件之间的通信-->
+<template id="myChild">
+    <div>
+        <span>子组件</span>
+        <table>
+            <tr>
+                <td>name:</td>
+                <td>{{myName}}</td>
+                <td><input :value="myName" v-on:input="updateValue($event.target.value)"></td>
+            </tr>
+        </table>
+    </div>
 </template>
-<script>
-    Vue.component('my-component',{
-        template:'#myComponent-2'
-    })
-    new Vue({
-        el: "#my-component-7"
-    })
-</script>
+<template id="myInput">
+    <div>
+        <p>myInput</p>
+        <input :value="value" v-on:input="update($event.target.value)">
+    </div>
+</template>
 
-<div id="my-component-8">
-    <my-component v-bind:my-name="name" v-bind:my-age="age"></my-component>
-</div>
-<template id="myComponent-8-child">
+<!--利用v-model实现双向数据绑定-->
+<div id="app2">
+    <div>
+        父组件
+    </div>
     <table>
         <tr>
-            <th colspan="2">子组件数据</th>
+            <td>name:</td>
+            <td>{{name}}</td>
         </tr>
         <tr>
-            <td>my name</td>
-            <td>{{myName}}</td>
-        </tr>
-        <tr>
-            <td>my age</td>
-            <td>{{myAge}}</td>
+            <td>age:</td>
+            <td>{{age}}</td>
         </tr>
     </table>
+    <my-child v-model="name" :my-name="name"></my-child>
+    <my-child v-model="age" :my-name="age"></my-child>
+    <my-input v-model="age" :value="age"></my-input>
+</div>
+<script>
+    Vue.component('my-input',{
+        template:'#myInput',
+        props:['value'],
+        methods:{
+            update:function(value){
+                this.$emit('input',value);
+            }
+        }
+    })
+    Vue.component('my-child',{
+        template:'#myChild',
+        props:['myName','myAge'],
+//        data:function(){
+//            return{
+//                newName:this.myName,
+//                newAge:this.myAge,
+//            }
+//        },
+        methods:{
+            updateValue:function(value){
+                this.$emit('input',value);
+            }
+        }
+    })
+    var vm = new Vue({
+        el:'#app2',
+        data:{
+            name:'foo',
+            age:'12'
+        }
+    })
+</script>
+<!--.sync同步方法-->
+<div id="app3">
+    <div>父组件</div>
+    <input v-model="father">
+    <child-three :cfather.sync="father"></child-three>
+</div>
+<template id="app-Component">
+    <div>
+        <p>child组件</p>
+        <p>{{cfather}}</p>
+        <input v-model="value">
+    </div>
 </template>
 <script>
-var c7 = new Vue({
-    el:'#my-component-8',
-    data:{
-        name:'keepfool',
-        age:28
-    },
-    components:{
-        'my-component':{
-            template:'#myComponent-8-child',
-            props:['myName','myAge']
+    Vue.component('child-three',{
+        template:'#app-Component',
+        props:['cfather'],
+        data(){
+            return{
+                value:this.cfather
+            }
+        },
+        watch:{
+            value:function(newValue,oldValue){
+                this.$emit('update:cfather',newValue);
+            }
         }
-    }
-})
+    })
+    new Vue({
+        el:'#app3',
+        data:{
+            father:123
+        }
+    })
 </script>
+</body>
 </html>
