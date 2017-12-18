@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="js/element-ui/lib/theme-chalk/index.css" rel="stylesheet">
+</head>
+<body>
+<div id="app">
+    <el-tree
+            :data="data4"
+            :props="defaultProps"
+            show-checkbox
+            node-key="id"
+            default-expand-all
+            :expand-on-click-node="false"
+            :render-content="renderContent">
+    </el-tree>
+</div>
+</body>
+<script src="js/vue.js"></script>
+<script src="js/element-ui/lib/index.js"></script>
+<script>
+    let id = 1000;
+
+    var Main = {
+        data() {
+            return {
+                data4: [{
+                    id: 1,
+                    label: '一级 1',
+                    children: [{
+                        id: 4,
+                        label: '二级 1-1',
+                        children: [{
+                            id: 9,
+                            label: '三级 1-1-1'
+                        }, {
+                            id: 10,
+                            label: '三级 1-1-2'
+                        }]
+                    }]
+                }, {
+                    id: 2,
+                    label: '一级 2',
+                    children: [{
+                        id: 5,
+                        label: '二级 2-1'
+                    }, {
+                        id: 6,
+                        label: '二级 2-2'
+                    }]
+                }, {
+                    id: 3,
+                    label: '一级 3',
+                    children: [{
+                        id: 7,
+                        label: '二级 3-1'
+                    }, {
+                        id: 8,
+                        label: '二级 3-2'
+                    }]
+                }],
+                defaultProps: {
+                    children: 'children',
+                    label: 'label'
+                }
+            }
+        },
+        methods: {
+            append(data) {
+                console.log(123);
+                const newChild = { id: id++, label: 'testtest', children: [] };
+                if (!data.children) {
+                    this.$set(data, 'children', []);
+                }
+                data.children.push(newChild);
+            },
+
+            remove(node, data) {
+                const parent = node.parent;
+                const children = parent.data.children || parent.data;
+                const index = children.findIndex(d => d.id === data.id);
+                children.splice(index, 1);
+            },
+
+            renderContent(h, { node, data, store }) {
+                return h("span", {
+                    style: "flex: 1; display: flex; align-items: center; justify-content: space-between; font-size: 14px; padding-right: 8px;"
+                }, [h("span", null, [h("span", null, [node.label])]), h("span", null, [h("button", {
+                    style: "font-size: 12px;",
+                    attrs: {
+                        type: "text"
+                    }
+                }, ["Append"]), h("button", {
+                    style: "font-size: 12px;",
+                    attrs: {
+                        type: "text"
+                    },
+                    onClick: () => this.append(data)
+                }, ["Delete"])])]);
+            }
+            }
+            }
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app')
+</script>
+</html>

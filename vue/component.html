@@ -78,6 +78,43 @@
         el:'#app'
     })
 </script>
+<!--使用prop进行父子之间的数据传递-->
+<h3>propFather开始</h3>
+<div id="propFather">
+    {{father}}
+    <prop-child v-bind:child-message="father" v-model="father"></prop-child>
+</div>
+<h3>propFather结束</h3>
+<template id="propChild">
+    <div>
+        <h2>{{childMessage}}</h2>
+        <input :value="childMessage" v-on:input="updateData($event.target.value)">
+    </div>
+</template>
+<script>
+    var propChild = Vue.extend({
+        props:['childMessage'],
+        template:'#propChild',
+        methods:{
+            updateData:function(value){
+                this.$emit('input',value);
+            }
+        }
+    })
+    new Vue({
+        el:'#propFather',
+        data:{
+            father:'faaaa'
+        },
+        components:{
+            'prop-child':propChild
+        },
+        methods:{
+
+        }
+    })
+</script>
+<!--使用prop进行父子之间的数据传递结束-->
 <!--父子组件之间的通信-->
 <template id="myChild">
     <div>
@@ -185,5 +222,27 @@
         }
     })
 </script>
+<!--自定义事件开始-->
+<template id="myEventChild">
+    <button type="button">传递数据</button>
+</template>
+<div id="myEvent">
+
+</div>
+<script>
+    var child = Vue.extend({
+
+    })
+    new Vue({
+        el:'#myEvent',
+        data:{
+            father:''
+        },
+        components:{
+
+        }
+    })
+</script>
+<!--自定义事件结束-->
 </body>
 </html>

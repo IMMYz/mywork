@@ -1,0 +1,244 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="js/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="css/scrollbar.css">
+</head>
+<style>
+    .border-right{
+        border-right:1px solid #4e4e4e;
+    }
+    .notes-left-list{
+        padding:5px;
+    }
+    .notes-title{
+        text-align:center;
+        background-color:#000
+    }
+    .note-right-title{
+        background-color:#000
+    }
+    .note-area-form{
+        padding-left:15px;
+        padding-right:15px;
+    }
+    .note-area-form label{
+        color:#fff;
+    }
+    .note-right-content{
+        min-height:200px;
+        padding-left:5px;
+        padding-right:5px;
+    }
+    .underline{
+        font-size:16px;
+    }
+    .mxUnderline{
+        font-size:20px;
+        border-bottom:1px solid #fff;
+    }
+    .notes-list-area{
+        max-height:300px;
+        overflow:auto;
+    }
+    .note-left-border{
+        border-left:1px solid #4e4e4e;
+        margin-left:-1px;
+    }
+    #coor{
+        width:10px;
+        height:10px;
+        overflow:hidden;
+        cursor:se-resize;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        background-color: #09C;
+    }
+    .box{
+        position:absolute;
+    }
+</style>
+<body>
+<button type="button" onclick="getNote()">GET NOTES</button>
+<div id="app_note" class="box" style="width:600px;color:#fff;background-color:rgba(30, 144, 255, 0.6);">
+    <el-row>
+        <el-col :span="12" class="border-right">
+            <div>
+                <div class="notes-title">
+                    <p>笔记列表
+                        <span style="margin-left:5px;cursor:pointer;color:rgb(145, 255, 90)" @click="showForm">
+                            <i class="glyphicon glyphicon-plus"></i>
+                        </span>
+                    </p>
+                </div>
+                <div class="notes-list-area">
+                <ul style="padding-right:5px;">
+                    <li v-for="(item,index) in notes" style="border-bottom:1px solid #fff">
+                        <span @click="showNote(index)" style="cursor:pointer">{{item.title}}</span>
+                        <span style="float:right;margin-left:10px;" @click="deleteNote"><i class="glyphicon glyphicon-trash"></i></span>
+                        <span style="float:right">{{item.date}}</span>
+                    </li>
+                </ul>
+                </div>
+            </div>
+        </el-col>
+        <!--便签内容显示部分-->
+        <el-col :span="12" v-if="showType=='content'" class="note-left-border" style="height:334px;overflow: auto;">
+            <div class="note-right-title text-center">
+                <p>{{currentNote.title}}
+                    <span v-if="currentNote.content" style="margin-left:5px;cursor:pointer;color:rgb(145, 255, 90)" @click="edit(currentNote.index)">
+                        <i class="glyphicon glyphicon-pencil"></i>
+                    </span>
+                </p>
+            </div>
+            <div class="note-right-content" style="text-align:justify">
+                <p v-if="currentNote.content==null" class="text-center">暂无内容</p>
+                <span v-if="currentNote.content!=null" class="mxUnderline"><span class="underline">{{currentNote.content}}</span></span>
+            </div>
+        </el-col>
+        <!--便签内容显示部分结束-->
+        <!--便签新增部分-->
+        <el-col :span="12" v-if="showType=='add'" class="note-left-border">
+            <div class="note-right-title text-center">
+            <p>新增便签</p>
+            </div>
+            <el-form ref="form" :data="form" class="note-area-form">
+                <el-form-item label="便签标题" style="margin:0">
+                    <el-input v-model="form.title"></el-input>
+                </el-form-item>
+                <el-form-item label="便签内容" style="color:#fff">
+                    <el-input type="textarea" v-model="form.content" :rows="5"></el-input>
+                </el-form-item>
+                <el-col class="text-center" style="margin-bottom:5px">
+                    <el-button type="success" size="mini" @click="save"><i class="glyphicon glyphicon-floppy-save"></i></el-button>
+                </el-col>
+            </el-form>
+        </el-col>
+        <!--便签新增部分结束-->
+        <!--便签编辑部分-->
+        <el-col :span="12" v-if="showType=='edit'" class="note-left-border">
+            <div class="note-right-title text-center">
+                <p>编辑便签</p>
+            </div>
+            <el-form ref="editForm" class="note-area-form">
+                <el-form-item label="便签标题" style="margin:0">
+                    <el-input v-model="editForm.title"></el-input>
+                </el-form-item>
+                <el-form-item label="便签内容" style="color:#fff">
+                    <el-input type="textarea" v-model="editForm.content" :rows="5"></el-input>
+                </el-form-item>
+                <el-col class="text-center" style="margin-bottom:5px">
+                    <el-button type="success" size="mini" @click="editSave"><i class="glyphicon glyphicon-floppy-save"></i></el-button>
+                </el-col>
+            </el-form>
+        </el-col>
+        <!--便签编辑部分结束-->
+    </el-row>
+    <!--<div id="coor"></div>-->
+</div>
+</body>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/element-ui/lib/index.js"></script>
+<script type="text/javascript" src="js/mock.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/drag.js"></script>
+<script>
+    function getNote(){
+        $.ajax({
+            url:'html.json',
+            dataType:'json',
+            success:function(data){
+                console.log(123);
+                $('body').append(data.html);
+                var Main = new Vue({
+                    el:'#app',
+                    data:{
+                        list:[{name:1},{name:2}]
+                    }
+                })
+            }
+        })
+    }
+    Mock.mock(/\.json/,{
+        html:'<div id="app"><ul><li v-for="item in list">{{item.name}}</li></ul></div>'
+    })
+    var Main = {
+        data(){
+            return {
+                name:'管理员',
+                notes:[
+                    {id:'1',title:'情报信息1',date:'2017/11/22',content:'情报内容11111情报内容11111情报内容11111情报内容11111情报内容11111情报内容11111'},
+                    {id:'2',title:'情报信息2',date:'2017/11/23',content:'情报内容222222222情报内容11111情报内容11111情报内容11111情报内容11111情报内容11111情报内容11111'},
+                    {id:'3',title:'情报信息3',date:'2017/11/24',content:'情报内容33333333333情报内容11111情报内容11111情报内容11111情报内容11111情报内容11111情报内容11111'},
+                    ],
+                showType:'content',
+                currentNote:{
+                    id:'',
+                    title:'暂无内容',
+                    date:'暂无内容',
+                    content:null,
+                    index:''
+                },
+                form:{
+                    title:'',
+                    date:'',
+                    content:'',
+                    index:''
+                },
+                editForm:{
+                    id:'',
+                    title:'',
+                    date:'',
+                    content:'',
+                    index:''
+                }
+            }
+        },
+        methods:{
+            showNote(index){
+                this.showType = 'content';
+                this.currentNote.id = this.notes[index].id;
+                this.currentNote.title = this.notes[index].title;
+                this.currentNote.date = this.notes[index].date;
+                this.currentNote.content = this.notes[index].content;
+                this.currentNote.index = index;
+            },
+            showForm(){
+                this.showType = 'add';
+            },
+            edit(index){
+                this.showType = 'edit';
+                this.editForm.id = this.currentNote.id;
+                this.editForm.title = this.currentNote.title;
+                this.editForm.date = this.currentNote.date;
+                this.editForm.content = this.currentNote.content;
+                this.editForm.index = index;
+            },
+            save(){
+                    var index = this.currentNote.index;
+                    this.notes[index].title = this.form.title;
+                    this.notes[index].date = this.form.date;
+                    this.notes[index].content = this.form.content;
+            },
+            editSave(){
+                var index = this.editForm.index;
+                this.notes[index].title = this.editForm.title;
+                this.notes[index].content = this.editForm.content;
+            },
+            deleteNote(){
+                this.$confirm('确定删除该条便签?','提示',{
+                    confimButtonText:'确定',
+                    cancelButton:'取消'
+                })
+            }
+        }
+    }
+    var CtorN = Vue.extend(Main);
+    var fomtN = new CtorN().$mount('#app_note');
+</script>
+</html>

@@ -44,6 +44,9 @@ html,body{
     height:508px;
     margin-bottom:10px
 }
+#swiper-2{
+    height:508px
+}
 .mid-top{
     height:50px;
 }
@@ -106,10 +109,16 @@ html,body{
 }
 .swiper-title{
     font-size:36px;
-    color:#999fee
+    color:#999fee;
+    font-size: 36px;
+    color: #999fee;
+    position: fixed;
+    top: -2px;
+    width: 100%;
 }
 .swiper-slide{
-    overflow:auto
+    overflow:auto;
+    margin-top:50px;
 }
 .swiper-slide::-webkit-scrollbar{
     display:none;

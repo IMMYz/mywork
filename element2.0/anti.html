@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="js/element-ui/lib/theme-chalk/index.css">
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="scss/up-low.css">
+</head>
+<body>
+<div id="upLow">
+    <el-button type="info" @click="dialogTableVisible=true">打开</el-button>
+    <el-dialog title="添加上下级关系" :visible.sync="dialogTableVisible">
+        <el-row>
+            <el-col :span="8">
+                <el-col :span="23" ref="parent" class="text-center up-low-left-bk" v-for="(item,index) in persons">
+                    <p class="pointer" @click="showDetail(index)">{{item.name}}</p>
+                </el-col>
+            </el-col>
+            <el-col :span="16" v-if="showRight">
+                <el-form :model="personDetail" label-width="80px">
+                    <div v-if="!showForm">
+                    <h4>上下级详情</h4>
+                    <div class="text-center">下级人员列表</div>
+                    <template>
+                        <el-table :data="up" style="width:100%">
+                            <el-table-column prop="name" label="姓名">
+                            </el-table-column>
+                            <el-table-column prop="idCard" label="身份证号">
+                            </el-table-column>
+                            <el-table-column prop="count" label="购买份数">
+                            </el-table-column>
+                            <el-table-column label="操作">
+                                <template slot-scope="scope">
+                                    <el-button type="warning" size="mini" @click="editUp(scope.$index,scope.row)">修改</el-button>
+                                    <el-button type="danger" size="mini" @click="deleteUp(scope.$index,scope.row)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                    <div v-if="up==''" class="text-center">
+                        <el-button type="primary" @click="addUp" size="mini" style="margin:10px 0">添加上级</el-button>
+                    </div>
+                    <div class="text-center">下级人员列表</div>
+                    <template>
+                        <el-table :data="lowList" style="width:100%" height="320">
+                            <el-table-column prop="name" label="姓名">
+                            </el-table-column>
+                            <el-table-column prop="idCard" label="身份证号">
+                            </el-table-column>
+                            <el-table-column prop="count" label="购买份数">
+                            </el-table-column>
+                            <el-table-column label="操作">
+                                <template slot-scope="scope">
+                                    <el-button type="warning" size="mini" @click="editLow(scope.$index,scope.row)">修改</el-button>
+                                    <el-button type="danger" size="mini" @click="deleteLow(scope.$index,scope.row)">删除</el-button>
+                                </template>
+                            </el-table-column>
+                        </el-table>
+                    </template>
+                    <div class="text-center">
+                        <el-button type="primary" size="mini" style="margin:10px 0" @click="addLow">添加下级</el-button>
+                    </div>
+                    </div>
+                    <div v-if="showForm">
+                    <div v-if="currentForm">
+                        <h4 v-if="currentForm=='addUp'">添加上级</h4>
+                        <h4 v-if="currentForm=='editUp'">修改上级</h4>
+                        <h4 v-if="currentForm=='addLow'">添加下级</h4>
+                        <h4 v-if="currentForm=='editLow'">修改下级</h4>
+                        <el-form-item label="姓名:">
+                            <el-input v-model="personDetail.name"></el-input>
+                        </el-form-item>
+                        <el-form-item label="身份证号:">
+                            <el-input v-model="personDetail.idCard"></el-input>
+                        </el-form-item>
+                        <el-form-item label="购买份数:">
+                            <el-input v-model="personDetail.count"></el-input>
+                        </el-form-item>
+                        <el-col class="text-center">
+                            <el-button type="success" @click="save">保存</el-button>
+                        </el-col>
+                    </div>
+                    </div>
+                </el-form>
+            </el-col>
+        </el-row>
+    </el-dialog>
+</div>
+<div class="container">
+    <table class="table table-bordered">
+        <tr>
+            <td>123</td>
+            <td>123</td>
+            <td>123</td>
+            <td>123</td>
+        </tr>
+        <tr>
+            <table class="table table-bordered">
+                <tr>
+                    <td>456</td>
+                    <td>456</td>
+                    <td>456</td>
+                    <td>456</td>
+                </tr>
+            </table>
+        </tr>
+    </table>
+</div>
+</body>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/mock.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/element-ui/lib/index.js"></script>
+<script>
+    Mock.mock('/getPersonDetail0',{up:[{name:'传销人员A',idCard:'2345678910',count:20}],low:[{name:'传销人员B1',idCard:'1234567891011234',count:10},{name:'传销人员B2',idCard:'1234567891011234'}],idCard:'',name:'',count:''
+    })
+    Mock.mock('/getPersonDetail1',{up:[],low:[{name:'传销人员D',idCard:'1234567891011234',count:11}],idCard:'',name:'',count:''
+    })
+    Mock.mock('/getPersonDetail2',{up:[{name:'传销人员A',idCard:'2345678910',count:20}],low:[{name:'传销人员D',idCard:'1234567891011234',count:12}],idCard:'',name:'',count:''
+    })
+    Mock.mock('/getPersonDetail3',{up:[{name:'传销人员A',idCard:'2345678910',count:20}],low:[{name:'传销人员D',idCard:'1234567891011234',count:13}],idCard:'',name:'',count:''
+    })
+
+    var Main = {
+        data(){
+            return {
+                dialogTableVisible:false,
+                showRight:false,
+                showForm:false,
+                persons:[
+                    {id:'0001',name:'存在上级'},
+                    {id:'0002',name:'不存在上级'},
+                    {id:'0003',name:'传销人员C'},
+                    {id:'0004',name:'传销人员D'},
+                ],
+                personDetail:{up:{name:'',idCard:'',count:''},low:'',idCard:'',name:'',count:''},
+                lowList:[],
+                up:[],
+                currentForm:'',
+                editIndex:''
+            }
+        },
+        methods:{
+            showDetail(index){
+                var that = this;
+                $.ajax({
+                    url:'/getPersonDetail'+index,
+                    dataType:'json',
+                    data:index,
+                    success:function(data){
+                        that.up = data.up;
+                        that.lowList = data.low;
+                        that.showRight = true;
+                        $('.up-low-left-bk').removeClass('active');
+                        $(that.$refs.parent[index].$el).addClass('active');
+                        that.showForm = false;
+                    }
+                })
+            },
+            addUp(){
+                this.showForm = true;
+                this.currentForm = 'addUp';
+                this.personDetail = {name:'',idCard:'',count:''};
+            },
+            editUp(index,row){
+                this.currentForm = 'editUp';
+                this.showForm = true;
+                var temp = {};
+                temp = JSON.parse(JSON.stringify(row));
+                this.personDetail = temp;
+                this.editIndex = index;
+            },
+            deleteUp(index,row){
+                this.up = [];
+            },
+            addLow(){
+                this.currentForm = 'addLow';
+                this.showForm = true;
+                this.personDetail = {name:'',idCard:'',count:''};
+            },
+            editLow(index,row){
+                debugger;
+                this.currentForm = 'editLow';
+                this.showForm = true;
+                var temp = {};
+                temp = JSON.parse(JSON.stringify(row));
+                this.personDetail = temp;
+                this.editIndex = index;
+            },
+            deleteLow(index,row){
+                this.lowList.splice(index,1);
+            },
+            save(){
+                if(this.currentForm == 'addUp'){
+                    this.up.push(this.personDetail);
+                }else if(this.currentForm == 'editUp'){
+                    this.up.splice(this.editIndex,1,this.personDetail);
+                }else if(this.currentForm == 'addLow'){
+                    this.lowList.push(this.personDetail);
+                }else if(this.currentForm == 'editLow'){
+                    this.lowList.splice(this.editIndex,1,this.personDetail);
+                }
+                this.currentForm = '';
+                this.showForm = false;
+            }
+        }
+    }
+    var Ctor = Vue.extend(Main);
+    var fomt =  new Ctor().$mount('#upLow')
+</script>
+</html>

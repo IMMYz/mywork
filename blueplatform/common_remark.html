@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="css/bootstrap.css">
+    <link rel="stylesheet" href="scss/common_remark.css">
+</head>
+<body>
+<div id="remark_app" class="container-fluid remark_bk">
+    <!--列表部分-->
+    <img class="remark_title_img" src="images/remark_title.png">
+    <div v-if="showType =='remark_list'">
+    <div class="row">
+        <div class="col-xs-6 col-md-6 select-area">
+            <select class="form-control" v-model="selected" @change="getSelect(selected)">
+                <option disabled selected>请选择笔记本</option>
+                <option v-for="(item,index) in allRemarks" :value="index">{{item.name}}</option>
+            </select>
+        </div>
+        <div class="col-xs-6 col-md-6">
+        </div>
+    </div>
+    <div class="row remark_list_area">
+        <div class="col-xs-12 col-md-12">
+            <div class="remark_list clearfix" v-for="(item,index) in remark_list">
+                <p class="col-xs-5 col-md-5 btn-pointer" @click="showRemark(index)">{{item.name}}</p>
+                <p class="col-xs-5 col-md-5">{{item.date}}</p>
+                <p class="col-xs-1 col-md-1 btn-pointer" @click="showRemark(index)"><i class="glyphicon glyphicon-pencil"></i></p>
+                <p class="col-xs-1 col-md-1"><i class="glyphicon glyphicon-trash"></i></p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="add-btn" @click="addNewRemark"><i class="glyphicon glyphicon-plus"></i></div>
+    </div>
+    </div>
+    <!--列表部分结束-->
+    <!--编辑部分-->
+    <div v-if="showType == 'remark_add'">
+        <div class="row">
+            <div class="col-xs-12 col-md-12">
+                <div class="remark_add">
+                    <div class="remark_add_title">
+                        <div class="col-xs-1 col-md-1" style="padding-top:20px">
+                            <span class="return btn-pointer" @click="returnToList"><i class="glyphicon glyphicon-chevron-left"></i></span>
+                        </div>
+                        <div class="col-xs-8 col-md-8 remark_add_title_input">
+                            <input class="form-control" v-model="currentTitle" placeholder="请输入便签标题">
+                            <span style="padding-left:10px">{{currentDate}}</span>
+                        </div>
+                    </div>
+                    <div>
+                        <textarea class="remark_add_textarea" v-model="currentContent" placeholder="请输入内容"></textarea>
+                    </div>
+                    <div class="text-right">
+                        <button class="btn btn-success">保存</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--编辑部分结束-->
+</div>
+</body>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/vue.js"></script>
+<script>
+    var Main = new Vue({
+        el:"#remark_app",
+        data:{
+            showType:'remark_list',
+            selected:'请选择笔记本',
+            remark_list:'',
+            currentTitle:'',
+            currentDate:'',
+            currentContent:'',
+            allRemarks:[
+                {
+                    name:'笔记本1',
+                    list:[
+                        {id:'00001',name:'笔记本1中的相关研判内容',date:'2017/11/29',content:'笔记本1中的相关内容'},
+                        {id:'00001',name:'笔记本1中的相关研判内容',date:'2017/11/29',content:'笔记本1中的相关内容'},
+                        {id:'00001',name:'笔记本1中的相关研判内容',date:'2017/11/29',content:'笔记本1中的相关内容'},
+                        {id:'00001',name:'笔记本1中的相关研判内容',date:'2017/11/29',content:'笔记本1中的相关内容'},
+                        {id:'00001',name:'笔记本1中的相关研判内容',date:'2017/11/29',content:'笔记本1中的相关内容'},
+                        {id:'00001',name:'笔记本1中的相关研判内容',date:'2017/11/29',content:'笔记本1中的相关内容'},
+                        {id:'00001',name:'笔记本1中的相关研判内容',date:'2017/11/29',content:'笔记本1中的相关内容'},
+                        {id:'00001',name:'笔记本1中的相关研判内容',date:'2017/11/29',content:'笔记本1中的相关内容'},
+                        ]
+                },
+                {
+                    name:'笔记本2',
+                    list:[{id:'00001',name:'笔记本2中的相关研判内容',date:'2017/11/29'}]
+                },
+                {
+                    name:'笔记本3',
+                    list:[{id:'00001',name:'笔记本3中的相关研判内容',date:'2017/11/29'}]
+                },
+                ],
+        },
+        methods:{
+            getSelect(index){
+                console.log(index);
+                this.remark_list = this.allRemarks[index].list
+            },
+            addNewRemark(){
+                this.showType = 'remark_add';
+                this.currentTitle = '';
+                this.currentDate = '';
+                this.currentContent = '';
+            },
+            showRemark(index){
+                this.showType = 'remark_add';
+              this.currentTitle = this.remark_list[index].name;
+              this.currentDate = this.remark_list[index].date;
+              this.currentContent = this.remark_list[index].content;
+            },
+            returnToList(){
+                this.showType = 'remark_list'
+            }
+        }
+    })
+</script>
+</html>

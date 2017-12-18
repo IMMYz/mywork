@@ -30,7 +30,7 @@ bodu{
     height:100%;
 }
 .header{
-    width: 1156px;
+    width: 1200px;
     margin: 0 auto;
 }
 .headerTitle{
@@ -159,4 +159,67 @@ bodu{
 .col-md-4{
     width:33.3333333333333%;
     float:left;
+}
+.editor-summary{
+    margin:0 10px 10px 6px;
+    padding:15px 5px 0px 5px;
+    box-shadow:5px 5px 5px #e0e1e4;
+    background-color: #fff;
+}
+.expand-list-container .tab-item-title{
+    width:173px;
+    color:#fff;
+}
+.expand-list-container .tab-item-sub{
+    width:166px
+}
+.comment-right-border{
+    border-right: 1px solid #e2e2e2;
+}
+.comment-left-border{
+    border-left: 1px solid #e2e2e2;
+    margin-left: -1px;
+}
+.mar-t-10{
+    margin-top:10px
+}
+.comments-area{
+    margin-bottom:30px;
+    border-bottom:1px solid #e2e2e2;
+    padding-bottom:20px;
+}
+.left-slide{
+    position:absolute;
+    left:0;
+    top:192px;
+    width:81px;
+}
+.left-slide-item{
+    margin-bottom:5px;
+}
+.my-item-box{
+    height:560px;
+    background: linear-gradient(135deg, transparent 32px, rgba(51,102,153,0.7) 0) top left;
+    width:381px;
+    position:relative
+}
+.item-box-title-img{
+    position: relative;
+    top: 7px;
+    left: 11px;
+}
+.yellow-row{
+    color:#ffd35e
+}
+.green-row{
+    color:#6cd14d
+}
+.blue-row{
+    color:#4ea7ff
+}
+.el-table th{
+    font-size:18px
+}
+.is-center{
+    text-align:center;
 }

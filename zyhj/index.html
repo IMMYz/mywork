@@ -64,7 +64,7 @@
         <div class="mid-content left">
             <div id="swiper" class="swiper-container">
                 <div class="swiper-wrapper">
-                    <div class="swiper-slide">
+                    <div id="swiper-slide-1" class="swiper-slide">
                         <div>
                             <div class="swiper-title text-center">
                                 <p>省厅数据资源：
@@ -230,11 +230,6 @@
                     </div>
                     <div class="swiper-slide">Slide 3</div>
                 </div>
-                <!-- Add Pagination -->
-                <div class="swiper-pagination"></div>
-                <!-- Add Arrows -->
-                <div class="swiper-button-next"></div>
-                <div class="swiper-button-prev"></div>
             </div>
 
             <div class="mid-bot">
@@ -304,10 +299,6 @@
         pagination: {
             el: '.swiper-pagination',
             clickable: true,
-        },
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
         },
     });
     var myChart = echarts.init(document.getElementById('charts'));
@@ -549,6 +540,16 @@
             }]
         }]
     };
+
+//    延时执行滚动条
+    function scrollToLocation(){
+        var mainContainer = $('#swiper-slide-1');
+        scrollToContainer = mainContainer.find('.update-item:last');
+        mainContainer.animate({
+            scrollTop:743},2000)
+    }
+    setTimeout(scrollToLocation,5000);
+//    演示执行滚动条结束
     myChart.setOption(option);
     myChart2.setOption(option2);
 </script>

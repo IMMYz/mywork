@@ -1,0 +1,16 @@
+.pointer{
+  cursor:pointer;
+}
+.up-low-left-bk{
+  background-color:#d6d6d6;
+  color:#fff;
+  margin:{
+    bottom:5px;
+  }
+  p{
+    margin:0
+  }
+  &.active{
+    background-color:#409eff;
+  }
+}

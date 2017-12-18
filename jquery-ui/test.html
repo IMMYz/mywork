@@ -5,30 +5,22 @@
     <title>Title</title>
     <link rel="stylesheet" href="css/jquery-ui.css">
 </head>
+<style>
+
+</style>
 <body>
-<div>
-    <input id="spinner">
-    <table>
-        <tr>
-            <td>1<span onclick="unfold()">展开</span></td>
-            <td>1</td>
-            <td>1</td>
-        </tr>
-        <tr id="test" style="display:none">
-            <td>2</td>
-            <td>2</td>
-        </tr>
-    </table>
+<div id="drag" style="position:absolute;top:15%">
+    <div style="bakcground-color:blue"><i class="glyphicon glyphicon-resize-horizontal"></i>123</div>
+    <button id="notesExpand" class="btn btn-primary" type="button"> <i class="glyphicon glyphicon-comment"></i>456</button>
 </div>
 </body>
 <script type="text/javascript" src="../timeline/js/jquery-3.2.1.min.js"></script>
-
+<script type="text/javascript" src="js/jquery-ui.js"></script>
 <script type="text/javascript">
-    function unfold(){
-        $("#test").slideToggle();
-    }
-    $(function(){
-        $("#spinner").spinner({min:1,max:100});
-    })
+    $( function() {
+        $( "#drag" ).draggable({ handle: "div" });
+        $( "#drag" ).draggable({ cancel: "p.ui-widget-header" });
+        $( "div, p" ).disableSelection();
+    } );
 </script>
 </html>

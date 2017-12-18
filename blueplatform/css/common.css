@@ -1,0 +1,190 @@
+#app{
+    height:100%
+}
+.left{
+    float:left;
+}
+.right{
+    float:right;
+}
+.page-main-color{
+    background-color:#20a0ff;
+}
+.main-bk{
+    background-color:#f7f8fc;
+}
+.page-content-bk-color{
+    background-color:#fff;
+}
+.head-warp{
+    height:80px;
+}
+.head-warp>.header{
+    height: 80px;
+    color: #fff;
+    top: 0;
+    left: 0;
+    width: 100%;
+    line-height: 80px;
+    z-index: 100;
+    position: relative;
+}
+
+.main-content-1080{
+    width:1080px;
+    margin:0 auto;
+}
+.main-content-large{
+    width:1500px;
+    margin:0 auto
+}
+.user-circle-img{
+    width:50px;
+    height:50px;
+    border-radius:50%;
+}
+.header-control{
+    color:#fff
+}
+.header-title{
+    font-size:30px;
+}
+.header-control a{
+    font-size:16px;
+    color:#fff;
+}
+.msg-tip-warp{
+    margin-right:40px;
+    padding-top: 7px;
+    height: 80px;
+    font-size:36px;
+}
+.page-container{
+    padding-top:56px
+}
+.form-nav{
+    background-color:#fff;
+    width:240px;
+    height:530px;
+}
+.el-menu{
+    background-color:#fff !important;
+}
+.form-nav-ul{
+    min-height:477px
+}
+
+.menu-title{
+    height:50px;
+    padding-top:16px;
+    padding-left:23px;
+    color:#fff;
+}
+.page-right-content{
+    margin-left:30px;
+    min-height:530px;
+}
+.page-content-bk{
+    height:438px;
+    width:810px;
+    padding-top:25px;
+    padding-left:25px;
+}
+.form-group>label{
+    line-height:2.5
+}
+.input-box{
+    width:480px;
+}
+.page-content-bk .el-select{
+    width:100%;
+}
+.form-button-area{
+    margin-left:84px;
+}
+.page-right-list{
+    width:1230px
+}
+.mar-l-20{
+    margin-left:20px
+}
+.pageInation{
+    margin-top:10px;
+    margin-bottom:10px;
+}
+.el-form--label-top .el-form-item__label{
+    padding: 0 0 0px;
+}
+.el-form-item__label{
+   font-size: 15px;
+}
+.el-form-item>label{
+    line-height: 2.5;
+}
+.el-form-item__content{
+    line-height:initial
+}
+.el-form-item{
+    margin-bottom:15px;
+}
+.label-col{
+    line-height:2.5;
+}
+.el-date-editor--datetimerange.el-input{
+    width:100%;
+}
+.switch-area{
+    line-height:2.5;
+}
+.top-search-area{
+    margin-top:20px
+}
+[v-cloak]{
+    　　display:none
+}
+.grey-bk{
+    background-color:#f0f0f0 !important
+}
+.info-title{
+    font-size: 18px;
+    font-weight: bold;
+}
+.alert-wrapper{
+    height:20px
+}
+.fileBatchBox{
+    width: 47%;
+    height: 600px;
+    padding: 0 10px;
+}
+.ListBox{
+    width: 330px;
+    height: 600px;
+    background-color: #f1f1f1;
+    padding: 0 10px;
+}
+.ListBox .list-group li{
+    background-color:#f1f1f1;
+}
+#fileSendPerson-div{
+    width: 580px;
+    padding: 0 10px;
+}
+.fileSendIcon{
+    position: relative;
+    top: 260px;
+}
+.pointer{
+    cursor:pointer
+}
+.list-search{
+    margin-bottom: 10px;
+    padding: 0 10px;
+}
+.share-list-title{
+    border-bottom: 2px solid #4a8bee;
+    font-weight: bold;
+}
+.ListBox .list-group{
+    height:470px
+}
