@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="js/getorgchart/getorgchart.css" rel="stylesheet">
+    <style>
+        html, body {margin: 0px; padding: 0px;height: 100%; overflow: hidden; }
+        #people {width: 100%;height: 100%; }
+        .dna-card-info{
+            margin-left:30px;
+            font-size:16px
+        }
+        .dna-card-info p{
+            margin-top:0px;
+            margin-bottom:7px
+        }
+        .dna-card-warp{
+            box-sizing: border-box;
+            color: #fff;
+            width: 520px;
+            height: 220px;
+            padding: 15px;
+        }
+        .dna-double-card-warp{
+            box-sizing: border-box;
+            color: #fff;
+            width: 520px;
+            height: 220px;
+        }
+        .dna-double-card-warp p{
+            margin-top:0px;
+            margin-bottom:0px
+        }
+        .dna-double-card-warp  .dna-male,.dna-female{
+            padding:10px;
+            box-sizing:border-box
+        }
+        .dna-female{
+            background-color: #de087c
+        }
+        .dna-male{
+            background-color:#0072c6
+        }
+        .dna-dead{
+            background-color:#3d444e
+        }
+    </style>
+</head>
+<body>
+<div id="people"></div>
+</body>
+<script src="js/jquery.js"></script>
+<script src="js/getorgchart/getorgchart.js"></script>
+<script src="js/custom_html.js"></script>
+<script>
+    var orgchart = new getOrgChart(document.getElementById("people"), {
+        renderNodeEvent: renderNodeHandler,
+        primaryFields: ["Name", "CustomHtml"],
+        theme: "ula",
+        levelSeparation:200,
+        enableDetailsView: false,
+        enableEdit: false,
+        clickNodeEvent:clickHandler,
+        dataSource: [
+            { id: 1, parentId: null,live:'true',type:'double',status:'dsj',maleName:'杨梦雪',maleBirth:'1994/10/21',maleRace:'汉族',maleId:532923199410212525,maleStation:'文华派出所',femaleName:'杨梦雪',femaleBirth:'1994/10/21',femaleRace:'汉族',femaleId:532923199410212525,femaleStation:'文华派出所',CustomHtml: secondParent },
+            { id: 2, parentId: 1,live:'true',sex:'男',tye:'single',name:'杨梦雪',birth:'1994/10/21',race:'汉族',idCard:532923199410212525,station:'文华派出所',status:'wcj',CustomHtml:singleFemale},
+            { id: 2, parentId: 1,live:'true',sex:'男',tye:'single',name:'杨梦雪',birth:'1994/10/21',race:'汉族',idCard:532923199410212525,station:'文华派出所',status:'wcj',CustomHtml:singleFemale},
+            { id: 2, parentId: 1,live:'true',sex:'男',tye:'single',name:'杨梦雪',birth:'1994/10/21',race:'汉族',idCard:532923199410212525,station:'文华派出所',status:'wcj',CustomHtml:singleFemale},
+            ]
+    });
+    function creatHtml(type,sex,node){
+
+    }
+    function renderNodeHandler(sender, args) {
+        for (i = 0; i < args.content.length; i++) {
+            if (args.content[i].indexOf(args.node.data["CustomHtml"]) != -1) {
+                args.content[i] = "<foreignObject x='0' y='-1' width='550' height='220'>" + args.node.data["CustomHtml"] + "</foreignObject>";
+            }
+        }
+    }
+
+    function clickHandler(sender,args){
+        console.log("clicked node.id " + args.node.id);
+    }
+</script>
+</html>
