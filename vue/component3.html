@@ -60,4 +60,42 @@
         }
     })
 </script>
+<!--v-model双向绑定修改父组件数据-->
+<div id="Vmodel">
+    <my-component v-model="title"></my-component>
+</div>
+<script>
+    var changeTitle = Vue.extend({
+        template:"<div>{{value}}<button @click='changeTitle'>change</button></div>",
+        props:{
+            value:String
+        },
+        methods:{
+            changeTitle(){
+                this.$emit('input','子组件')
+            }
+        }
+    })
+//    Vue.component('my-component',
+//        {
+//            props:{
+//              value:String
+//            },
+//            methods:{
+//                changeTitle(){
+//                    this.$emit('input','子组件')
+//                }
+//            },
+//            template:"<div>{{value}}<button @click='changeTitle'>change</button></div>"
+//    })
+    new Vue({
+        el:'#Vmodel',
+        data:{
+            title:'123'
+        },
+        components:{
+            'my-component':changeTitle
+        }
+    })
+</script>
 </html>

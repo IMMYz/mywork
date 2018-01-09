@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body.dragging, body.dragging * {
+            cursor: move !important;
+        }
+
+        .dragged {
+            position: absolute;
+            opacity: 0.5;
+            z-index: 2000;
+        }
+
+        ol.example li.placeholder {
+            position: relative;
+            /** More li styles **/
+        }
+        ol.example li.placeholder:before {
+            position: absolute;
+            /** Define arrowhead **/
+        }
+    </style>
+</head>
+<body>
+<div>
+    <ol class='example'>
+        <li>First</li>
+        <li>Second</li>
+        <li>Third</li>
+    </ol>
+    <table id="example" class="table table-striped table-bordered sorted_table">
+        <thead>
+        <tr>
+            <th>A Column</th>
+            <th>B Column</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        <tr>
+            <td>A Item 2</td>
+            <td>B Item 2</td>
+        </tr>
+        <tr>
+            <td>A Item 3</td>
+            <td>B Item 3</td>
+        </tr><tr class="">
+            <td>A Item 1</td>
+            <td>B Item 1</td>
+        </tr>
+        <tr>
+            <td>A Item 4</td>
+            <td>B Item 4</td>
+        </tr>
+        <tr>
+            <td>A Item 5</td>
+            <td>B Item 5</td>
+        </tr>
+        <tr>
+            <td>A Item 6</td>
+            <td>B Item 6</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/jquery-sortable.js"></script>
+<script>
+    $(function(){
+        $("ol.example").sortable();
+        $('#example').sortable({
+            containerSelector: 'table',
+            itemPath: '> tbody',
+            itemSelector: 'tr',
+            placeholder: '<tr class="placeholder"/>'
+        });
+    })
+</script>
+</html>

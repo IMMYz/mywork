@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="../css/bootstrap.css" rel="stylesheet">
+    <link href="../js/element-ui-2.0/lib/theme-chalk/index.css" rel="stylesheet">
+    <link href="../css/gfire-element.css" rel="stylesheet">
+    <link href="../css/aside.css" rel="stylesheet">
+    <link href="../css/content.css" rel="stylesheet">
+</head>
+<body>
+<div class="clearfix content-bk" style="height:100%">
+    <!--侧边栏-->
+    <div id="aside" style="float:left;">
+        <div v-bind:class={active:!isCollapse}>
+            <el-menu class="el-menu-vertical-demo"
+                     @open="handleOpen"
+                     @close="handleClose"
+                     :collapse="isCollapse"
+                     background-color="#545c64"
+                     text-color="#fff"
+                     active-text-color="#ffd04b">
+                <el-menu-item index="1">
+                    <i v-if="isCollapse==false" class="el-icon-arrow-left"></i>
+                    <i v-if="isCollapse==true" class="el-icon-arrow-right" @click="toggleCollapse(false)"></i>
+                    <span slot="title">
+                    <el-button v-if="isCollapse==false" type="text" @click="toggleCollapse(true)">收缩</i></el-button>
+                    <el-button v-if="isCollapse==true" type="text" @click="toggleCollapse(false)">展开</i></el-button>
+                </span>
+                </el-menu-item>
+                <el-submenu index="2">
+                    <template slot="title">
+                        <i class="el-icon-location"></i>
+                        <span slot="title">话单</span>
+                    </template>
+                    <el-menu-item-group>
+                        <el-menu-item index="2-1">话单管理</el-menu-item>
+                        <el-menu-item index="2-2">文件管理</el-menu-item>
+                        <el-menu-item index="2-3">话单展示</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="3">
+                    <template slot="title">
+                        <i class="el-icon-location"></i>
+                        <span slot="title">基础数据</span>
+                    </template>
+                    <el-menu-item-group title="">
+                        <el-menu-item index="3-1">归属地</el-menu-item>
+                        <el-menu-item index="3-2">人员信息</el-menu-item>
+                        <el-menu-item index="3-3">基站信息</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-menu-item index="4">
+                    <i class="el-icon-setting"></i>
+                    <span slot="title">用户管理</span>
+                </el-menu-item>
+            </el-menu>
+        </div>
+    </div>
+    <!--页面内容头部-->
+    <div class="ticket-header clearfix">
+        <span class="page-name">话单列表</span>
+        <div class="user-info-area">
+            <img src="../images/avatar.png" class="left">
+            <div class="dropdown" class="left">
+                <button class="btn btn-default dropdown-toggle" style="margin-top: 3px;" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    用户信息
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <li><a href="#">个人资料</a></li>
+                    <li><a href="#">我的工作</a></li>
+                    <li role="separator" class="divider"></li>
+                    <li><a href="#">退出</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--页面内容-->
+    <div class="main-content">
+        <div id="searchBox">
+            <el-row>
+                <el-col :span="24">
+                    <el-form  :model="searchForm" class="gfire-form-inline-rule" label-width="80px">
+                        <el-form-item label="查找筛选">
+                            <el-form-item label="">
+                                <el-input v-model="searchForm.fileName" placeholder="文件名"></el-input>
+                            </el-form-item>
+                            <el-form-item label="">
+                                <el-input v-model="searchForm.creator" placeholder="上传人"></el-input>
+                            </el-form-item>
+                            <el-form-item label="">
+                                <template>
+                                    <el-date-picker v-model="searchForm.date" type="date" placeholder="选择日期"></el-date-picker>
+                                </template>
+                            </el-form-item>
+                            <el-form-item label="">
+                                <el-input v-model="searchForm.remark" placeholder="备注"></el-input>
+                            </el-form-item>
+                            <el-button @click="search('ruleForm')"><i class="el-icon-search"></i></el-button>
+                        </el-form-item>
+                    </el-form>
+           <!--         <el-form :model="searchForm">
+                        <el-col :span="7">
+                            <el-form-item label="文件名">
+                                <el-input v-model="searchForm.num" placeholder="文件名"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="7" :offset="1">
+                            <el-form-item label="上传时间">
+                                <el-input v-model="searchForm.creator" placeholder="上传时间"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="7" :offset="1">
+                            <el-form-item label="上传人">
+                                <el-input v-model="searchForm.fileName" placeholder="上传人"></el-input>
+                            </el-form-item>
+                        </el-col>
+                        <el-col :span="7">
+                            <el-form-item label="时间选择">
+                            <template>
+                                    <el-date-picker v-model="searchForm.date" type="daterange" range-separator="至" start-placeholder="开始日期" end-placeholder="结束日期">
+
+                                    </el-date-picker>
+                            </template>
+                            </el-form-item>
+                        </el-col>
+                    </el-form>-->
+                </el-col>
+            </el-row>
+        </div>
+        <div id="app">
+            <template>
+                <el-table
+                        :data="tableData"
+                        border
+                        style="width: 100%">
+                    <el-table-column
+                            fixed
+                            prop="fileName"
+                            label="文件名">
+                    </el-table-column>
+                    <el-table-column
+                            prop="size"
+                            label="文件大小">
+                    </el-table-column>
+                    <el-table-column
+                            prop="date"
+                            label="上传时间">
+                    </el-table-column>
+                    <el-table-column
+                            prop="creator"
+                            label="上传人">
+                    </el-table-column>
+                    <el-table-column
+                            prop="remark"
+                            label="简要备注">
+                    </el-table-column>
+                    <el-table-column
+                            label="操作">
+                        <template slot-scope="scope">
+                            <el-button @click="handleClick(scope.row)" type="text" size="small">查看</el-button>
+                            <el-button type="text" size="small">导出</el-button>
+                        </template>
+                    </el-table-column>
+                </el-table>
+            </template>
+        </div>
+    </div>
+</div>
+</body>
+<script src="../js/vue.js"></script>
+<script src="../js/jquery-3.2.1.min.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script src="../js/element-ui-2.0/lib/index.js"></script>
+<script>
+    var aside = {
+        data(){
+            return {
+                isCollapse:false
+            }
+        },
+        methods:{
+            handleOpen(key,keyPath){
+                console.log(key,keyPath)
+            },
+            handleClose(key,keyPath){
+                console.log(key,keyPath);
+            },
+            toggleCollapse(bool){
+//                控制右侧内容宽度
+                if(bool){
+                    $('.main-content').addClass('collapse-true');
+                }else{
+                    $('.main-content').removeClass('collapse-true');
+                }
+                this.isCollapse = bool;
+            }
+        }
+    }
+    var asider = Vue.extend(aside);
+    var fomt = new asider().$mount('#aside')
+
+    var Search ={
+        data(){
+            return {
+                searchForm:{
+                    date:'',
+                    remark:'',
+                    creator:'',
+                    fileName:''
+                }
+            }
+        },
+        methods:{
+
+        }
+    }
+    var searchBox = Vue.extend(Search);
+    new searchBox().$mount('#searchBox')
+
+    var Main = {
+        data(){
+            return{
+                tableData: [{
+                    fileName:'test.xls',
+                    date: '2016-05-03 17:12:24',
+                    size:'128kb',
+                    creator: 'admin',
+                    remark: '嫌疑人1',
+                }, {
+                    fileName:'test.xls',
+                    date: '2016-05-03 17:12:24',
+                    size:'128kb',
+                    creator: 'admin',
+                    remark: '嫌疑人1',
+                }]
+            }
+        }
+    }
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app')
+</script>
+</html>

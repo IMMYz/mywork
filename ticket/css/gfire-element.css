@@ -1,0 +1,140 @@
+/* 单列 */
+.gfire-form-1-col{
+    width: 60%;
+    margin: 0 auto;
+}
+/*.form-1-col60 lable{
+    width: 90px;
+}
+.form-1-col60>.el-form-item>div{
+    margin-left: 90px;
+}*/
+.left{
+    margin: 0;
+}
+/* select 撑满 */
+.gfire-form-1-col .el-form-item .el-select{
+    width: 100%;
+}
+.text-center{
+    text-align: center;
+}
+
+/* 两列 */
+.gfire-form-2-col>.el-form-item{
+    width: 50%;
+    float: left;
+}
+.gfire-form-2-col>.el-form-item:last-child{
+    width: 100%;
+}
+.gfire-form-2-col>.el-form-item:last-child .el-form-item__content{
+    margin: 0 auto !important;
+    width: 155px;
+}
+/* form一行显示 */
+.gfire-form-inline{
+    width: 60%;
+    margin: 0 auto;
+}
+.gfire-form-inline>.el-form-item>.el-form-item__content>.el-input{
+    position: relative;
+    font-size: 14px;
+    display: inline-block;
+    width: 20%;
+}
+/* form一行显示 带提示功能 */
+.gfire-form-inline-rule{
+    width: 100%;
+    margin: 0 auto;
+}
+.gfire-form-inline-rule>.el-form-item{
+    display: inline-block;
+}
+.gfire-form-inline-rule>.el-form-item:first-child>.el-form-item__content>.el-form-item{
+    display: inline-block;
+}
+/*搜索按钮右侧显示*/
+.btn-r{
+    float: right;
+}
+
+/* 多选按钮换行左对齐 */
+.el-checkbox+.el-checkbox{
+    margin-left: 0 !important;
+}
+.el-checkbox{
+    margin-right: 30px !important;
+}
+.el-checkbox-group{
+    font-size: 14px;
+}
+/*单选按钮换行左对齐*/
+.el-radio+.el-radio{
+    margin-left: 0 !important;
+}
+.el-radio{
+    margin-right: 30px !important;
+    margin-top: 12px;
+    margin-bottom: 12px;
+}
+.el-checkbox-button{
+    float: left;
+}
+/*size-mini*/
+.mini>.el-form-item{
+    margin-bottom: 18px;
+}
+.mini label{
+    line-height: 28px !important;
+}
+.mini .el-form-item__content{
+    line-height: 28px !important;
+}
+.mini .el-input__inner{
+    height: 28px;
+}
+.mini .el-input__prefix{
+    top: -5px;
+}
+.mini .el-radio{
+    padding: 0 20px 0 10px;
+    height: 28px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.mini .el-checkbox-button{
+    /*float: left;*/
+}
+.mini .el-checkbox-button__inner{
+    padding: 7px 20px;
+}
+
+/*size-small*/
+.small>.el-form-item{
+    margin-bottom: 18px;
+}
+.small label{
+    line-height: 32px !important;
+}
+.small .el-form-item__content{
+    line-height: 32px !important;
+}
+.small .el-input__inner{
+    height: 32px;
+}
+.small .el-input__prefix{
+    top: -4px;
+}
+.small .el-radio{
+    padding: 0 20px 0 10px;
+    height: 32px;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.small .el-checkbox-button{
+    /*float: left;*/
+}
+.small .el-checkbox-button__inner{
+    padding: 8px 20px;
+}

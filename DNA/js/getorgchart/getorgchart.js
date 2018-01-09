@@ -3,7 +3,7 @@ var getOrgChartW;
 getOrgChart = function (b, a) {
     this.config = {
         theme: "ula",
-        color: "blue",
+        color: "#e0ecf8",
         enableEdit: true,
         enableZoom: true,
         enableSearch: true,
@@ -1509,7 +1509,7 @@ getOrgChart.themes = {
         image: '<clipPath id="getMonicaClip"><circle cx="105" cy="65" r="85" /></clipPath><image preserveAspectRatio="xMidYMid slice" clip-path="url(#getMonicaClip)" xlink:href="[href]" x="20" y="-20" height="170" width="170"/>'
     },
     ula: {
-        size: [500, 218],
+        size: [500, 250],
         toolbarHeight: 46,
         textPoints: [{x: 10, y: 200, width: 490}, {x: 200, y: 40, width: 300}, {x: 210, y: 65, width: 290}, {
             x: 210,
@@ -1522,7 +1522,7 @@ getOrgChart.themes = {
             width: 490
         }, {x: 10, y: 115, width: 490}, {x: 10, y: 140, width: 490}],
         expandCollapseBtnRadius: 20,
-        box: '<rect x="0" y="0" height="218" width="500" rx="0" ry="0" class="get-box" />',
+        box: '<rect x="0" y="0" height="250" width="521" rx="0" ry="0" class="get-box" />',
         text: '<text width="[width]" class="get-text get-text-[index]" x="[x]" y="[y]">[text]</text>',
         image: '<clipPath id="getMonicaClip"><circle cx="105" cy="65" r="85" /></clipPath><image preserveAspectRatio="xMidYMid slice" clip-path="url(#getMonicaClip)" xlink:href="[href]" x="20" y="-20" height="170" width="170"/>'
     },

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link href="js/element-ui-2.0/lib/theme-chalk/index.css" rel="stylesheet">
+    <link href="css/aside.css" rel="stylesheet">
+</head>
+<body>
+<div class="clearfix" style="height:100%">
+    <div id="aside" style="float:left;">
+        <div v-bind:class={active:!isCollapse}>
+            <el-menu class="el-menu-vertical-demo"
+                     @open="handleOpen"
+                     @close="handleClose"
+                     :collapse="isCollapse"
+                     background-color="#545c64"
+                     text-color="#fff"
+                     active-text-color="#ffd04b">
+                <el-menu-item index="1">
+                    <i v-if="isCollapse==false" class="el-icon-arrow-left"></i>
+                    <i v-if="isCollapse==true" class="el-icon-arrow-right" @click="toggleCollapse(false)"></i>
+                    <span slot="title">
+                    <el-button v-if="isCollapse==false" type="text" @click="toggleCollapse(true)">收缩</i></el-button>
+                    <el-button v-if="isCollapse==true" type="text" @click="toggleCollapse(false)">展开</i></el-button>
+                </span>
+                </el-menu-item>
+                <el-submenu index="2">
+                    <template slot="title">
+                        <i class="el-icon-location"></i>
+                        <span slot="title">话单</span>
+                    </template>
+                    <el-menu-item-group>
+                        <el-menu-item index="2-1"><a href="javascript">话单管理</a></el-menu-item>
+                        <el-menu-item index="2-2">文件管理</el-menu-item>
+                        <el-menu-item index="2-3">话单展示</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-submenu index="3">
+                    <template slot="title">
+                        <i class="el-icon-location"></i>
+                        <span slot="title">基础数据</span>
+                    </template>
+                    <el-menu-item-group title="">
+                        <el-menu-item index="3-1">归属地</el-menu-item>
+                        <el-menu-item index="3-2">人员信息</el-menu-item>
+                        <el-menu-item index="3-3">基站信息</el-menu-item>
+                    </el-menu-item-group>
+                </el-submenu>
+                <el-menu-item index="4">
+                    <i class="el-icon-setting"></i>
+                    <span slot="title">用户管理</span>
+                </el-menu-item>
+            </el-menu>
+        </div>
+    </div>
+    <div class="app">
+
+    </div>
+</div>
+</body>
+<script src="js/vue.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/element-ui-2.0/lib/index.js"></script>
+<script>
+    var aside = {
+        data(){
+            return {
+                isCollapse:false
+            }
+        },
+        methods:{
+            handleOpen(key,keyPath){
+                console.log(key,keyPath)
+            },
+            handleClose(key,keyPath){
+                console.log(key,keyPath);
+            },
+            toggleCollapse(bool){
+                this.isCollapse = bool;
+            }
+        }
+    }
+    var asider = Vue.extend(aside);
+    var fomt = new asider().$mount('#aside')
+</script>
+</html>

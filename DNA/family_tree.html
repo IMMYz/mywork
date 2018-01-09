@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <title>Title</title>
     <link href="js/getorgchart/getorgchart.css" rel="stylesheet">
+    <link href="js/elementui/lib/theme-chalk/index.css" rel="stylesheet">
     <style>
         html, body {margin: 0px; padding: 0px;height: 100%; overflow: hidden; }
-        #people {width: 100%;height: 100%; }
+        #people {
+            /*width: 100% !important;*/
+            /*height: 100% !important;*/
+        }
         .dna-card-info{
             margin-left:30px;
             font-size:16px
@@ -45,43 +49,398 @@
         .dna-dead{
             background-color:#3d444e
         }
+        .btn path {
+            fill: #dbdbdb;
+        }
+
+        .btn:hover path {
+            fill: #ffffff;
+        }
+        .get-org-chart .get-box {
+            fill: #636e79;
+            stroke-width: 2px;
+            stroke: #e0ecf8;
+        }
     </style>
 </head>
 <body>
-<div id="people"></div>
+<div id="app">
+    <el-button type="button" @click="dialogFormVisible=true">弹出</el-button>
+    <el-button type="button" onclick="setOrgStyle('单人')">单人</el-button>
+    <el-button type="button" onclick="setOrgStyle('双人')">双人</el-button>
+    <el-dialog title="添加下级" :visible.sync="dialogFormVisible">
+        <el-form :model="form">
+            <el-form-item label="名称" :label-width="formLabelWidth">
+                <el-input v-model="form.dnaName"></el-input>
+            </el-form-item>
+            <el-form-item label="性别" :label-width="formLabelWidth">
+                <template>
+                    <el-select v-model="form.sex" placeholder="请选择">
+                        <el-option
+                                v-for="item in sexOption"
+                                :key="item.val"
+                                :label="item.label"
+                                :value="item.value">
+                        </el-option>
+                    </el-select>
+                </template>
+            </el-form-item>
+            <el-form-item label="生日" :label-width="formLabelWidth">
+                <el-date-picker v-model="form.dnaBirth" type="date" placeholder="选择日期">
+                </el-date-picker>
+            </el-form-item>
+            <el-form-item label="民族" :label-width="formLabelWidth">
+                <el-select v-model="form.dnaRace" placeholder="请选择">
+                    <el-option
+                            v-for="item in raceOption"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.name">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="身份证号" :label-width="formLabelWidth">
+                <el-input v-model="form.dnaId"></el-input>
+            </el-form-item>
+            <el-form-item label="所属派出所" :label-width="formLabelWidth">
+                <el-input v-model="form.dnaStation"></el-input>
+            </el-form-item>
+            <el-form-item label="存活" :label-width="formLabelWidth">
+                <el-select v-model="form.live" placeholder="请选择">
+                    <el-option
+                            v-for="item in liveOption"
+                            :key="item.value"
+                            :label="item.label"
+                            :value="item.value">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+        </el-form>
+    </el-dialog>
+</div>
+<div id="people" style="width:900px;height:900px"></div>
 </body>
+<script src="js/vue.js"></script>
 <script src="js/jquery.js"></script>
+<script src="js/elementui/lib/index.js"></script>
 <script src="js/getorgchart/getorgchart.js"></script>
 <script src="js/custom_html.js"></script>
 <script>
-    var orgchart = new getOrgChart(document.getElementById("people"), {
-        renderNodeEvent: renderNodeHandler,
-        primaryFields: ["Name", "CustomHtml"],
-        theme: "ula",
-        levelSeparation:200,
-        enableDetailsView: false,
-        enableEdit: false,
-        clickNodeEvent:clickHandler,
-        dataSource: [
-            { id: 1, parentId: null,live:'true',type:'double',status:'dsj',maleName:'杨梦雪',maleBirth:'1994/10/21',maleRace:'汉族',maleId:532923199410212525,maleStation:'文华派出所',femaleName:'杨梦雪',femaleBirth:'1994/10/21',femaleRace:'汉族',femaleId:532923199410212525,femaleStation:'文华派出所',CustomHtml: secondParent },
-            { id: 2, parentId: 1,live:'true',sex:'男',tye:'single',name:'杨梦雪',birth:'1994/10/21',race:'汉族',idCard:532923199410212525,station:'文华派出所',status:'wcj',CustomHtml:singleFemale},
-            { id: 2, parentId: 1,live:'true',sex:'男',tye:'single',name:'杨梦雪',birth:'1994/10/21',race:'汉族',idCard:532923199410212525,station:'文华派出所',status:'wcj',CustomHtml:singleFemale},
-            { id: 2, parentId: 1,live:'true',sex:'男',tye:'single',name:'杨梦雪',birth:'1994/10/21',race:'汉族',idCard:532923199410212525,station:'文华派出所',status:'wcj',CustomHtml:singleFemale},
-            ]
-    });
-    function creatHtml(type,sex,node){
+    var Main = {
+        data() {
+            return {
+                sexOption:[{value:'男',label:'男'},{value:'女',label:'女'}],
+                raceOption:[{"id":"01","name":"汉族"},{"id":"02","name":"蒙古族"},{"id":"03","name":"回族"},
+                    {"id":"04","name":"藏族"},{"id":"05","name":"维吾尔族"},{"id":"06","name":"苗族"},
+                    {"id":"07","name":"彝族"},{"id":"08","name":"壮族"},{"id":"09","name":"布依族"},
+                    {"id":"10","name":"朝鲜族"},{"id":"11","name":"满族"},{"id":"12","name":"侗族"},
+                    {"id":"13","name":"瑶族"},{"id":"14","name":"白族"},{"id":"15","name":"土家族"},
+                    {"id":"16","name":"哈尼族"},{"id":"17","name":"哈萨克族"},{"id":"18","name":"傣族"},
+                    {"id":"19","name":"黎族"},{"id":"20","name":"傈僳族"},{"id":"21","name":"佤族"},
+                    {"id":"22","name":"畲族"},{"id":"23","name":"高山族"},{"id":"24","name":"拉祜族"},
+                    {"id":"25","name":"水族"},{"id":"26","name":"东乡族"},{"id":"27","name":"纳西族"},
+                    {"id":"28","name":"景颇族"},{"id":"29","name":"柯尔克孜族"},{"id":"30","name":"土族"},
+                    {"id":"31","name":"达斡尔族"},{"id":"32","name":"仫佬族"},{"id":"33","name":"羌族"},
+                    {"id":"34","name":"布朗族"},{"id":"35","name":"撒拉族"},{"id":"36","name":"毛难族"},
+                    {"id":"37","name":"仡佬族"},{"id":"38","name":"锡伯族"},{"id":"39","name":"阿昌族"},
+                    {"id":"40","name":"普米族"},{"id":"41","name":"塔吉克族"},{"id":"42","name":"怒族"},
+                    {"id":"43","name":"乌孜别克族"},{"id":"44","name":"俄罗斯族"},{"id":"45","name":"鄂温克族"},
+                    {"id":"46","name":"崩龙族"},{"id":"47","name":"保安族"},{"id":"48","name":"裕固族"},
+                    {"id":"49","name":"京族"},{"id":"50","name":"塔塔尔族"},{"id":"51","name":"独龙族"},
+                    {"id":"52","name":"鄂伦春族"},{"id":"53","name":"赫哲族"},{"id":"54","name":"门巴族"},
+                    {"id":"55","name":"珞巴族"},{"id":"56","name":"基诺族"}],
+                liveOption:[{value:false,label:'死亡'},{value:true,label:'建在'}],
+                dialogTableVisible: false,
+                dialogFormVisible: false,
+                form: {id:'',parentId:'',dnaName:'',status:'',sex:'',dnaName:'',dnaBirth:'',dnaRace:'',dnaId:'',dnaStation:'',live:''},
+                formLabelWidth: '120px'
+            };
+        }
+    };
+    var Ctor = Vue.extend(Main)
+    var fomt = new Ctor().$mount('#app')
+//    getOrgChart部分
+    var testSour = [
+        { id: 1, parentId: null,live:true,type:'double',status:'dsj',sex:'男',dnaName:'杨梦雪1',dnaBirth:'1994/10/21',dnaRace:'汉族',dnaId:532923199410212525,dnaStation:'文华派出所',dnaFrom:'嫡生',mate:{dnaName:'',alive:'',dnaBirth:'',dnaRace:'',dnaId:'',dnaFrom:''}},
+        { id: 2, parentId: 1,live:true,type:'double',status:'dsj',sex:'女',dnaName:'杨梦雪2',dnaBirth:'1994/10/21',dnaRace:'汉族',dnaId:532923199410212525,dnaStation:'文华派出所',dnaFrom:'嫡生',mate:{dnaName:'',alive:'',dnaBirth:'',dnaRace:'',dnaId:'',dnaFrom:''}},
+        { id: 3, parentId: 1,live:false,type:'double',status:'dsj',sex:'女',dnaName:'杨梦雪3',dnaBirth:'1994/10/21',dnaRace:'汉族',dnaId:532923199410212525,dnaStation:'文华派出所',dnaFrom:'嫡生',mate:{dnaName:'',alive:false,dnaBirth:'',dnaRace:'',dnaId:'',dnaFrom:''}},
+    ];
 
+    var showModelType = '单人';
+
+    function createHtml(data){
+        for(var i = 0;i<data.length;i++){
+            if(showModelType=='单人'){
+                if(data[i].sex=='男'&&data[i].live!=false){
+                    var tempHtml = $.parseHTML(singleMale);
+                    $(tempHtml).find('.DNA-name').html(data[i].dnaName);
+                    $(tempHtml).find('.DNA-birth').html('('+data[i].dnaBirth+')');
+                    $(tempHtml).find('.DNA-race').html(data[i].dnaRace);
+                    $(tempHtml).find('.DNA-id').html(data[i].dnaId);
+                    $(tempHtml).find('.DNA-station').html(data[i].dnaStation);
+                    $(tempHtml).find('.DNA-from').html(data[i].dnaFrom);
+                    data[i].CustomHtml = $(tempHtml).html();
+                }else if(data[i].sex=='女'&&data[i].live!=false){
+                    var tempHtml = $.parseHTML(singleFemale);
+                    $(tempHtml).find('.DNA-name').html(data[i].dnaName);
+                    $(tempHtml).find('.DNA-birth').html('('+data[i].dnaBirth+')');
+                    $(tempHtml).find('.DNA-race').html(data[i].dnaRace);
+                    $(tempHtml).find('.DNA-id').html(data[i].dnaId);
+                    $(tempHtml).find('.DNA-station').html(data[i].dnaStation);
+                    $(tempHtml).find('.DNA-from').html(data[i].dnaFrom);
+                    data[i].CustomHtml = $(tempHtml).html();
+                }else if(data[i].live==false){
+                    var tempHtml = $.parseHTML(singleDead);
+                    $(tempHtml).find('.DNA-name').html(data[i].dnaName);
+                    $(tempHtml).find('.DNA-birth').html('('+data[i].dnaBirth+')');
+                    $(tempHtml).find('.DNA-race').html(data[i].dnaRace);
+                    $(tempHtml).find('.DNA-id').html(data[i].dnaId);
+                    $(tempHtml).find('.DNA-station').html(data[i].dnaStation);
+                    $(tempHtml).find('.DNA-from').html(data[i].dnaFrom);
+                    data[i].CustomHtml = $(tempHtml).html();
+                }
+            }else if(showModelType=='双人'){
+                var tempHtml = $.parseHTML(secondParent);
+                if(data[i].live==false){
+                    $(tempHtml).find('.dna-male').addClass('dna-dead')
+                }
+                $(tempHtml).find('.dna-male').find('.DNA-name').html(data[i].dnaName);
+                $(tempHtml).find('.dna-male').find('.DNA-birth').html('('+data[i].dnaBirth+')');
+                $(tempHtml).find('.dna-male').find('.DNA-race').html(data[i].dnaRace);
+                $(tempHtml).find('.dna-male').find('.DNA-id').html(data[i].dnaId);
+                $(tempHtml).find('.dna-male').find('.DNA-station').html(data[i].dnaStation);
+                $(tempHtml).find('.dna-male').find('.DNA-from').html(data[i].dnaFrom);
+
+                if(data[i].live==false){
+                    $(tempHtml).find('.dna-female').addClass('dna-dead')
+                }
+                $(tempHtml).find('.dna-female').find('.DNA-name').html(data[i].mate.dnaName);
+                $(tempHtml).find('.dna-female').find('.DNA-birth').html('('+data[i].mate.dnaBirth+')');
+                $(tempHtml).find('.dna-female').find('.DNA-race').html(data[i].mate.dnaRace);
+                $(tempHtml).find('.dna-female').find('.DNA-id').html(data[i].mate.dnaId);
+                $(tempHtml).find('.dna-female').find('.DNA-station').html(data[i].mate.dnaStation);
+                $(tempHtml).find('.dna-female').find('.DNA-from').html(data[i].mate.dnaFrom);
+                data[i].CustomHtml = $(tempHtml).html();
+            }
+        }
+        return data;
     }
+
+    function findIdIndata(data,id){
+        for(var i=0;i<data.length;i++){
+            if(data[i].id==id){
+                fomt.$data.form.dnaName = data[i].dnaName;
+                fomt.$data.form.status = data[i].status;
+                fomt.$data.form.sex = data[i].sex;
+                fomt.$data.form.dnaBirth = data[i].dnaBirth;
+                fomt.$data.form.dnaRace = data[i].dnaRace;
+                fomt.$data.form.dnaId = data[i].dnaId;
+                fomt.$data.form.dnaStation = data[i].dnaStation;
+                fomt.$data.form.live = data[i].live;
+            }
+        }
+    }
+    function removeChild(data,id){
+        for(var i=0;i<data.length;i++){
+            if(data[i].parentId==id){
+                orgchart.removeNode(data[i].id);
+            }
+        }
+    }
+
+    function setOrgStyle(showType){
+        showModelType = showType;
+        if(showType=='单人'){
+            var btnAdd = '<g data-action="add" class="btn" transform="matrix(0.14,0,0,0.14,0,0)"><rect style="opacity:0" x="0" y="0" height="300" width="300" /><path  fill="#686868" d="M149.996,0C67.157,0,0.001,67.158,0.001,149.997c0,82.837,67.156,150,149.995,150s150-67.163,150-150 C299.996,67.156,232.835,0,149.996,0z M149.996,59.147c25.031,0,45.326,20.292,45.326,45.325 c0,25.036-20.292,45.328-45.326,45.328s-45.325-20.292-45.325-45.328C104.671,79.439,124.965,59.147,149.996,59.147z M168.692,212.557h-0.001v16.41v2.028h-18.264h-0.864H83.86c0-44.674,24.302-60.571,40.245-74.843 c7.724,4.15,16.532,6.531,25.892,6.601c9.358-0.07,18.168-2.451,25.887-6.601c7.143,6.393,15.953,13.121,23.511,22.606h-7.275 v10.374v13.051h-13.054h-10.374V212.557z M218.902,228.967v23.425h-16.41v-23.425h-23.428v-16.41h23.428v-23.425H218.9v23.425 h23.423v16.41H218.902z"/></g>';
+            var btnEdit = '<g data-action="edit" class="btn" transform="matrix(0.14,0,0,0.14,50,0)"><rect style="opacity:0" x="0" y="0" height="300" width="300" /><path fill="#686868" d="M149.996,0C67.157,0,0.001,67.161,0.001,149.997S67.157,300,149.996,300s150.003-67.163,150.003-150.003 S232.835,0,149.996,0z M221.302,107.945l-14.247,14.247l-29.001-28.999l-11.002,11.002l29.001,29.001l-71.132,71.126 l-28.999-28.996L84.92,186.328l28.999,28.999l-7.088,7.088l-0.135-0.135c-0.786,1.294-2.064,2.238-3.582,2.575l-27.043,6.03 c-0.405,0.091-0.817,0.135-1.224,0.135c-1.476,0-2.91-0.581-3.973-1.647c-1.364-1.359-1.932-3.322-1.512-5.203l6.027-27.035 c0.34-1.517,1.286-2.798,2.578-3.582l-0.137-0.137L192.3,78.941c1.678-1.675,4.404-1.675,6.082,0.005l22.922,22.917 C222.982,103.541,222.982,106.267,221.302,107.945z"/></g>';
+            var btnDel = '<g data-action="delete" class="btn" transform="matrix(0.14,0,0,0.14,100,0)"><rect style="opacity:0" x="0" y="0" height="300" width="300" /><path fill="#686868" d="M112.782,205.804c10.644,7.166,23.449,11.355,37.218,11.355c36.837,0,66.808-29.971,66.808-66.808 c0-13.769-4.189-26.574-11.355-37.218L112.782,205.804z"/> <path stroke="#686868" fill="#686868" d="M150,83.542c-36.839,0-66.808,29.969-66.808,66.808c0,15.595,5.384,29.946,14.374,41.326l93.758-93.758 C179.946,88.926,165.595,83.542,150,83.542z"/><path stroke="#686868" fill="#686868" d="M149.997,0C67.158,0,0.003,67.161,0.003,149.997S67.158,300,149.997,300s150-67.163,150-150.003S232.837,0,149.997,0z M150,237.907c-48.28,0-87.557-39.28-87.557-87.557c0-48.28,39.277-87.557,87.557-87.557c48.277,0,87.557,39.277,87.557,87.557 C237.557,198.627,198.277,237.907,150,237.907z"/></g>';
+            getOrgChart.themes.ula.box ='<rect x="0" y="0" height="250" width="521" rx="0" ry="0" class="get-box" /><g transform="matrix(1,0,0,1,350,10)">'+btnAdd+btnEdit+btnDel+'</g>'
+        }else{
+            var btnAdd = '<g data-action="add" class="btn" transform="matrix(0.14,0,0,0.14,-140,0)"><rect style="opacity:0" x="0" y="0" height="300" width="300" /><path  fill="#686868" d="M149.996,0C67.157,0,0.001,67.158,0.001,149.997c0,82.837,67.156,150,149.995,150s150-67.163,150-150 C299.996,67.156,232.835,0,149.996,0z M149.996,59.147c25.031,0,45.326,20.292,45.326,45.325 c0,25.036-20.292,45.328-45.326,45.328s-45.325-20.292-45.325-45.328C104.671,79.439,124.965,59.147,149.996,59.147z M168.692,212.557h-0.001v16.41v2.028h-18.264h-0.864H83.86c0-44.674,24.302-60.571,40.245-74.843 c7.724,4.15,16.532,6.531,25.892,6.601c9.358-0.07,18.168-2.451,25.887-6.601c7.143,6.393,15.953,13.121,23.511,22.606h-7.275 v10.374v13.051h-13.054h-10.374V212.557z M218.902,228.967v23.425h-16.41v-23.425h-23.428v-16.41h23.428v-23.425H218.9v23.425 h23.423v16.41H218.902z"/></g>';
+            var btnEdit1 = '<g data-action="edit1" class="btn" transform="matrix(0.14,0,0,0.14,-240,0)"><rect style="opacity:0" x="0" y="0" height="300" width="300" /><path fill="#686868" d="M149.996,0C67.157,0,0.001,67.161,0.001,149.997S67.157,300,149.996,300s150.003-67.163,150.003-150.003 S232.835,0,149.996,0z M221.302,107.945l-14.247,14.247l-29.001-28.999l-11.002,11.002l29.001,29.001l-71.132,71.126 l-28.999-28.996L84.92,186.328l28.999,28.999l-7.088,7.088l-0.135-0.135c-0.786,1.294-2.064,2.238-3.582,2.575l-27.043,6.03 c-0.405,0.091-0.817,0.135-1.224,0.135c-1.476,0-2.91-0.581-3.973-1.647c-1.364-1.359-1.932-3.322-1.512-5.203l6.027-27.035 c0.34-1.517,1.286-2.798,2.578-3.582l-0.137-0.137L192.3,78.941c1.678-1.675,4.404-1.675,6.082,0.005l22.922,22.917 C222.982,103.541,222.982,106.267,221.302,107.945z"/></g>';
+            var btnEdit2 = '<g data-action="edit2" class="btn" transform="matrix(0.14,0,0,0.14,20,0)"><rect style="opacity:0" x="0" y="0" height="300" width="300" /><path fill="#686868" d="M149.996,0C67.157,0,0.001,67.161,0.001,149.997S67.157,300,149.996,300s150.003-67.163,150.003-150.003 S232.835,0,149.996,0z M221.302,107.945l-14.247,14.247l-29.001-28.999l-11.002,11.002l29.001,29.001l-71.132,71.126 l-28.999-28.996L84.92,186.328l28.999,28.999l-7.088,7.088l-0.135-0.135c-0.786,1.294-2.064,2.238-3.582,2.575l-27.043,6.03 c-0.405,0.091-0.817,0.135-1.224,0.135c-1.476,0-2.91-0.581-3.973-1.647c-1.364-1.359-1.932-3.322-1.512-5.203l6.027-27.035 c0.34-1.517,1.286-2.798,2.578-3.582l-0.137-0.137L192.3,78.941c1.678-1.675,4.404-1.675,6.082,0.005l22.922,22.917 C222.982,103.541,222.982,106.267,221.302,107.945z"/></g>';
+            var btnDel = '<g data-action="delete" class="btn" transform="matrix(0.14,0,0,0.14,-80,0)"><rect style="opacity:0" x="0" y="0" height="300" width="300" /><path fill="#686868" d="M112.782,205.804c10.644,7.166,23.449,11.355,37.218,11.355c36.837,0,66.808-29.971,66.808-66.808 c0-13.769-4.189-26.574-11.355-37.218L112.782,205.804z"/> <path stroke="#686868" fill="#686868" d="M150,83.542c-36.839,0-66.808,29.969-66.808,66.808c0,15.595,5.384,29.946,14.374,41.326l93.758-93.758 C179.946,88.926,165.595,83.542,150,83.542z"/><path stroke="#686868" fill="#686868" d="M149.997,0C67.158,0,0.003,67.161,0.003,149.997S67.158,300,149.997,300s150-67.163,150-150.003S232.837,0,149.997,0z M150,237.907c-48.28,0-87.557-39.28-87.557-87.557c0-48.28,39.277-87.557,87.557-87.557c48.277,0,87.557,39.277,87.557,87.557 C237.557,198.627,198.277,237.907,150,237.907z"/></g>';
+            getOrgChart.themes.ula.box ='<rect x="0" y="0" height="250" width="521" rx="0" ry="0" class="get-box" /><g transform="matrix(1,0,0,1,350,10)">'+btnAdd+btnEdit1+btnEdit2+btnDel+'</g>'
+        }
+        updateOrgChart(showModelType);
+        init();
+    }
+
+
+    function getNodeByClickedBtn(el) {
+        while (el.parentNode) {
+            el = el.parentNode;
+            if (el.getAttribute("data-node-id"))
+                return el;
+        }
+        return null;
+    }
+
+    var init = function () {
+        var btns = document.getElementsByClassName("btn");
+        for (var i = 0; i < btns.length; i++) {
+
+            btns[i].addEventListener("click", function () {
+                var nodeElement = getNodeByClickedBtn(this);
+                var action = this.getAttribute("data-action");
+                var id = nodeElement.getAttribute("data-node-id");
+                var node = id
+
+                switch (action) {
+                    case "add":
+                        console.log(id);
+                        findIdIndata(testSour,id);
+                        var tempId = id;
+                        tempId = tempId++;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        console.log(tempId);
+                        testSour.push({ id: tempId, parentId: id,live:'true',type:'double',status:'dsj',dnaName:'杨梦雪22244',dnaBirth:'1994/10/21',dnaRace:'汉族',dnaId:532923199410212525,dnaStation:'文华派出所',mate:{dnaName:'',dnaBirth:'',dnaRace:'',dnaId:''}})
+                        orgchart.insertNode(id, { id: tempId, parentId: id,live:'true',type:'double',status:'dsj',dnaName:'杨梦雪22244',dnaBirth:'1994/10/21',dnaRace:'汉族',dnaId:532923199410212525,dnaStation:'文华派出所',mate:{dnaName:'',dnaBirth:'',dnaRace:'',dnaId:''}})
+//                        fomt.$data.dialogFormVisible = true;
+                        break;
+                    case "edit":
+                        findIdIndata(testSour,id);
+                        fomt.$data.dialogFormVisible = true;
+                        break;
+                    case "edit1":
+                        findIdIndata(testSour,id);
+                        fomt.$data.dialogFormVisible = true;
+                        break;
+                    case"edit2":
+                        findIdIndata(testSour,id);
+                        fomt.$data.dialogFormVisible = true;
+                        break;
+                    case "delete":
+                        orgchart.removeNode(id);
+                        removeChild(testSour,id);
+                        break;
+                }
+            });
+        }
+    }
+
+//    document.getElementById("btnSave").addEventListener("click", function () {
+//        var node = orgChart.nodes[document.getElementById("hdnId").value];
+//        fomt.$data.dialogFormVisible = true;
+//        orgChart.updateNode(node.id, node.pid, node.data);
+//    });
+
     function renderNodeHandler(sender, args) {
         for (i = 0; i < args.content.length; i++) {
             if (args.content[i].indexOf(args.node.data["CustomHtml"]) != -1) {
-                args.content[i] = "<foreignObject x='0' y='-1' width='550' height='220'>" + args.node.data["CustomHtml"] + "</foreignObject>";
+                args.content[i] = "<foreignObject x='0' y='55' width='550' height='220'>" + args.node.data["CustomHtml"] + "</foreignObject>";
             }
         }
     }
 
     function clickHandler(sender,args){
+//        fomt.$data.dialogFormVisible = true;
         console.log("clicked node.id " + args.node.id);
     }
+
+    function updateOrgChart(showModelType){
+        testSour = createHtml(testSour);
+        if(showModelType=='单人'){
+            orgchart = new getOrgChart(document.getElementById("people"), {
+                renderNodeEvent: renderNodeHandler,
+                primaryFields: ["Name", "CustomHtml"],
+                theme: "ula",
+                levelSeparation:200,
+                enableDetailsView: false,
+                enableEdit: false,
+                updatedEvent:function(){
+                    init();
+                },
+//            clickNodeEvent:clickHandler,
+                dataSource: testSour
+            });
+        }else{
+            orgchart = new getOrgChart(document.getElementById("people"), {
+                renderNodeEvent: renderNodeHandler,
+                primaryFields: ["Name", "CustomHtml"],
+                theme: "ula",
+                levelSeparation:200,
+                enableDetailsView: false,
+                enableEdit: false,
+                updatedEvent:function(){
+                    init();
+                },
+//            clickNodeEvent:clickHandler,
+                dataSource: testSour
+            });
+        }
+    }
+        $(function(){
+            setOrgStyle(showModelType);
+            updateOrgChart(showModelType)
+            init();
+        })
 </script>
 </html>
