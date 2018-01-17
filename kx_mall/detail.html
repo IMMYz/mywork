@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科信商城</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="js/element2.11/lib/theme-chalk/index.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<div id="app">
+<div class="main-container">
+    <div class="mall-header clearfix">
+        <img src="images/kxsc.png" class="header-title-img left">
+        <div class="header-search left">
+            <form>
+                <div class="form-group clearfix">
+                    <input class="form-control left" placeholder="单位/服务/业务类型">
+                    <button type="button" class="btn btn-mall left">搜索</button>
+                </div>
+            </form>
+            <div class="bot-href">
+                <a href="#">轨迹研判</a>
+                <a href="#">信息查询</a>
+                <a href="#">情报产出</a>
+                <a href="#">数据分析</a>
+                <a href="#">视频图像</a>
+                <a href="#">更多>></a>
+            </div>
+        </div>
+        <div class="mall-login left clearfix">
+            <button class="btn btn-mall">登陆</button>
+            <a href="#" class="text-color sign-up">注册</a>
+        </div>
+    </div>
+</div>
+<div class="ul-nav-background mar-t-10" style="width:100%;height:40px">
+    <div class="main-container clearfix">
+        <ul class="mall-nav-ul mall-nav-detail clearfix">
+            <li><a href="#">刑侦民警>></a></li>
+            <li><a class="active" href="#">红河实验室系统</a></li>
+        </ul>
+    </div>
+</div>
+<div class="main-container clearfix mar-t-10">
+    <div class="detail-left-area left">
+<div class="detail-item-area clearfix">
+    <div class="detail-item-img-area left">
+        <img src="images/img-area-ex.png">
+    </div>
+    <div class="detail-item-info-area left">
+        <h5>红河州公安机关司法鉴定中心 实验室管理系统</h5>
+        <div class="detail-price-area">
+            <p>积分消耗:<span class="price-num">600积分</span></p>
+            <p>相关平台:<span>xxx平台、xxx系统</span></p>
+        </div>
+        <p>服务内容：<span>依据xxxxxx,完成相关xxxxxxxxxxxx</span></p>
+        <p>服务对象：<span class="mall-empty-tag">刑事案件</span><span class="mall-empty-tag">民事案件</span></p>
+        <p>承诺：<span>2天内返回查询结果</span></p>
+        <p>
+            数量：
+            <template>
+                <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10"
+                                 label="描述文字"></el-input-number>
+            </template>
+        </p>
+        <button class="btn btn-mall"><i class="glyphicon glyphicon-shopping-cart"></i>加入购物车</button>
+    </div>
+</div>
+    <div class="detail-item-bot-area">
+        <div class="detail-item-bot-area-nav">
+            <ul class="detail-item-bot-ul clearfix">
+                <li class="active"><a href="javascript:void(0)" onclick="detailtoogle('tab-1',this)">服务详情</a></li>
+                <li><a href="javascript:void(0)" onclick="detailtoogle('tab-2',this)">商品评价</a></li>
+            </ul>
+        </div>
+        <div class="detail-toggle" id="tab-1">
+        <div  class="bot-detail-item-info">
+            <p>服务内容：<span>依据xxxxx,完成相关xxxxxxxxxxx</span></p>
+            <p>服务对象：<span class="mall-empty-tag">刑事案件</span><span class="mall-empty-tag">民事案件</span></p>
+        </div>
+            <div class="bot-detail-item-text text-center">
+                <img src="images/detail-eg1.png">
+                <img src="images/detail-eg2.png">
+                <img src="images/detail-eg3.png">
+            </div>
+        </div>
+        <div class="detail-toggle" id="tab-2" style="display:none">
+            <div class="bot-evaluation-area">
+                <div class="bot-evaluation-tags-area clearfix">
+                    <div class="left">
+                        <p>好评度</p>
+                        <p style="font-size:20px;color:#da205b">98%</p>
+                    </div>
+                    <div class="tags-area left">
+                        <span class="mall-empty-tag">方便实用</span>
+                        <span class="mall-empty-tag">操作流畅</span>
+                        <span class="mall-empty-tag">运行速度流畅</span>
+                        <span class="mall-empty-tag">方便实用</span>
+                        <span class="mall-empty-tag">操作流畅</span>
+                        <span class="mall-empty-tag">运行速度流畅</span>
+                        <span class="mall-empty-tag">方便实用</span>
+                        <span class="mall-empty-tag">操作流畅</span>
+                        <span class="mall-empty-tag">运行速度流畅</span>
+                        <span class="mall-empty-tag">方便实用</span>
+                        <span class="mall-empty-tag">操作流畅</span>
+                    </div>
+                </div>
+                <div class="evaluation-select-area">
+                    <span class="evaluation-area">全部评价(<span class="text-num-color">46</span>)</span>
+                    <span class="evaluation-area">好评(<span class="text-num-color">44</span>)</span>
+                    <span class="evaluation-area">差评(<span class="text-num-color">2</span>)</span>
+                </div>
+                <div class="evaluation-show-list">
+                    <div class="evaluation-show-item">
+                        <img src="images/lee.png">
+                        <span class="customer-name">小李子</span>
+                        <span>刑侦民警小杨服务态度好，响应速度快，表现很不错</span>
+                    </div>
+                    <div class="evaluation-show-item">
+                        <img src="images/lee.png">
+                        <span class="customer-name">小李子</span>
+                        <span>刑侦民警小杨服务态度好，响应速度快，表现很不错</span>
+                    </div>
+                    <div class="evaluation-show-item">
+                        <img src="images/lee.png">
+                        <span class="customer-name">小李子</span>
+                        <span>刑侦民警小杨服务态度好，响应速度快，表现很不错</span>
+                    </div>
+                    <div class="evaluation-show-item">
+                        <img src="images/lee.png">
+                        <span class="customer-name">小李子</span>
+                        <span>刑侦民警小杨服务态度好，响应速度快，表现很不错</span>
+                    </div>
+                    <div class="evaluation-show-item">
+                        <img src="images/lee.png">
+                        <span class="customer-name">小李子</span>
+                        <span>刑侦民警小杨服务态度好，响应速度快，表现很不错</span>
+                    </div>
+                    <div class="evaluation-show-item">
+                        <img src="images/lee.png">
+                        <span class="customer-name">小李子</span>
+                        <span>刑侦民警小杨服务态度好，响应速度快，表现很不错</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="detail-right-area left">
+        <div class="detail-online-list">
+            <div class="detail-online-title">
+                <div class="text-color charts-title">
+                    <p>在线值班人员</p>
+                </div>
+            </div>
+            <div class="detail-list-item">
+                <ul>
+                    <li><img src="images/officer.png"><span>刑侦民警</span>--<span>小李子</span></li>
+                    <li><img src="images/officer.png"><span>刑侦民警</span>--<span>小李子</span></li>
+                    <li><img src="images/officer.png"><span>刑侦民警</span>--<span>小李子</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="detail-online-list">
+            <div class="detail-online-title">
+                <div class="text-color charts-title">
+                    <p>热门系统排行</p>
+                </div>
+            </div>
+            <div class="detail-list-item text-center">
+                <img style="margin-top:10px" src="images/hot-list-eg.png">
+                <img style="margin-top:10px" src="images/hot-list-eg.png">
+                <img style="margin-top:10px" src="images/hot-list-eg.png">
+            </div>
+        </div>
+    </div>
+</div>
+<div class="mall-footer">
+    <div class="main-container clearfix">
+        <a href="#">关于我们</a>
+        <a href="#">版权声明</a>
+        <a href="#">最新系统</a>
+        <a href="#">VRF协议</a>
+        <p class="right">Copyright©2017滇 ICP备10011451号-18</p>
+    </div>
+</div>
+</div>
+</body>
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/bootstrap.js" type="text/javascript"></script>
+<script src="js/echarts.js" type="text/javascript"></script>
+<script src="js/vue.js" type="text/javascript"></script>
+<script src="js/element2.11/lib/index.js" type="text/javascript"></script>
+<script>
+    function detailtoogle(id,ele){
+        $('.detail-toggle').hide();
+        $('#'+id).show();
+        $('.detail-item-bot-ul').find('li').removeClass('active');
+        $(ele).addClass('active');
+    }
+    var Main = {
+        data() {
+            return {
+                num1: 1
+            };
+        },
+        methods: {
+            handleChange(value) {
+                console.log(value);
+            }
+        }
+    };
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app')
+</script>
+</html>

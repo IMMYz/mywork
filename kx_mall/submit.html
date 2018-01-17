@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>科信商城</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="js/element2.11/lib/theme-chalk/index.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
+</head>
+<body>
+<div id="app">
+    <div class="main-container">
+        <div class="mall-header clearfix">
+            <img src="images/kxsc.png" class="header-title-img left">
+        </div>
+    </div>
+    <div class="main-container clearfix">
+        <div class="submit-confirm-area">
+            <div class="submit-title-area">
+                <div class="text-color charts-title">
+                    <p>确认订单信息</p>
+                </div>
+            </div>
+            <div class="submit-confirm-list">
+                <template>
+                    <el-table :data="tableData" style="width: 100%">
+                        <el-table-column label="商品名称" width="400px">
+                            <template scope="scope">
+                                <div class="clearfix">
+                                <image class="left" :src="scope.row.image"/>
+                                <div class="left" style="margin-left:5px;font-weight:bold;line-height:3.5">{{scope.row.name}}</div>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="content" label="商品内容" >
+                        </el-table-column>
+                        <el-table-column prop="price" label="消耗积分">
+                        </el-table-column>
+                        <el-table-column label="数量">
+                            <template scope="scope">
+                                <el-input-number v-model="scope.row.count"  :min="1" :max="10" label="描述文字"></el-input-number>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="total" label="小计">
+                        </el-table-column>
+                    </el-table>
+                </template>
+            </div>
+            <div class="submit-title-area">
+                <div class="text-color charts-title">
+                    <p>收货人信息</p>
+                </div>
+            </div>
+            <div class="delivery-address">
+                <div class="address-item clearfix">
+                    <div class="mall-empty-tag mall-empty-tag-selected text-center">小李子</div>
+                    <span>云南省昆明市盘龙区万宏路奥斯迪商务中心14楼</span>
+                    <span class="text-num-color" style="display:inline-block;width:370px">18313976275</span>
+                    <a class="text-num-color" href="javascript:void(0)">修改</a>
+                </div>
+            </div>
+            <div class="submit-title-area">
+                <div class="text-color charts-title">
+                    <p>其他信息</p>
+                </div>
+            </div>
+            <div class="submit-other clearfix">
+                <p class="left" style="width:90px">*相关材料上传</p>
+                <div class="submit-other-area clearfix">
+                <div class="header-search left">
+                    <form>
+                        <div class="form-group clearfix">
+                            <input class="form-control left">
+                            <button type="button" class="btn btn-mall left">上传</button>
+                        </div>
+                    </form>
+                </div>
+                <div style="clear:both"></div>
+                <p class="left" style="width:90px">*申请信息</p>
+                <div class="left clearfix" style="width:680px">
+                    <form>
+                        <div style="width:260px;float:left">
+                            <input class="form-control">
+                        </div>
+                    </form>
+                    <button type="button" class="btn btn-primary right">*申请书</button>
+                </div>
+                    <div style="clear:both"></div>
+                    <p class="left" style="width:90px;margin-top:15px">*案件编号</p>
+                    <div class="left" style="margin-top:15px">
+                        <form>
+                            <div style="width:260px;float:left">
+                                <input class="form-control">
+                            </div>
+                        </form>
+                    </div>
+                    <div style="clear:both"></div>
+                <textarea rows="15" style="width:682px;margin-left:85px;margin-top:15px"></textarea>
+                </div>
+                <div class="submit-footer-area text-right">
+                    <p>消耗积分:<span class="text-num-color">600积分</span></p>
+                    <p>地址:<span>云南省昆明市盘龙区万宏路奥斯迪商务中心14楼</span></p>
+                    <p>收货人:<span>小李子</span><span>1831976275</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="mall-footer">
+        <div class="main-container clearfix">
+            <a href="#">关于我们</a>
+            <a href="#">版权声明</a>
+            <a href="#">最新系统</a>
+            <a href="#">VRF协议</a>
+            <p class="right">Copyright©2017滇 ICP备10011451号-18</p>
+        </div>
+    </div>
+</div>
+</body>
+<script src="js/jquery.js" type="text/javascript"></script>
+<script src="js/bootstrap.js" type="text/javascript"></script>
+<script src="js/echarts.js" type="text/javascript"></script>
+<script src="js/vue.js" type="text/javascript"></script>
+<script src="js/element2.11/lib/index.js" type="text/javascript"></script>
+<script>
+    var Main = {
+        data() {
+            return {
+                tableData: [{
+                    image:'images/confirm-list-item.png',
+                    name: '红河州公安机关司法鉴定中心 实验室管理系统',
+                    content: '依据xxxxxxx,完成xxxxxxxxxxx',
+                    price: '600积分',
+                    count:1,
+                    total:'600积分'
+                },]
+            }
+        }
+    }
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app')
+</script>
+</html>
