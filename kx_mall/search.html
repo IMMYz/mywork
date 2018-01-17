@@ -44,10 +44,10 @@
                 <span class="search-control-item"><a href="javascript:void(0)">上架时间</a></span>
             </div>
             <div class="search-type">
-                <span class="search-control-item search-active"><a href="javascript:void(0)">以单位显示</a></span>
-                <span class="search-control-item"><a href="javascript:void(0)">以服务显示</a></span>
+                <span class="search-control-item search-active"><a href="javascript:void(0)" onclick="detailtoogle('tab-1',this)">以单位显示</a></span>
+                <span class="search-control-item"><a href="javascript:void(0)" onclick="detailtoogle('tab-2',this)">以服务显示</a></span>
             </div>
-            <div id="tab-1" style="display:none">
+            <div id="tab-1">
                 <div class="text-color charts-title">
                     <p>研判轨迹</p>
                 </div>
@@ -144,7 +144,7 @@
                     </div>
                 </div>
             </div>
-            <div id="tab-2">
+            <div id="tab-2" style="display:none">
                 <div class="text-color charts-title" style="margin-bottom:15px;">
                     <p>直属部门</p>
                 </div>
@@ -214,7 +214,25 @@
                 <div class="text-color charts-title">
                     <p>单位排行榜</p>
                 </div>
+                <div class="charts-control text-center">
+                    <button class="btn btn-mall-empty">总排行</button>
+                    <button class="btn btn-mall-empty">月排行</button>
+                    <button class="btn btn-mall-empty">周排行</button>
+                </div>
                 <div id="charts1" class="unit-rank-charts">
+
+                </div>
+            </div>
+            <div class="services-rank">
+                <div class="text-color charts-title">
+                    <p>单位排行榜</p>
+                </div>
+                <div class="charts-control">
+                    <button class="btn btn-mall-empty">总排行</button>
+                    <button class="btn btn-mall-empty">月排行</button>
+                    <button class="btn btn-mall-empty">周排行</button>
+                </div>
+                <div id="charts2" class="services-rank-charts">
 
                 </div>
             </div>
@@ -237,6 +255,12 @@
 <script src="js/vue.js" type="text/javascript"></script>
 <script src="js/element2.11/lib/index.js" type="text/javascript"></script>
 <script>
+    function detailtoogle(id,ele){
+        $('#tab-1,#tab-2').hide();
+        $('#'+id).show();
+        $('.search-type').find('span').removeClass('search-active');
+        $(ele).parent().addClass('search-active');
+    }
     var appusage_data = [
         {
         name: "石林县局",
@@ -291,7 +315,7 @@
         "grid": {
             "left": "3%",
             "right": "10%",
-            "bottom": "3%",
+            "bottom": "5%",
             "containLabel": true
         },
         "yAxis": [{

@@ -473,12 +473,35 @@ $mall-number-color:#da205b;
 }
 .search-right{
   width:323px;
-  background-color:#fff;
   margin-left:17px;
+  .unit-rank{
+    background-color:#fff;
+    position:relative;
+  }
   .unit-rank-charts{
     width:293px;
-    height:569px;
+    height:521px;
+  }
+  .services-rank{
+    margin-top:15px;
+    background-color:#fff;
+    position:relative;
+  }
+  .services-rank-charts{
+    width:293px;
+    height:521px;
   }
 }
+.charts-control{
+  font-size:0;
+  position: absolute;
+  top: 43px;
+  z-index: 1;
+  left: 43px;
+  .btn-mall-empty{
+    border-radius:0;
+  }
+}
+
 
 
