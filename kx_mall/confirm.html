@@ -27,8 +27,8 @@
                         <el-table-column label="商品名称" width="400px">
                             <template scope="scope">
                                 <div class="clearfix">
-                                <image class="left" :src="scope.row.image"/>
-                                <div class="left" style="margin-left:5px;font-weight:bold;line-height:3.5">{{scope.row.name}}</div>
+                                    <image class="left" :src="scope.row.image"/>
+                                    <div class="left" style="margin-left:5px;font-weight:bold;line-height:3.5">{{scope.row.name}}</div>
                                 </div>
                             </template>
                         </el-table-column>
@@ -46,64 +46,43 @@
                     </el-table>
                 </template>
             </div>
-            <div class="submit-title-area">
-                <div class="text-color charts-title">
-                    <p>收货人信息</p>
-                </div>
-            </div>
-            <div class="delivery-address">
-                <div class="address-item clearfix">
-                    <div class="mall-empty-tag mall-empty-tag-selected text-center">小李子</div>
-                    <span>云南省昆明市盘龙区万宏路奥斯迪商务中心14楼</span>
-                    <span class="text-num-color" style="display:inline-block;width:370px">18313976275</span>
-                    <a class="text-num-color" href="javascript:void(0)">修改</a>
-                </div>
+            <div class="order-list-info">
+                <p>订单编号:123456789</p>
+                <p>卖家名称:科信支队</p>
+                <p>收货信息:云南省昆明市盘龙区万宏路奥斯迪商务中心14楼 小李子  18313976275</p>
+                <p>成交时间:2018-1-10    11:30</p>
             </div>
             <div class="submit-title-area">
                 <div class="text-color charts-title">
-                    <p>其他信息</p>
+                    <p>提交评价</p>
                 </div>
             </div>
-            <div class="submit-other clearfix">
-                <p class="left" style="width:90px">*相关材料上传</p>
-                <div class="submit-other-area clearfix">
-                <div class="header-search left">
-                    <form>
-                        <div class="form-group clearfix">
-                            <input class="form-control left">
-                            <button type="button" class="btn btn-mall left">上传</button>
-                        </div>
-                    </form>
-                </div>
+            <div class="sure-area">
+                <el-form>
+                    <el-form-item label="及时评价时间" label-width="100px">
+                        <el-rate v-model="value1" score-template="{value}"></el-rate>
+                    </el-form-item>
+                </el-form>
+                <el-form>
+                    <el-form-item label="卖家服务态度" label-width="100px">
+                        <el-rate v-model="value2"></el-rate>
+                    </el-form-item>
+                </el-form>
+                <el-form>
+                    <el-form-item label="卖家服务效率" label-width="100px">
+                        <el-rate v-model="value3"></el-rate>
+                    </el-form-item>
+                </el-form>
+                <el-form>
+                    <el-form-item label="卖家服务结果" label-width="100px">
+                        <el-rate v-model="value4"></el-rate>
+                    </el-form-item>
+                </el-form>
+                <p>其他评价</p>
+                <textarea style="width:400px" rows="10"></textarea>
                 <div style="clear:both"></div>
-                <p class="left" style="width:90px">*申请信息</p>
-                <div class="left clearfix" style="width:680px">
-                    <form>
-                        <div style="width:260px;float:left">
-                            <input class="form-control">
-                        </div>
-                    </form>
-                    <button type="button" class="btn btn-primary right">申请书</button>
-                </div>
-                    <div style="clear:both"></div>
-                    <p class="left" style="width:90px;margin-top:15px">*案件编号</p>
-                    <div class="left" style="margin-top:15px">
-                        <form>
-                            <div style="width:260px;float:left">
-                                <input class="form-control">
-                            </div>
-                        </form>
-                    </div>
-                    <div style="clear:both"></div>
-                <textarea rows="15" style="width:682px;margin-left:85px;margin-top:15px"></textarea>
-                </div>
-                <div class="submit-footer-area text-right">
-                    <p>消耗积分:<span class="text-num-color">600积分</span></p>
-                    <p>地址:<span>云南省昆明市盘龙区万宏路奥斯迪商务中心14楼</span></p>
-                    <p>收货人:<span>小李子</span><span>1831976275</span></p>
-                </div>
-                <button class="btn btn-mall right" onclick="jumpTo('confirm.html')">提交订单</button>
             </div>
+            <button class="btn btn-mall right" style="margin-bottom:20px">提交评价</button>
         </div>
     </div>
     <div class="mall-footer">
@@ -126,6 +105,10 @@
     var Main = {
         data() {
             return {
+                value1:0,
+                value2:0,
+                value3:0,
+                value4:0,
                 tableData: [{
                     image:'images/confirm-list-item.png',
                     name: '红河州公安机关司法鉴定中心 实验室管理系统',
@@ -135,13 +118,14 @@
                     total:'600积分'
                 },]
             }
+        },
+        methods:{
+            handleChange(){
+                console.log(12)
+            }
         }
     }
     var Ctor = Vue.extend(Main)
     new Ctor().$mount('#app')
-
-    function jumpTo(url){
-        window.location.href = url;
-    }
 </script>
 </html>

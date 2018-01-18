@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html class="" lang="en">
+<head prefix="og: http://ogp.me/ns#">
+    <meta charset="UTF-8">
+    <title>Notifications · User Settings · GitLab</title>
+    <meta content="GitLab Community Edition" name="description">
+    <link type="text/css" rel="stylesheet" href="css/bootstrap.css">
+    <link type="text/css" rel="stylesheet" href="css/select2.css">
+    <link type="text/css" rel="stylesheet" href="css/index2.css">
+    <link type="text/css" rel="stylesheet" href="css/style.css">
+    <link type="text/css" rel="stylesheet" href="js/element2.11/lib/theme-chalk/index.css">
+    <style>
+        .el-upload__input{
+            display:none !important;
+        }
+    </style>
+</head>
+
+<body class="ui_charcoal" data-group="" data-page="dashboard:groups:index" data-project="">
+<header class="navbar navbar-fixed-top navbar-gitlab">
+    <a class="sr-only gl-accessibility" href="#content-body" tabindex="1">Skip to content</a>
+    <div  class="container-fluid">
+        <div class="header-content">
+            <button id="global-expand" aria-label="Toggle global navigation" class="side-nav-toggle" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars"></i>
+            </button>
+            <button class="navbar-toggle" type="button">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-ellipsis-v"></i>
+            </button>
+            <h1 class="title"><a href="/dashboard/groups">小组</a></h1>
+            <div class="header-logo">
+                <a class="home" title="Dashboard" id="logo" href="/">
+                    <svg width="36" height="36" class="tanuki-logo">
+                        <path class="tanuki-shape tanuki-left-ear" fill="#e24329"
+                              d="M2 14l9.38 9v-9l-4-12.28c-.205-.632-1.176-.632-1.38 0z"/>
+                        <path class="tanuki-shape tanuki-right-ear" fill="#e24329"
+                              d="M34 14l-9.38 9v-9l4-12.28c.205-.632 1.176-.632 1.38 0z"/>
+                        <path class="tanuki-shape tanuki-nose" fill="#e24329" d="M18,34.38 3,14 33,14 Z"/>
+                        <path class="tanuki-shape tanuki-left-eye" fill="#fc6d26" d="M18,34.38 11.38,14 2,14 6,25Z"/>
+                        <path class="tanuki-shape tanuki-right-eye" fill="#fc6d26" d="M18,34.38 24.62,14 34,14 30,25Z"/>
+                        <path class="tanuki-shape tanuki-left-cheek" fill="#fca326"
+                              d="M2 14L.1 20.16c-.18.565 0 1.2.5 1.56l17.42 12.66z"/>
+                        <path class="tanuki-shape tanuki-right-cheek" fill="#fca326"
+                              d="M34 14l1.9 6.16c.18.565 0 1.2-.5 1.56L18 34.38z"/>
+                    </svg>
+
+                </a></div>
+
+        </div>
+    </div>
+</header>
+
+
+<div class="page-with-sidebar page-sidebar-expanded">
+    <div class="sidebar-wrapper nicescroll">
+        <div class="sidebar-action-buttons">
+            <div id="global-close" class="nav-header-btn toggle-nav-collapse" title="Open/Close">
+                <span class="sr-only">Toggle navigation</span>
+                <i class="fa fa-bars"></i>
+            </div>
+            <div class="nav-header-btn pin-nav-btn has-tooltip  js-nav-pin" data-container="body" data-placement="right"
+                 title="Pin Navigation">
+                <span class="sr-only">Toggle navigation pinning</span>
+                <i class="fa fa-fw fa-thumb-tack"></i>
+            </div>
+        </div>
+        <div class="nav-sidebar">
+            <ul class="nav">
+                <li class="home">
+                    <a title="Projects" class="dashboard-shortcuts-projects" href="product_manager.html">
+                        <span>商品管理</span>
+                    </a>
+                </li>
+                <li class="home">
+                    <a title="Projects" class="dashboard-shortcuts-projects" href="order_list.html">
+                        <span>订单详情</span>
+                    </a>
+                </li>
+                <li class="home">
+                    <a title="Projects" class="dashboard-shortcuts-projects" href="product_list.html">
+                        <span>商品列表</span>
+                    </a>
+                </li>
+                <li class="home">
+                    <a title="Projects" class="dashboard-shortcuts-projects" href="open_store.html">
+                        <span>开店</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div id="app" class="content-wrapper">
+        <div class="container-fluid">
+            <div class="content" id="content-body">
+                <el-form ref="form" :model="form" label-width="100px">
+                    <template>
+                        <el-radio v-model="radio" label="1">个人卖家</el-radio>
+                        <el-radio v-model="radio" label="2">单位卖家</el-radio>
+                    </template>
+                    <el-form-item label="上传照片" label-width="100px">
+                    <el-upload
+                            action="https://jsonplaceholder.typicode.com/posts/"
+                            list-type="picture-card"
+                            :on-preview="handlePictureCardPreview"
+                            :on-remove="handleRemove">
+                        <i class="el-icon-plus"></i>
+                    </el-upload>
+                    <el-dialog :visible.sync="dialogVisible" size="tiny">
+                        <img width="100%" :src="dialogImageUrl" alt="">
+                    </el-dialog>
+                    </el-form-item>
+                    <el-row>
+                        <el-col :span="20">
+                            <el-form-item label="店铺描述" label-width="100px">
+                                <el-input type="textarea" v-model="form.desc"></el-input>
+                            </el-form-item>
+                        </el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="10">
+                            <el-form-item label="服务名称" label-width="100px">
+                                <el-input v-model="form.name"></el-input>
+                            </el-form-item>
+                        </el-col>
+                       <el-col :span="10">
+                           <el-form-item label="服务定价" label-width="100px">
+                               <el-input v-model="form.name"></el-input>
+                           </el-form-item>
+                       </el-col>
+                    </el-row>
+                    <el-form-item label="及时评价时间" label-width="100px">
+                        <el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+                    </el-form-item>
+                    <el-form-item>
+                        <el-button type="primary" @click="onSubmit">立即创建</el-button>
+                        <el-button>取消</el-button>
+                    </el-form-item>
+                </el-form>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/bootstrap.js"></script>
+<script type="text/javascript" src="js/vue.js"></script>
+<script type="text/javascript" src="js/element2.11/lib/index.js"></script>
+<script type="text/javascript">
+    $('#global-expand').click(function () {
+        $(".page-with-sidebar").addClass('page-sidebar-expanded')
+    })
+    $('#global-close').click(function () {
+        $(".page-with-sidebar").removeClass('page-sidebar-expanded')
+    })
+    var Main = {
+        data() {
+            return {
+                dialogImageUrl: '',
+                dialogVisible: false,
+                radio: '1',
+                num1: 1,
+                form: {
+                    name: '',
+                    region: '',
+                    date1: '',
+                    date2: '',
+                    delivery: false,
+                    type: [],
+                    resource: '',
+                    desc: ''
+                }
+            }
+        },
+        methods: {
+            onSubmit() {
+                console.log('submit!');
+            },
+            handleRemove(file, fileList) {
+                console.log(file, fileList);
+            },
+            handlePictureCardPreview(file) {
+                this.dialogImageUrl = file.url;
+                this.dialogVisible = true;
+            },
+            handleChange(value) {
+                console.log(value);
+            }
+        }
+    }
+    var Ctor = Vue.extend(Main)
+    new Ctor().$mount('#app')
+</script>
+</body>
+</html>
+

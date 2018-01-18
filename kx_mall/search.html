@@ -55,7 +55,7 @@
                     <div class="mall-item left">
                         <img class="mall-item-img" src="images/item-img.png">
                         <div class="mall-item-title">
-                            <a href="#">手机定位（技侦支队）</a>
+                            <a href="detail.html">手机定位（技侦支队）</a>
                         </div>
                         <div class="clearfix">
                             <span class="sores text-color">600积分</span>
@@ -65,7 +65,7 @@
                     <div class="mall-item left">
                         <img class="mall-item-img" src="images/item-img.png">
                         <div class="mall-item-title">
-                            <a href="#">手机定位（技侦支队）</a>
+                            <a href="detail.html">手机定位（技侦支队）</a>
                         </div>
                         <div class="clearfix">
                             <span class="sores text-color">600积分</span>
@@ -75,7 +75,7 @@
                     <div class="mall-item left">
                         <img class="mall-item-img" src="images/item-img.png">
                         <div class="mall-item-title">
-                            <a href="#">手机定位（技侦支队）</a>
+                            <a href="detail.html">手机定位（技侦支队）</a>
                         </div>
                         <div class="clearfix">
                             <span class="sores text-color">600积分</span>
@@ -85,7 +85,7 @@
                     <div class="mall-item left">
                         <img class="mall-item-img" src="images/item-img.png">
                         <div class="mall-item-title">
-                            <a href="#">手机定位（技侦支队）</a>
+                            <a href="detail.html">手机定位（技侦支队）</a>
                         </div>
                         <div class="clearfix">
                             <span class="sores text-color">600积分</span>
@@ -95,7 +95,7 @@
                     <div class="mall-item left">
                         <img class="mall-item-img" src="images/item-img.png">
                         <div class="mall-item-title">
-                            <a href="#">手机定位（技侦支队）</a>
+                            <a href="detail.html">手机定位（技侦支队）</a>
                         </div>
                         <div class="clearfix">
                             <span class="sores text-color">600积分</span>
@@ -105,7 +105,7 @@
                     <div class="mall-item left">
                         <img class="mall-item-img" src="images/item-img.png">
                         <div class="mall-item-title">
-                            <a href="#">手机定位（技侦支队）</a>
+                            <a href="detail.html">手机定位（技侦支队）</a>
                         </div>
                         <div class="clearfix">
                             <span class="sores text-color">600积分</span>
@@ -115,7 +115,7 @@
                     <div class="mall-item left">
                         <img class="mall-item-img" src="images/item-img.png">
                         <div class="mall-item-title">
-                            <a href="#">手机定位（技侦支队）</a>
+                            <a href="detail.html">手机定位（技侦支队）</a>
                         </div>
                         <div class="clearfix">
                             <span class="sores text-color">600积分</span>
@@ -125,7 +125,7 @@
                     <div class="mall-item left">
                         <img class="mall-item-img" src="images/item-img.png">
                         <div class="mall-item-title">
-                            <a href="#">手机定位（技侦支队）</a>
+                            <a href="detail.html">手机定位（技侦支队）</a>
                         </div>
                         <div class="clearfix">
                             <span class="sores text-color">600积分</span>
@@ -135,7 +135,7 @@
                     <div class="mall-item left">
                         <img class="mall-item-img" src="images/item-img.png">
                         <div class="mall-item-title">
-                            <a href="#">手机定位（技侦支队）</a>
+                            <a href="detail.html">手机定位（技侦支队）</a>
                         </div>
                         <div class="clearfix">
                             <span class="sores text-color">600积分</span>
@@ -225,7 +225,7 @@
             </div>
             <div class="services-rank">
                 <div class="text-color charts-title">
-                    <p>单位排行榜</p>
+                    <p>服务排行榜</p>
                 </div>
                 <div class="charts-control">
                     <button class="btn btn-mall-empty">总排行</button>
@@ -294,7 +294,126 @@
         value: 256
     }
     ];
-    var myChart1 = echarts.init(document.getElementById('charts1'));
+    var appusage_data2 = [
+        {
+        name: "石林县局",
+        value: 32
+    }, {
+        name: "安宁市局",
+        value: 48
+    }, {
+        name: "禁毒支队",
+        value: 64
+    }, {
+        name: "技侦支队",
+        value: 87
+    }, {
+        name: "反恐怖支队",
+        value: 100
+    },{
+        name: "治安支队",
+        value: 132
+    }, {
+        name: "国保支队",
+        value: 156
+    }, {
+        name: "盘龙分局",
+        value: 189
+    }, {
+        name: "刑侦支队",
+        value: 201
+    }, {
+        name: "科信支队",
+        value: 256
+    }
+    ];
+    var option2 = {
+        "backgroundColor": '#ffffff',
+        "title": {
+            "text": "应用总数：15",
+            "textStyle": {
+                "color": "#bcbfff",
+                "fontWeight": "bold",
+                "fontSize": 14
+            },
+            "top": "4%",
+            "left": "2.2%"
+        },
+        "tooltip": {
+            "trigger": "axis",
+            "axisPointer": { // 坐标轴指示器，坐标轴触发有效
+                "type": "shadow" // 默认为直线，可选为："line" | "shadow"
+            }
+        },
+        "grid": {
+            "left": "3%",
+            "right": "10%",
+            "bottom": "3%",
+            "containLabel": true
+        },
+        "yAxis": [{
+            "type": "category",
+            "data": [ "TOP10", "TOP9","TOP8", "TOP7","TOP6", "TOP5", "TOP4","TOP3", "TOP2", "TOP1"],
+            "axisLine": {
+                "show": false
+            },
+            "axisTick": {
+                "show": false,
+                "alignWithLabel": true
+            },
+            "axisLabel": {
+                "textStyle": {
+                    "color": "#cc2b5e"
+                }
+            }
+        }],
+        "xAxis": [{
+            "type": "value",
+            "axisLine": {
+                "show": false
+            },
+            "axisTick": {
+                "show": false
+            },
+            "axisLabel": {
+                "show": false
+            },
+            "splitLine": {
+                "show": false
+            }
+        }],
+
+        "series": [{
+            "name": "应用使用率",
+            "type": "bar",
+            "data": appusage_data2,
+            "barCategoryGap": "35%",
+            "barWidth":"16",
+            "label": {
+                "normal": {
+                    "show": true,
+                    "position": "right",
+                    "formatter": function(params) {
+                        return params.data.name;
+                    },
+                    "textStyle": {
+                        "color": "#753a88" //color of value
+                    }
+                }
+            },
+            "itemStyle": {
+                "normal": {
+                    "color": new echarts.graphic.LinearGradient(0, 0, 1, 0, [{
+                        "offset": 0,
+                        "color": "#753a88" // 0% 处的颜色
+                    }, {
+                        "offset": 1,
+                        "color": "#cc2b5e" // 100% 处的颜色
+                    }], false)
+                }
+            }
+        }]
+    };
     var option1 = {
         "backgroundColor": '#ffffff',
         "title": {
@@ -381,6 +500,9 @@
             }
         }]
     };
+    var myChart1 = echarts.init(document.getElementById('charts1'));
+    var myChart2 = echarts.init(document.getElementById('charts2'));
     myChart1.setOption(option1);
+    myChart2.setOption(option2);
 </script>
 </html>

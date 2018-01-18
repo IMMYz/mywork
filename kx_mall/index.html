@@ -14,7 +14,7 @@
         <form>
         <div class="form-group clearfix">
             <input class="form-control left" placeholder="单位/服务/业务类型">
-            <button type="button" class="btn btn-mall left">搜索</button>
+            <button type="button" class="btn btn-mall left" onclick="jumpTo('search.html')">搜索</button>
         </div>
         </form>
             <div class="bot-href">
@@ -113,7 +113,7 @@
         <div class="mall-item left">
                 <img class="mall-item-img" src="images/item-img.png">
             <div class="mall-item-title">
-                <a href="#">手机定位（技侦支队）</a>
+                <a href="detail.html">手机定位（技侦支队）</a>
             </div>
             <div class="clearfix">
                 <span class="sores text-color">600积分</span>
@@ -123,7 +123,7 @@
         <div class="mall-item left">
             <img class="mall-item-img" src="images/item-img.png">
             <div class="mall-item-title">
-                <a href="#">手机定位（技侦支队）</a>
+                <a href="detail.html">手机定位（技侦支队）</a>
             </div>
             <div class="clearfix">
                 <span class="sores text-color">600积分</span>
@@ -133,7 +133,7 @@
         <div class="mall-item left">
             <img class="mall-item-img" src="images/item-img.png">
             <div class="mall-item-title">
-                <a href="#">手机定位（技侦支队）</a>
+                <a href="detail.html">手机定位（技侦支队）</a>
             </div>
             <div class="clearfix">
                 <span class="sores text-color">600积分</span>
@@ -143,7 +143,7 @@
         <div class="mall-item left">
             <img class="mall-item-img" src="images/item-img.png">
             <div class="mall-item-title">
-                <a href="#">手机定位（技侦支队）</a>
+                <a href="detail.html">手机定位（技侦支队）</a>
             </div>
             <div class="clearfix">
                 <span class="sores text-color">600积分</span>
@@ -153,7 +153,7 @@
         <div class="mall-item left">
             <img class="mall-item-img" src="images/item-img.png">
             <div class="mall-item-title">
-                <a href="#">手机定位（技侦支队）</a>
+                <a href="detail.html">手机定位（技侦支队）</a>
             </div>
             <div class="clearfix">
                 <span class="sores text-color">600积分</span>
@@ -163,7 +163,7 @@
         <div class="mall-item left">
             <img class="mall-item-img" src="images/item-img.png">
             <div class="mall-item-title">
-                <a href="#">手机定位（技侦支队）</a>
+                <a href="detail.html">手机定位（技侦支队）</a>
             </div>
             <div class="clearfix">
                 <span class="sores text-color">600积分</span>
@@ -173,7 +173,7 @@
         <div class="mall-item left">
             <img class="mall-item-img" src="images/item-img.png">
             <div class="mall-item-title">
-                <a href="#">手机定位（技侦支队）</a>
+                <a href="detail.html">手机定位（技侦支队）</a>
             </div>
             <div class="clearfix">
                 <span class="sores text-color">600积分</span>
@@ -183,7 +183,7 @@
         <div class="mall-item left">
             <img class="mall-item-img" src="images/item-img.png">
             <div class="mall-item-title">
-                <a href="#">手机定位（技侦支队）</a>
+                <a href="detail.html">手机定位（技侦支队）</a>
             </div>
             <div class="clearfix">
                 <span class="sores text-color">600积分</span>
@@ -473,5 +473,8 @@
     var myChart2 = echarts.init(document.getElementById('indexCharts2'));
     myChart1.setOption(option1);
     myChart2.setOption(option2);
+    function jumpTo(url){
+        window.location.href = url;
+    }
 </script>
 </html>
