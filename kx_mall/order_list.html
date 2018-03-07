@@ -42,7 +42,14 @@
                     </svg>
 
                 </a></div>
-
+        </div>
+        <div class="scrolling-tabs-container">
+            <div class="fade-left">
+                <i class="fa fa-angle-left"></i>
+            </div>
+            <div class="fade-right">
+                <i class="fa fa-angle-right"></i>
+            </div>
         </div>
     </div>
 </header>
@@ -62,28 +69,37 @@
             </div>
         </div>
         <div class="nav-sidebar">
-            <ul class="nav">
-                <li class="home">
-                    <a title="Projects" class="dashboard-shortcuts-projects" href="product_manager.html">
-                        <span>商品管理</span>
-                    </a>
-                </li>
-                <li class="home">
-                    <a title="Projects" class="dashboard-shortcuts-projects" href="order_list.html">
-                        <span>订单详情</span>
-                    </a>
-                </li>
-                <li class="home">
-                    <a title="Projects" class="dashboard-shortcuts-projects" href="product_list.html">
-                        <span>商品列表</span>
-                    </a>
-                </li>
-                <li class="home">
-                    <a title="Projects" class="dashboard-shortcuts-projects" href="open_store.html">
-                        <span>开店</span>
-                    </a>
-                </li>
-            </ul>
+            <div id="sidebar">
+                <el-row class="tac">
+                    <el-col :span="24">
+                        <el-menu default-active="2" class="el-menu-vertical-demo" @open="handleOpen" @close="handleClose" background-color="#545c64" text-color="#fff" active-text-color="#ffd04b">
+                            <el-submenu index="1">
+                                <template slot="title">
+                                    <span>导航一</span>
+                                </template>
+                                <el-menu-item-group>
+                                    <template slot="title">分组一</template>
+                                    <el-menu-item index="1-1">选项1</el-menu-item>
+                                    <el-menu-item index="1-2">选项2</el-menu-item>
+                                </el-menu-item-group>
+                                <el-menu-item-group title="分组2">
+                                    <el-menu-item index="1-3">选项3</el-menu-item>
+                                </el-menu-item-group>
+                                <el-submenu index="1-4">
+                                    <template slot="title">选项4</template>
+                                    <el-menu-item index="1-4-1">选项1</el-menu-item>
+                                </el-submenu>
+                            </el-submenu>
+                            <el-menu-item index="2">
+                                <span slot="title">导航二</span>
+                            </el-menu-item>
+                            <el-menu-item index="3">
+                                <span slot="title">导航三</span>
+                            </el-menu-item>
+                        </el-menu>
+                    </el-col>
+                </el-row>
+            </div>
         </div>
     </div>
     <div id="app" class="content-wrapper">
@@ -185,6 +201,18 @@
     }
     var Ctor = Vue.extend(Main)
     new Ctor().$mount('#app')
+    var sideBar = {
+        methods: {
+            handleOpen(key, keyPath) {
+                console.log(key, keyPath);
+            },
+            handleClose(key, keyPath) {
+                console.log(key, keyPath);
+            }
+        }
+    }
+    var Ctor = Vue.extend(sideBar)
+    new Ctor().$mount('#sidebar')
 </script>
 </body>
 </html>

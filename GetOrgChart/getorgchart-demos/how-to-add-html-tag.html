@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>How to add html tags</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+
+    <script src="../getorgchart/getorgchart.js"></script>
+    <link href="../getorgchart/getorgchart.css" rel="stylesheet" />
+
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+        ga('create', 'UA-85759680-1', 'auto');
+        ga('send', 'pageview');
+
+    </script>
+
+    <style type="text/css">
+        html, body {
+            margin: 0px;
+            padding: 0px;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+
+        #people {
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+
+</head>
+<body>
+<div id="people"></div>
+
+<script type="text/javascript">
+    var orgchart = new getOrgChart(document.getElementById("people"), {
+        renderNodeEvent: renderNodeHandler,
+        primaryFields: ["Name", "CustomHtml"],
+        theme: "ula",
+        enableExportToImage: true,
+        dataSource: [
+            { id: 1, parentId: null, Name: "1", CustomHtml: "<div>DIV</div>" },
+            { id: 2, parentId: 1, Name: "2", CustomHtml: "<image style='width: 100px;' src='https://s-media-cache-ak0.pinimg.com/736x/e0/c8/1b/e0c81b6fc2eb7d3f5f8ab57e593a6861.jpg' />" },
+            { id: 3, parentId: 1, Name: "3" }]
+    });
+
+    function renderNodeHandler(sender, args) {
+        for (i = 0; i < args.content.length; i++) {
+            if (args.content[i].indexOf(args.node.data["CustomHtml"]) != -1) {
+                args.content[i] = "<foreignObject x='300' y='10' width='10' height='10'>" + args.node.data["CustomHtml"] + "</foreignObject>";
+            }
+        }
+    }
+
+</script>
+</body>
+</html>
