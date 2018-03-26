@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript" src="js/vue-cute-timeline.cjs.js"></script>
+    <script type="text/javascript" src="js/vue-cute-timeline.js"></script>
+</head>
+<body>
+<div id="app">
+    {{test}}
+    <template>
+        <timeline>
+            <timeline-title>title</timeline-title>
+            <timeline-item color="#9dd8e0">item1</timeline-item>
+            <timeline-item :hollow="true">item2</timeline-item>
+        </timeline>
+    </template>
+</div>
+</body>
+<script type="text/javascript">
+    Vue.component('timeline',Timeline)
+    Vue.component('timeline-title',TimelineItem)
+    Vue.component('timeline-item',TimelineTitle)
+    var Main = new Vue({
+        el:'#app',
+        data:{
+            test:'123'
+        }
+    })
+</script>
+</html>

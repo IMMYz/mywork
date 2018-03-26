@@ -23,6 +23,7 @@
     <div>单项数据流,需要在子组件中使用一个局部变量，来对父组件的变量进行操作，或者是输出</div>
     <div>{{fatherCounter}}</div>
     <counter-item :counter="fatherCounter"></counter-item>
+    <child-4 v-bind="fatherObj"></child-4>
 </div>
 <div id="counter-event-example">
     <div>vue组件进行自定义时间处理</div>
@@ -53,6 +54,15 @@
         },
         template:'<div>{{childCounter}}</div>'
     }
+    var Child4 = {
+        props:['name'],
+        data:function(){
+            return{
+                childMsg:123
+            }
+        },
+        template:'<div>父元素内容{{name}},子元素内容{{childMsg}}</div>'
+    }
     new Vue({
         el: '#app2',
         data: {
@@ -61,12 +71,16 @@
                 text: 'Learn Vue',
                 isComplete: 'false'
             },
-            fatherCounter:1
+            fatherCounter:1,
+            fatherObj:{
+                name:'fatherName'
+            }
         },
         components: {
             'my-component': Child1,
             'todo-item': Child2,
-            'counter-item':Child3
+            'counter-item':Child3,
+            'child-4':Child4,
         }
     });
 

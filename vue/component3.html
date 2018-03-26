@@ -12,6 +12,7 @@
     <button-counter v-on:increment="incrementTotal"></button-counter>
     {{text||'暂无数据'}}
     <son v-on:getsonmsg="showSonMsg"></son>
+    <son v-on:getsonmsg="showSonMsg2"></son>
 </div>
 </body>
 <script>
@@ -56,6 +57,9 @@
             showSonMsg:function(text){
                 console.log(text);
                 this.text = text;
+            },
+            showSonMsg2:function(msg){
+                this.text = msg+'123';
             }
         }
     })
