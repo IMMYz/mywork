@@ -1,10 +1,15 @@
 <template>
   <div id="app">
     <img src="../assets/logo.png">
-    <router-link to="/about">链接</router-link>
-    <router-link to="/home"><a href="/">app</a></router-link>
-    <router-link to="/user/123">User123</router-link>
-    <router-link to="/user/456">User456</router-link>
+    <div>
+      <router-link to="/about">链接</router-link>
+      <router-link to="/home"><a href="/">home</a></router-link>
+      <router-link to="/user/123">User123</router-link>
+      <router-link to="/user/456">User456</router-link>
+      <router-link to="/home/phone">手机</router-link>
+      <router-link to="/home/tablet">平板</router-link>
+      <router-link to="/home/computer">电脑</router-link>
+    </div>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
     <ul>

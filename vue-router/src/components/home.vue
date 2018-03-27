@@ -3,6 +3,7 @@
     <h2>home</h2>
     <hr></hr>
     <p>{{Scontent}}</p>
+    <router-view></router-view>
   </div>
 </template>
 <script>
