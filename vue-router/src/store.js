@@ -27,15 +27,15 @@ const store = new Vuex.Store({
     },
   },
   actions:{
-    // increment(context){
-    //   context.commit("INCREMENT")
-    // },
+    increment(context){
+      context.commit("INCREMENT")
+    },
     // decrement(context){
     //   context.commit("DECREMENT")
     // },
-    increment({commit}){
-      commit("INCREMENT")
-    },
+    // increment({commit}){
+    //   commit("INCREMENT")
+    // },
     decrement({commit}){
       commit("DECREMENT")
     },

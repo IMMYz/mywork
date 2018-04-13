@@ -2,6 +2,9 @@ export default{
   increment({commit}){
     commit("INCREMENT")
   },
+  // increment(context){
+  //   context.commit("INCREMENT");
+  // },
   decrement({commit}){
     commit("DECREMENT")
   },
