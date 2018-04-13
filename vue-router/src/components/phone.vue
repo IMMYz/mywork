@@ -1,5 +1,10 @@
 <template>
-<p>{{msg}}</p>
+  <div>
+    <p>{{msg}}</p>
+    <router-view></router-view>
+    <router-view name="a"></router-view>
+    <router-view name="b"></router-view>
+  </div>
 </template>
 
 <script>

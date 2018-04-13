@@ -1,13 +1,23 @@
 <template>
-  <router-view></router-view>
+  <div id="app">
+<display></display>
+<increment></increment>
+  </div>
 </template>
 <script>
+  import display from "./display.vue"
+  import increment from "./increment.vue"
+
 export default {
   name: 'app',
   data () {
     return {
       msg: 'Welcome to Your Vue.js App'
     }
+  },
+  components:{
+    display,
+    increment
   }
 }
 </script>

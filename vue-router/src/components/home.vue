@@ -4,6 +4,7 @@
     <hr></hr>
     <p>{{Scontent}}</p>
     <router-view></router-view>
+    <router-view name="params"></router-view>
   </div>
 </template>
 <script>

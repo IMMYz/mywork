@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>chat</title>
+    <link href="css/bootstrap.css" rel="stylesheet">
+    <link href="js/element2.11/lib/theme-chalk/index.css">
+    <link href="css/chat-box.css" rel="stylesheet">
+</head>
+<body>
+<div id="app" style="width:100%;height:100%;background-color:#000">
+<chat-box :show-chat-box="showChatBox" :show-friend-list="showFriendList"></chat-box>
+
+</div>
+</body>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/vue.js"></script>
+<script src="js/element2.11/lib/index.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript">
+    let chatBox = {
+        props:['showChatBox','showFriendList'],
+        data(){
+            return {
+                test2:456456,
+            }
+        },
+        template:`
+<div class="chat-box-warp">
+        <div class="chat-friend-list" style="background-color:#fff" v-if="showFriendList">
+            <div class="chat-friend-list-title">
+                <span>最近联系人</span>
+                <ul>
+                    <li><a href="javascript:void(0)">xx警官</a></li>
+                    <li><a href="javascript:void(0)">xx警官</a></li>
+                    <li><a href="javascript:void(0)">xx警官</a></li>
+                    <li><a href="javascript:void(0)">xx警官</a></li>
+                </ul>
+            </div>
+        </div>
+        <div v-if="showChatBox" class="chat-box">
+            <div class="chatting-area">
+                <div class="chat-box-title clearfix">
+                    <img class="chat-avatar left" src="images/avatar.png">
+                    <span class="chat-obj-name">xx警官</span>
+                    <span style="color:#fff;float:right"><i class="glyphicon glyphicon-remove"></i></span>
+                </div>
+                <div class="chat-box-message-warp">
+                    <div class="receive-warp clearfix">
+                        <img class="chat-avatar left" src="images/avatar.png">
+                        <div class="chat-box-message-area left">
+                            <span>123123123<br>123123123</span>
+                        </div>
+                    </div>
+                    <div class="chat-box-message-warp">
+                        <div class="send-warp clearfix">
+                            <img class="chat-avatar right" src="images/avatar.png">
+                            <div class="chat-box-message-area right">
+                                <span>123123123</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="chat-box-send-area clearfix">
+                    <textarea rows="3" style="width:100%;resize:none"></textarea>
+                    <button type="button" class="btn btn-success btn-xs right">发送</button>
+                </div>
+            </div>
+        </div>
+        <div class="chat-show-button">
+            <button class="btn btn-primary" @click="showChatBox=true">对话框弹出</button>
+        </div>
+    </div>
+`
+    }
+    let Main = {
+        data(){
+            return{
+                test:123,
+                showChatBox:false,
+                showFriendList:true,
+            }
+        },
+        components:{chatBox}
+    }
+    var Ctor = Vue.extend(Main);
+    var fomt = new Ctor().$mount('#app')
+</script>
+</html>

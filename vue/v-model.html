@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+<test-model v-model="haorooms"></test-model>
+    <span>{{haorooms}}</span>
+    <test-model2 v-model="haorooms"></test-model2>
+</div>
+</body>
+<script>
+    const testModel = {
+        data(){
+            return{
+
+            }
+        },
+        props:["value"],
+        model:{
+            prop:'value',
+            event:'balabala'
+        },
+        template:`<div><input ref="input" :value="value" @input="$emit('balabala',$event.target.value)"></div>`
+    }
+    const testModel2={
+        data(){
+            return{
+
+            }
+        },
+        props:["checked"],
+        model:{
+            prop:'checked',
+            event:'balabala'
+        },
+        template:`<div><input type="checkbox" @change="$emit('balabala',$event.target.checked)" :checked="checked"/></div>`
+    }
+    const Main = new Vue({
+        el:'#app',
+        data:{
+            haorooms:"haorooms"
+        },
+        components:{
+            testModel,
+            testModel2
+        }
+    })
+</script>
+</html>

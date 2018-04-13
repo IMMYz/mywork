@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>computed</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <p>msg:{{msg}}</p>
+    <p>example:{{example}}</p>
+</div>
+</body>
+<script>
+    let App = new Vue({
+        el:"#app",
+        data:{
+            msg:'123'
+        },
+        computed:{
+            example:function(){
+                return this.msg+1
+            }
+        }
+    })
+</script>
+</html>

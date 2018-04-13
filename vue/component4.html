@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script type="text/javascript" src="js/vue.js"></script>
+    <script type="text/javascript" src="js/component.js"></script>
+</head>
+<body>
+<div id="app">
+    <div class="content">
+        <ul>
+            <li v-for="item in lists" v-html="item.name+item.content"></li>
+        </ul>
+        <div>分割线</div>
+        <child :lists="lists" @listen-to-child="getChildMsg"></child>
+        <div>分割线</div>
+        <P>data3内容:{{msg}}</P>
+        <child2 v-on:send-msg-to-father="getChild2Msg"  :data3="msg"></child2>
+        <div>分割线</div>
+        <child2  :data3.sync="msg" ></child2>
+    </div>
+</div>
+</body>
+<script>
+    var Child = {
+        props:['lists'],
+        data(){
+            return{
+                getLists:this.lists
+            }
+        },
+        mounted(){
+            this.getLists.push({
+                name:'03',
+                content:'不要在乎内容，测试测试'
+            })
+            console.log(this.lists);
+            console.log(this.getLists);
+            setTimeout(()=>{
+                this.$emit('listen-to-child','hello');
+                console.log('timeout')
+            },1000)
+        },
+        template:'<div class="content"><ul class="lists"><li v-for="(list,index) in getLists" :key="index" v-html="list.name+list.content"></li></ul></div>'
+    }
+    var Child2 ={
+        props:['data3'],
+        data(){
+            return{
+                data:this.data3
+            }
+        },
+        watch:{
+            data(val){
+                this.$emit('update:data3',val);
+                console.log("传递的值"+val)
+            }
+        },
+        methods:{
+            printMsg(){
+                this.$emit('send-msg-to-father');
+            },
+
+            changeData(){
+                this.data = 456
+            }
+        },
+        template:'<div>' +
+        '<button type="button" @click="printMsg">组件2</button>' +'<p>组件2内部接收到的={{data}}</p>'+'<button type="button" @click="changeData">改变data3</button>'+
+        '</div>',
+    }
+    var Main = new Vue({
+        el:'#app',
+        data:{
+            lists:[],
+            msg:'123',
+        },
+        mounted(){
+            this.lists = [
+                {
+                name:'01',
+                content:'hi'
+                },
+                {
+                    name:'02',
+                    content:'my name is Ellyliang'
+                }
+            ]
+        },
+        methods:{
+            getChildMsg(val){
+                alert(val);
+                console.log('timeout')
+            },
+            getChild2Msg(){
+                console.log('get child2 msg')
+            }
+        },
+        components:{
+            'child':Child,
+            'child2':Child2
+        }
+    })
+
+</script>
+</html>

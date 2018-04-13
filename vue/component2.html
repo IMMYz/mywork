@@ -19,11 +19,15 @@
     <div>没有使用:的情况下会改为字符串</div>
     <my-component message="not the father message"></my-component>
     <div>将整个对象进行传递，使用v-bind="对象名",在子组件中使用props选择对象的属性，直接进行数据绑定</div>
-    <todo-item v-bind="todo"></todo-item>
+    <todo-item :child="todo"></todo-item>
+    <input v-model="todo.text">
+    <input v-model="todo.isComplete">
     <div>单项数据流,需要在子组件中使用一个局部变量，来对父组件的变量进行操作，或者是输出</div>
     <div>{{fatherCounter}}</div>
     <counter-item :counter="fatherCounter"></counter-item>
     <child-4 v-bind="fatherObj"></child-4>
+    <div>将父组件传递过来的数据进行组件内部私有化</div>
+    <child-5 :child-num="num" :size="message"></child-5>
 </div>
 <div id="counter-event-example">
     <div>vue组件进行自定义时间处理</div>
@@ -44,8 +48,8 @@
         template: '<div>{{message}}</div>'
     }
     var Child2 = {
-        props: ['text', 'isComplete'],
-        template: '<div>{{text}}:{{isComplete}}</div>'
+        props: ['child'],
+        template: '<div>{{child.text}}:{{child.isComplete}}</div>'
     }
     var Child3 = {
         props:['counter'],
@@ -63,7 +67,26 @@
         },
         template:'<div>父元素内容{{name}},子元素内容{{childMsg}}</div>'
     }
-    new Vue({
+    var Child5 = {
+        props:['childNum','size'],
+        data:function(){
+            return{
+                num:this.childNum
+            }
+        },
+        computed:{
+             normalizedSize:function(){
+                 return this.size.trim().toLowerCase()
+             }
+        },
+        methods:{
+            numPlus(){
+                this.num++
+            }
+        },
+        template:'<div><p>转化后字符串{{normalizedSize}}</p><p>父元素数字{{childNum}}</p><p>子元素数字{{num}}</p><button type="button" @click="numPlus">子元素数字+1</button></div>'
+    }
+    var vue2 = new Vue({
         el: '#app2',
         data: {
             message: "I'm the father message",
@@ -74,13 +97,15 @@
             fatherCounter:1,
             fatherObj:{
                 name:'fatherName'
-            }
+            },
+            num:1
         },
         components: {
             'my-component': Child1,
             'todo-item': Child2,
             'counter-item':Child3,
             'child-4':Child4,
+            'child-5':Child5
         }
     });
 

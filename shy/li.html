@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <li v-for="(item,index) in list">[{{item.title}}{{index+1}}]{{item.content}}</li>
+    </ul>
+    <img src="http://www.desktopwallpaperhd.net/thumbs/10/d/dongwushijie-animal-tupian-107405.jpg" title="123123123">
+</div>
+<div style="width:0;height:0;border-left:50px solid transparent;border-right:50px solid transparent;border-bottom:100px solid red"></div>
+</body>
+<script>
+    var Main = new Vue({
+        el:'#app',
+        data:{
+            list:[
+            {title:'新闻',content:'白痴苏锅'},
+            {title:'新闻',content:'白痴苏锅'},
+            {title:'新闻',content:'白痴苏锅'},
+            {title:'新闻',content:'白痴苏锅'},
+            {title:'新闻',content:'白痴苏锅'},
+            {title:'新闻',content:'白痴苏锅'},
+            {title:'新闻',content:'白痴苏锅'},
+        ]}
+    })
+</script>
+</html>

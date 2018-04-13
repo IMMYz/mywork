@@ -9,6 +9,9 @@
       <router-link to="/home/phone">手机</router-link>
       <router-link to="/home/tablet">平板</router-link>
       <router-link to="/home/computer">电脑</router-link>
+      <router-link to="/router2">router2</router-link>
+      <router-link to="/router2">router2</router-link>
+      <router-link to="/home/phone/user/params/123" >router:123</router-link>
     </div>
     <h1>{{ msg }}</h1>
     <h2>Essential Links</h2>
