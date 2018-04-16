@@ -42,9 +42,12 @@
     ...mapActions({
       add:"increment"
     }),
+//    incrementWithValue(){
+//      //dispatch只能接受一个参数，需要传对象参数
+//      this.$store.dispatch("incrementWithValue",{value:this.incrementValue,anotherValue:this.countAnother})
+//    },
     incrementWithValue(){
-      //dispatch只能接受一个参数，需要传对象参数
-      this.$store.dispatch("incrementWithValue",{value:this.incrementValue,anotherValue:this.countAnother})
+      this.$store.dispatch("incrementWithValue",this.incrementValue)
     }
   }
 }

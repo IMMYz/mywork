@@ -10,20 +10,21 @@ const store = new Vuex.Store({
     anotherIncrement:5
   },
   mutations:{
-    INCREMENT(state){
-      state.count++
-    },
+    // INCREMENT(state){
+    //   state.count++
+    // },
+    INCREMENT:state => state.count++,
     DECREMENT(state){
       state.count--
     },
     INCREMENT_WITH_VALUE(state,value){
-      state.count = state.count + value.intValue + value.anotherValue;
+      state.count = state.count + value + store.getters.countAnother;
     },
     SHOW_WAITING_MESSAGE(state){
       state.waiting = true;
     },
     HIDE_WAITING_MESSAGE(state){
-      state.waiting = false
+      state.waiting = false;
     },
   },
   actions:{
@@ -41,20 +42,19 @@ const store = new Vuex.Store({
     },
     incrementWithValue({commit},value){
       commit("SHOW_WAITING_MESSAGE");
-      console.log(value.value);
-      let intValue = parseInt(value.value);
-      let anotherValue = value.anotherValue;
+      console.log(value);
+      let intValue = parseInt(value);
       if(isNaN(intValue)){
         alert("Not an Interger")
       }else{
       commit("HIDE_WAITING_MESSAGE");
-      commit("INCREMENT_WITH_VALUE",{intValue,anotherValue});
+      commit("INCREMENT_WITH_VALUE",intValue);
       }
     },
   },
   getters:{
     countAnother:function(state){
-      return state.anotherIncrement;
+      return state.anotherIncrement+5;
     }
   }
 })
