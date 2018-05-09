@@ -9,17 +9,33 @@
 <div id="app">
     <p>msg:{{msg}}</p>
     <p>example:{{example}}</p>
+    <br>
+    <p>{{firstName}}</p>
+    <p>{{lastName}}</p>
+    <p>{{fullName}}</p>
 </div>
 </body>
 <script>
     let App = new Vue({
         el:"#app",
         data:{
-            msg:'123'
+            msg:'123',
+            firstName:'a',
+            lastName:'b'
         },
         computed:{
             example:function(){
                 return this.msg+1
+            },
+            fullName:{
+                get(){
+                    return this.firstName + ' ' + this.lastName
+                },
+                set(newValue){
+                    let name = newValue.split(' ');
+                    this.firstName = name[0];
+                    this.lastName = name[name.length - 1];
+                }
             }
         }
     })

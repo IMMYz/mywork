@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/vue.js"></script>
+</head>
+<body>
+<div id="root">
+    <body-content>
+        <div class="header" slot="header">header</div>
+        <div class="footer" slot="footer">footer</div>
+    </body-content>
+</div>
+</body>
+<script>
+    Vue.component('body-content',{
+        props:['content'],
+        template: `<div>
+                        <slot name="header"></slot>
+                        <div class="content">content</div>
+                        <slot name="footer"></slot>
+                    </div>`
+    })
+
+    let Main = new Vue({
+        el:'#root'
+    })
+</script>
+</html>
