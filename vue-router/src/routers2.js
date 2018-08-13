@@ -1,4 +1,4 @@
-import router2 from './components/router2.vue'
+
 export default [
   {
   path:'/router2',

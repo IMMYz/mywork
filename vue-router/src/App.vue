@@ -1,52 +1,54 @@
 <template>
   <div id="app">
-<display></display>
-<increment></increment>
+    <!-- <display></display> -->
+    <!-- <increment></increment> -->
+    <router-view></router-view>
   </div>
 </template>
 <script>
-  import display from "./display.vue"
-  import increment from "./increment.vue"
+import display from "./display.vue";
+import increment from "./increment.vue";
 
 export default {
-  name: 'app',
-  data () {
-    return {
-      msg: 'Welcome to Your Vue.js App'
+    name: "app",
+    data() {
+        return {
+            msg: "Welcome to Your Vue.js App"
+        };
+    },
+    components: {
+        display,
+        increment
     }
-  },
-  components:{
-    display,
-    increment
-  }
-}
+};
 </script>
 
 <style>
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+    font-family: "Avenir", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 60px;
 }
 
-h1, h2 {
-  font-weight: normal;
+h1,
+h2 {
+    font-weight: normal;
 }
 
 ul {
-  list-style-type: none;
-  padding: 0;
+    list-style-type: none;
+    padding: 0;
 }
 
 li {
-  display: inline-block;
-  margin: 0 10px;
+    display: inline-block;
+    margin: 0 10px;
 }
 
 a {
-  color: #42b983;
+    color: #42b983;
 }
 </style>

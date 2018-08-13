@@ -7,57 +7,70 @@ import user from './components/user.vue'
 import phone from './components/phone.vue'
 import tablet from './components/tablet.vue'
 import computer from './components/computer.vue'
-import routers2 from './routers2'
-import router2 from './components/router2.vue'
 import a from './components/a.vue'
 import b from './components/b.vue'
 import App from './App.vue'
+import first from './components/tabs/first.vue'
+import second from './components/tabs/second.vue'
+import third from './components/tabs/third.vue'
+import fourth from './components/tabs/fourth.vue'
 
 Vue.use(VueRouter);
 
 const routes = [
-  {path:'/about',component:about},
+  { path: '/about', component: about },
   {
-    path:'/home',
-    component:home,
-    children:[
+    path: '/home',
+    component: home,
+    children: [
       {
-      path:"phone",
-      component:phone,
-        children:[{
-        path:'user',
-          component:router2,
-          children:[
-            {
-              path:'params/:userId',
-              component:router2
-            }
-          ]
-        },
+        path: "phone",
+        component: phone,
+        children: [
           {
-            path:'named',
-            components:{
-              a:a,
-              b:b
+            path: 'named',
+            components: {
+              a: a,
+              b: b
             }
           }
         ]
       },
       {
-        path:"tablet",
-        component:tablet
+        path: "first",
+        name:"first",
+        component: first
       },
       {
-        path:"computer",
-        component:computer
+        path: 'second',
+        name:"second",
+        component: second
+      },
+      {
+        path: "third",
+        name:"third",
+        component: third
+      },
+      {
+        path:"fourth",
+        name:"fourth",
+        component:fourth
+      },
+      {
+        path: "tablet",
+        component: tablet
+      },
+      {
+        path: "computer",
+        component: computer
       },
     ]
   },
-    ...routers2,
-  {path:'/asd',component:asd},
+  { path: '/asd', component: asd },
 ]
 
-let router = new VueRouter({mode:'history',routes})
+let router = new VueRouter({ mode: 'history', routes })
+
 
 export default router
 
